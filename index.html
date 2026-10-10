@@ -73,7 +73,39 @@ function replyFor(raw){
  if(/thank/i.test(low))return "You're welcome. Always ready to assist.";
  return "I heard you say: “"+s+"”. I'm the starter version, so I don't yet understand every question like a full AI. You can ask for the time, date, help, or tell me to remember a fact.";
 }
-function send(text){const value=(text??$("entry").value).trim();if(!value)return;addMessage(value,"user");$("entry").value="";const answer=replyFor(value);addMessage(answer,"bot");speak(answer)}
+
+async function send(text) {
+  const value = (text ?? $("entry").value).trim();
+  if (!value) return;
+
+  addMessage(value, "user");
+  $("entry").value = "";
+
+  try {
+    const response = await fetch(
+      "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: value })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    const answer = data.reply || "I couldn't generate a reply.";
+    addMessage(answer, "bot");
+    speak(answer);
+  } catch (error) {
+    const answer = "Jarvis AI connect nahi ho paya. Please try again.";
+    addMessage(answer, "bot");
+    speak(answer);
+  }
+}
 $("send").addEventListener("click",()=>send());
 $("entry").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
 $("refresh").addEventListener("click",()=>{memories=loadMemories();renderMemory();$("status").textContent="Memory refreshed."});
