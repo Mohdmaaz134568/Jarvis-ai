@@ -57,7 +57,8 @@ function loadMemories(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}c
 function saveMemories(){localStorage.setItem(KEY,JSON.stringify(memories));renderMemory()}
 function renderMemory(){$("memory").textContent=memories.length?memories.map((m,i)=>`${i+1}. ${m}`).join("\\n"):"No saved memories yet."}
 function addMessage(text,who){const el=document.createElement("div");el.className="msg "+who;el.textContent=text;$("chat").appendChild(el);$("chat").scrollTop=$("chat").scrollHeight}
-function speak(text){if(!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=1;u.pitch=.95;window.speechSynthesis.speak(u)}
+function speak(text){if(!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text)u.lang = "hi-IN";
+u.voice = window.speechSynthesis.getVoices().find(v => v.lang === "hi-IN") || null;;u.rate=1;u.pitch=.95;window.speechSynthesis.speak(u)}
 function replyFor(raw){
  const s=raw.trim(), low=s.toLowerCase();
  if(!s)return "I'm listening. Tell me what you need.";
