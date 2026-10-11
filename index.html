@@ -107,7 +107,7 @@ const answer = "Jarvis error: " + error.message;
     speak(answer);
   }
 }
-$("send").addEventListener("click",()=>send());
+$("send").addEventListener("click", () => send($("entry").value));
 $("entry").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
 $("refresh").addEventListener("click",()=>{memories=loadMemories();renderMemory();$("status").textContent="Memory refreshed."});
 $("clear").addEventListener("click",()=>{if(confirm("Clear all Jarvis memories saved in this browser?")){memories=[];saveMemories();$("status").textContent="Memory cleared."}});
