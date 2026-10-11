@@ -1,416 +1,224 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
-<title>JARVIS AI</title>
-
+<title>JARVIS V3</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#07111f;color:#eaf4ff;
- font-family:Arial,sans-serif;min-height:100vh;
-}
-header{
- padding:18px;text-align:center;border-bottom:1px solid #18334b;
-}
-header h1{margin:0;color:#62d9ff;letter-spacing:5px}
-header p{color:#9cb8cc;font-size:13px}
-main{max-width:800px;margin:auto;padding:14px}
-.panel{
- background:#0c1b2b;border:1px solid #1c3c54;
- border-radius:16px;padding:14px;margin-bottom:14px;
-}
-.controls{display:flex;gap:8px;flex-wrap:wrap}
-select,button,input,textarea{
- font:inherit;border-radius:10px;padding:12px;
-}
-select,input,textarea{
- background:#10253a;color:white;border:1px solid #31516a;
-}
-button{
- background:#123b55;color:#eaf8ff;border:1px solid #28617e;
- cursor:pointer;
-}
-button:active{opacity:.7}
-#chat{
- height:45vh;min-height:260px;overflow-y:auto;
- display:flex;flex-direction:column;gap:12px;
-}
-.msg{
- padding:12px;border-radius:12px;max-width:92%;
- white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;
-}
-.user{align-self:flex-end;background:#164b68}
-.jarvis{align-self:flex-start;background:#14283b}
-#status{font-size:12px;color:#8eb7cf;margin-top:10px}
-#entry{display:flex;gap:8px;margin-top:10px}
-#message{flex:1;min-width:0}
-.small{font-size:12px;color:#a6bdcf}
-footer{text-align:center;color:#7392a8;font-size:12px;padding:15px}
+body{margin:0;background:#07111f;color:#eaf6ff;font-family:Arial,sans-serif}
+header{text-align:center;padding:22px;color:#35caff}
+.logo{margin:auto;border:2px solid #35caff;border-radius:50%;width:70px;height:70px;display:grid;place-items:center;font-size:30px}
+h1{letter-spacing:7px}
+main{max-width:700px;margin:auto;padding:12px}
+.panel{background:#102035;border:1px solid #25435e;border-radius:15px;padding:15px;margin-bottom:14px}
+h3{color:#35caff}
+input,textarea,select,button{width:100%;padding:12px;margin:5px 0;border-radius:9px;border:1px solid #35536d;background:#091525;color:white;font-size:16px}
+button{background:#123b59;cursor:pointer}
+.primary{background:#087eb0}
+#chat{height:300px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.msg{padding:11px;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.jarvis{background:#18334b;align-self:flex-start}
+.user{background:#07517a;align-self:flex-end}
+.small{font-size:13px;color:#a9c0d5}
 </style>
 </head>
-
 <body>
 <header>
- <h1>J.A.R.V.I.S.</h1>
- <p>PERSONAL AI ASSISTANT</p>
- <div id="status">Systems online · Connecting...</div>
+<div class="logo">J</div>
+<h1>JARVIS</h1>
+<div>PERSONAL AI · V3</div>
+<p class="small">● SYSTEM ONLINE</p>
 </header>
-
 <main>
- <section class="panel">
-  <div class="controls">
-   <select id="personality" aria-label="AI personality">
-    <option value="normal">Personality: Jarvis</option>
-    <option value="friendly">Friendly</option>
-    <option value="teacher">Teacher</option>
-    <option value="scientist">Scientist</option>
-    <option value="coder">Coding Expert</option>
-   </select>
-   <button id="voiceToggle">Voice: ON</button>
-   <button id="mic">🎙️ Speak</button>
-  </div>
- </section>
+<section class="panel">
+<h3>⚙️ Voice & Personality</h3>
+<select id="personality">
+<option>Jarvis</option>
+<option>Friendly</option>
+<option>Teacher</option>
+<option>Scientist</option>
+<option>Coding Expert</option>
+</select>
+<select id="voice"><option value="">Hindi system voice</option></select>
+<button id="testVoice">🔊 Test Jarvis voice</button>
+<button id="toggleVoice">Voice: ON</button>
+</section>
 
- <section class="panel">
-  <div id="chat" aria-live="polite"></div>
+<section class="panel">
+<h3>💬 Chat</h3>
+<div id="chat">
+<div class="msg jarvis">Namaste! Main Jarvis hoon. Systems online. Bolo, main kya madad karun?</div>
+</div>
+<textarea id="message" rows="3" placeholder="Yahan message likho..."></textarea>
+<button id="send" class="primary">Send ➤</button>
+<button id="mic">🎙️ Speak</button>
+<button id="stop">⏹ Stop voice</button>
+<p id="status" class="small">Ready.</p>
+</section>
 
-  <div id="entry">
-   <input id="message" placeholder="Jarvis se kuch bhi poochho..."
-          autocomplete="off">
-   <button id="send">Send</button>
-  </div>
+<section class="panel">
+<h3>🧠 Personal Memory</h3>
+<input id="memoryInput" placeholder="Example: My favourite game is BGMI">
+<button id="saveMemory">Save memory</button>
+<button id="showMemory">My memories</button>
+<button id="forgetMemory">Forget all memories</button>
+<p id="memoryStatus" class="small"></p>
+</section>
 
-  <div class="controls" style="margin-top:10px">
-   <button id="newChat">Clear Chat</button>
-   <button id="showMemory">My Memory</button>
-   <button id="clearMemory">Forget Memory</button>
-  </div>
-  <p class="small">
-   Memory is stored on this device. Clearing browser data may erase it.
-  </p>
- </section>
+<section class="panel">
+<h3>🎨 Image Generator</h3>
+<p class="small">Image generation ke liye Cloudflare Worker mein image model setup karna abhi baaki hai.</p>
+<textarea id="imagePrompt" placeholder="Describe the image you want..."></textarea>
+<button id="generateImage">Generate image</button>
+<p id="imageStatus" class="small">Backend setup ke baad activate hoga.</p>
+<img id="generatedImage" alt="Generated image" hidden style="max-width:100%">
+</section>
 
- <section class="panel">
-  <h3>⏰ Reminder</h3>
-  <input id="reminderText" placeholder="Reminder kis baat ka hai?">
-  <input id="reminderMinutes" type="number" min="1"
-         max="10080" placeholder="Kitne minutes baad?">
-  <button id="setReminder">Set Reminder</button>
-  <p class="small">Reminder ke liye page khula rehna chahiye.</p>
- </section>
+<section class="panel">
+<h3>📷 Photo</h3>
+<input id="photo" type="file" accept="image/*">
+<img id="preview" alt="Photo preview" hidden style="max-width:100%">
+<p class="small">Photo preview available hai. AI analysis ke liye vision backend chahiye.</p>
+</section>
 
- <section class="panel">
-  <h3>🖼️ Photo</h3>
-  <input type="file" id="photo" accept="image/*">
-  <p id="photoStatus" class="small">
-   Photo select kar sakte ho. AI photo understanding abhi backend mein add karni baaki hai.
-  </p>
-  <img id="preview" alt="Selected photo preview"
-       style="display:none;max-width:100%;max-height:250px;border-radius:12px">
- </section>
+<section class="panel">
+<h3>🔎 Web Search</h3>
+<input id="search" placeholder="Kya search karna hai?">
+<button id="webSearch">Search Google</button>
+</section>
+
+<section class="panel">
+<h3>⏰ Reminder</h3>
+<input id="reminder" placeholder="Reminder kya hai?">
+<button id="setReminder">Set 1-minute reminder</button>
+<p id="reminderStatus" class="small">Page khula rehna chahiye.</p>
+</section>
 </main>
 
-<footer>JARVIS AI · Free-first edition</footer>
-
 <script>
-"use strict";
+const $=id=>document.getElementById(id);
+const WORKER_URL="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+let voiceOn=true, memories=[];
+try{memories=JSON.parse(localStorage.getItem("jarvis_memories")||"[]")}catch(e){memories=[]}
 
-const WORKER_URL =
- "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
-
-const $ = id => document.getElementById(id);
-const chat = $("chat");
-const input = $("message");
-const statusText = $("status");
-
-let voiceOn = true;
-let busy = false;
-let recognition = null;
-
-function setStatus(text) {
- statusText.textContent = text;
+function saveMemories(){
+try{localStorage.setItem("jarvis_memories",JSON.stringify(memories))}
+catch(e){$("memoryStatus").textContent="Memory save nahi hui."}
 }
-
-function addMessage(text, who="jarvis") {
- const div = document.createElement("div");
- div.className = "msg " + (who === "user" ? "user" : "jarvis");
- div.textContent = text;
- chat.appendChild(div);
- chat.scrollTop = chat.scrollHeight;
+function addMessage(text,who="jarvis"){
+const d=document.createElement("div");
+d.className="msg "+who;d.textContent=text;
+$("chat").appendChild(d);$("chat").scrollTop=$("chat").scrollHeight;
 }
-
-function getMemories() {
- try {
-  const data = JSON.parse(localStorage.getItem("jarvis_memories") || "[]");
-  return Array.isArray(data) ? data : [];
- } catch {
-  return [];
- }
+function loadVoices(){
+const s=$("voice"),old=s.value;
+const list=speechSynthesis.getVoices();
+s.innerHTML='<option value="">Hindi system voice</option>';
+list.forEach(v=>{
+const o=document.createElement("option");
+o.value=v.name;o.textContent=v.name+" ("+v.lang+")";s.appendChild(o);
+});
+if([...s.options].some(o=>o.value===old))s.value=old;
+else{const h=list.find(v=>/^hi[-_]/i.test(v.lang));if(h)s.value=h.name}
 }
-
-function saveMemories(list) {
- localStorage.setItem("jarvis_memories", JSON.stringify(list));
+if("speechSynthesis"in window){
+loadVoices();speechSynthesis.onvoiceschanged=loadVoices;
 }
-
-function speak(text) {
- if (!voiceOn || !("speechSynthesis" in window)) return;
-
- speechSynthesis.cancel();
-
- const utterance = new SpeechSynthesisUtterance(text);
- utterance.lang = "hi-IN";
- utterance.rate = 0.92;
- utterance.pitch = 0.95;
-
- const voices = speechSynthesis.getVoices();
- const hindiVoice = voices.find(v =>
-  v.lang && v.lang.toLowerCase().startsWith("hi")
- );
-
- if (hindiVoice) utterance.voice = hindiVoice;
- speechSynthesis.speak(utterance);
+function speak(text){
+if(!voiceOn||!("speechSynthesis"in window))return;
+speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(text);
+u.lang="hi-IN";u.rate=.91;u.pitch=.88;u.volume=1;
+const selected=speechSynthesis.getVoices().find(v=>v.name===$("voice").value);
+if(selected){u.voice=selected;u.lang=selected.lang}
+else{const h=speechSynthesis.getVoices().find(v=>/^hi[-_]/i.test(v.lang));if(h)u.voice=h}
+speechSynthesis.speak(u);
 }
+$("testVoice").onclick=()=>speak("Namaste. Main Jarvis hoon. Systems online. Aapki kya madad kar sakta hoon?");
+$("toggleVoice").onclick=()=>{
+voiceOn=!voiceOn;$("toggleVoice").textContent="Voice: "+(voiceOn?"ON":"OFF");
+if(!voiceOn)speechSynthesis.cancel();
+};
+$("stop").onclick=()=>speechSynthesis.cancel();
 
-function localReply(raw) {
- const text = raw.trim();
- const lower = text.toLowerCase();
- let memories = getMemories();
-
- // Remember/save/yaad rakhna
- const match = text.match(
-  /^(?:jarvis[, ]*)?(?:remember|save|note|yaad rakhna|yaad rakh|yaad karna|save karna)\s*(?:that|ki)?\s*[:,-]?\s*(.+)$/i
- );
-
- if (match && match[1]) {
-  const fact = match[1].trim();
-  const duplicate = memories.some(
-   m => m.toLowerCase() === fact.toLowerCase()
-  );
-
-  if (!duplicate) {
-   memories.push(fact);
-   saveMemories(memories);
-  }
-
-  return "Theek hai! Maine is baat ko tumhare is device ki memory mein save kar liya: " + fact;
- }
-
- // Ask for stored memories
- if (
-  /what do you remember|show.*memories|my memories|meri memory|kya yaad hai|kya yaad rakha|memory dikha|meri baatein/i.test(lower)
- ) {
-  return memories.length
-   ? "Mujhe ye baatein yaad hain:\n• " + memories.join("\n• ")
-   : "Abhi meri memory khaali hai. Mujhe bolo: Remember my name is Maaz.";
- }
-
- // Name retrieval
- if (/what is my name|mera naam kya|my name\??$/i.test(lower)) {
-  const found = memories.find(m =>
-   /(?:my name is|mera naam hai|mera naam)\s+/i.test(m)
-  );
-
-  if (found) {
-   const name = found.match(
-    /(?:my name is|mera naam hai|mera naam)\s+(.+)/i
-   );
-   if (name) return "Tumhara naam " + name[1].trim() + " hai.";
-  }
- }
-
- // Clear stored memories
- if (/^(forget everything|clear memory|delete memory|sab bhool jao|memory delete karo)$/i.test(text)) {
-  return "__CLEAR_MEMORY__";
- }
-
- // Greeting
- if (/^(hi|hello|hey|salam|assalamualaikum|namaste)[!. ]*$/i.test(text)) {
-  return "Hello! Main Jarvis hoon. Batao, main tumhari kya help karun?";
- }
-
- return null;
+function localAnswer(m){
+const remember=m.match(/^(?:remember|save|note|yaad rakhna)\s+(?:that\s+|ki\s+)?(.+)$/i);
+if(remember){
+memories.push(remember[1]);memories=[...new Set(memories)];saveMemories();
+return "Theek hai, maine yaad rakh liya: "+remember[1];
 }
-
-async function sendMessage(text) {
- text = text.trim();
- if (!text || busy) return;
-
- addMessage(text, "user");
- input.value = "";
-
- const local = localReply(text);
-
- if (local === "__CLEAR_MEMORY__") {
-  saveMemories([]);
-  const answer = "Theek hai. Is device par saved memories clear kar di hain.";
-  addMessage(answer);
-  speak(answer);
-  return;
- }
-
- if (local !== null) {
-  addMessage(local);
-  speak(local);
-  return;
- }
-
- busy = true;
- setStatus("Jarvis soch raha hai...");
-
- try {
-  const personality = $("personality").value;
-
-  const response = await fetch(WORKER_URL, {
-   method: "POST",
-   headers: {"Content-Type": "application/json"},
-   body: JSON.stringify({
-    message:
-     "You are Jarvis, a helpful personal AI assistant. " +
-     "Reply in the same language as the user, especially Hindi/Hinglish. " +
-     "Personality: " + personality + ". " +
-     "Be accurate, friendly and concise. User says: " + text
-   })
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-   throw new Error(data.details || data.error || "Server error " + response.status);
-  }
-
-  const answer = data.reply || data.response || data.text;
-
-  if (!answer) throw new Error("AI se khaali jawab mila.");
-
-  addMessage(answer);
-  speak(answer);
-  setStatus("Jarvis online");
- } catch (error) {
-  const message =
-   "Jarvis connect nahi ho paya: " + error.message +
-   ". Internet aur Worker settings check karo.";
-  addMessage(message);
-  setStatus("Connection error");
- } finally {
-  busy = false;
- }
+if(/what do you remember|my memories|kya yaad hai/i.test(m))
+return memories.length?memories.map((x,i)=>(i+1)+". "+x).join("\n"):"Abhi koi memory save nahi hai.";
+if(/forget everything|clear memory|sab bhool jao/i.test(m)){
+memories=[];saveMemories();return "Saari saved memories clear kar di hain.";
 }
-
-$("send").addEventListener("click", () => sendMessage(input.value));
-
-input.addEventListener("keydown", event => {
- if (event.key === "Enter") sendMessage(input.value);
-});
-
-$("voiceToggle").addEventListener("click", () => {
- voiceOn = !voiceOn;
- $("voiceToggle").textContent = "Voice: " + (voiceOn ? "ON" : "OFF");
- if (!voiceOn && "speechSynthesis" in window) speechSynthesis.cancel();
-});
-
-$("newChat").addEventListener("click", () => {
- chat.replaceChildren();
- addMessage("New conversation ready. Main Jarvis hoon. Kaise help karun?");
-});
-
-$("showMemory").addEventListener("click", () => {
- const memories = getMemories();
- addMessage(memories.length
-  ? "Saved memories:\n• " + memories.join("\n• ")
-  : "Abhi koi memory save nahi hai.");
-});
-
-$("clearMemory").addEventListener("click", () => {
- if (confirm("Kya tum apni saari saved memories delete karna chahte ho?")) {
-  saveMemories([]);
-  addMessage("Is device ki saved memories delete kar di gayi hain.");
- }
-});
-
-// Speech recognition
-const SpeechRecognition =
- window.SpeechRecognition || window.webkitSpeechRecognition;
-
-if (SpeechRecognition) {
- recognition = new SpeechRecognition();
- recognition.lang = "hi-IN";
- recognition.continuous = false;
- recognition.interimResults = false;
-
- recognition.onstart = () => setStatus("Sun raha hoon...");
- recognition.onresult = event => {
-  const heard = event.results[0][0].transcript;
-  input.value = heard;
-  sendMessage(heard);
- };
- recognition.onerror = () => setStatus("Mic error. Dobara try karo.");
- recognition.onend = () => {
-  if (!busy) setStatus("Jarvis online");
- };
-} else {
- $("mic").disabled = true;
- $("mic").textContent = "Mic unavailable";
+const name=memories.find(x=>/my name is|mera naam/i.test(x));
+if(/what is my name|mera naam kya hai/i.test(m))
+return name?name:"Tumne abhi apna naam memory mein nahi bataya.";
+return null;
 }
-
-$("mic").addEventListener("click", () => {
- if (!recognition) return;
- try {
-  recognition.start();
- } catch {
-  setStatus("Mic pehle se active hai.");
- }
+async function sendMessage(){
+const m=$("message").value.trim();if(!m)return;
+$("message").value="";addMessage(m,"user");$("send").disabled=true;
+$("status").textContent="Jarvis soch raha hai...";
+try{
+const local=localAnswer(m);
+if(local!==null){addMessage(local);speak(local);return}
+const context=memories.length?" Saved user memories: "+memories.join("; "):"";
+const response=await fetch(WORKER_URL,{
+method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({message:"You are Jarvis, a helpful AI assistant. Personality: "+$("personality").value+". Reply naturally in Hindi or Hinglish when suitable. Be clear and concise."+context+"\nUser: "+m})
 });
-
-// Reminders: works while this page remains open
-$("setReminder").addEventListener("click", async () => {
- const message = $("reminderText").value.trim();
- const minutes = Number($("reminderMinutes").value);
-
- if (!message || !Number.isFinite(minutes) || minutes < 1 || minutes > 10080) {
-  addMessage("Reminder ke liye message aur 1 se 10080 minutes enter karo.");
-  return;
- }
-
- if ("Notification" in window && Notification.permission === "default") {
-  try { await Notification.requestPermission(); } catch {}
- }
-
- addMessage("Reminder set: " + message + " (" + minutes + " minute baad)");
-
- setTimeout(() => {
-  const alertText = "Reminder: " + message;
-  addMessage(alertText);
-  speak(alertText);
-
-  if ("Notification" in window && Notification.permission === "granted") {
-   try { new Notification("Jarvis Reminder", {body: message}); } catch {}
-  } else {
-   alert(alertText);
-  }
- }, minutes * 60 * 1000);
+const data=await response.json();
+if(!response.ok)throw new Error(data.details||data.error||"HTTP "+response.status);
+if(!data.reply)throw new Error("Reply nahi mila");
+addMessage(data.reply);speak(data.reply);
+$("status").textContent="Ready.";
+}catch(e){
+const err="Jarvis error: "+e.message;addMessage(err);
+$("status").textContent="Connection failed.";
+}finally{$("send").disabled=false}
+}
+$("send").onclick=sendMessage;
+$("message").addEventListener("keydown",e=>{
+if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage()}
 });
+$("saveMemory").onclick=()=>{
+const v=$("memoryInput").value.trim();if(!v)return;
+memories.push(v);memories=[...new Set(memories)];saveMemories();
+$("memoryInput").value="";$("memoryStatus").textContent="Memory saved on this device.";
+};
+$("showMemory").onclick=()=>$("memoryStatus").textContent=memories.length?memories.join(" | "):"No saved memories.";
+$("forgetMemory").onclick=()=>{
+if(confirm("Saari memories delete karni hain?")){memories=[];saveMemories();$("memoryStatus").textContent="Memories deleted."}
+};
 
-// Photo preview only; image AI needs backend support
-$("photo").addEventListener("change", () => {
- const file = $("photo").files[0];
- if (!file) return;
-
- if (!file.type.startsWith("image/")) {
-  $("photoStatus").textContent = "Please select an image file.";
-  return;
- }
-
- $("preview").src = URL.createObjectURL(file);
- $("preview").style.display = "block";
- $("photoStatus").textContent =
-  "Photo selected. AI understanding abhi connect nahi hui hai.";
-});
-
-addMessage("Systems online. Hello! Main Jarvis hoon. Mujhe bolo: Remember my name is Maaz.");
-setStatus("Jarvis online");
+$("mic").onclick=()=>{
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){$("status").textContent="Speech recognition supported nahi. Chrome mein try karo.";return}
+const r=new SR();r.lang="hi-IN";r.interimResults=false;
+r.onstart=()=>$("status").textContent="Sun raha hoon...";
+r.onresult=e=>{$("message").value=e.results[0][0].transcript;sendMessage()};
+r.onerror=e=>$("status").textContent="Mic error: "+e.error;
+r.onend=()=>{if($("status").textContent==="Sun raha hoon...")$("status").textContent="Ready."};
+r.start();
+};
+$("photo").onchange=()=>{
+const f=$("photo").files[0];if(!f)return;
+$("preview").src=URL.createObjectURL(f);$("preview").hidden=false;
+};
+$("generateImage").onclick=()=>$("imageStatus").textContent="Image model ko Worker mein configure karna baaki hai.";
+$("webSearch").onclick=()=>{
+const q=$("search").value.trim();if(q)window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
+};
+$("setReminder").onclick=()=>{
+const t=$("reminder").value.trim();if(!t)return;
+$("reminderStatus").textContent="Reminder set: "+t+" (1 minute)";
+setTimeout(()=>{alert("Jarvis reminder: "+t);speak("Reminder. "+t)},60000);
+};
 </script>
 </body>
 </html>
