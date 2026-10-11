@@ -101,7 +101,7 @@ async function send(text) {
     addMessage(answer, "bot");
     speak(answer);
   } catch (error) {
-    const answer = "Jarvis AI connect nahi ho paya. Please try again.";
+const answer = "Jarvis error: " + error.message;
     addMessage(answer, "bot");
     speak(answer);
   }
