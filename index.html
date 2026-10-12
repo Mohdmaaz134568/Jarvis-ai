@@ -3,263 +3,298 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#100809">
 <title>JARVIS V3</title>
 <style>
-:root{--bg:#100809;--panel:#211315;--red:#ff1744;--gold:#ffc857;--text:#fff2e9;--muted:#bba9a9}
+:root{--bg:#100809;--panel:#211315;--red:#ff1744;--gold:#ffc857;--white:#fff4ed}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#48101a,#100809 60%);color:var(--text);font-family:Arial,sans-serif;padding-bottom:85px}
-header{padding:20px;border-bottom:1px solid #59342b;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;letter-spacing:4px;color:var(--gold);font-weight:bold}
-.status{color:#6fffc0;font-size:12px}
-main{padding:16px;max-width:650px;margin:auto}
+body{margin:0;background:radial-gradient(ellipse at top,#47101b,#100809 65%);color:var(--white);font-family:Arial,sans-serif;padding-bottom:80px}
+header{padding:18px;border-bottom:1px solid #68452f;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;letter-spacing:3px;color:var(--gold);font-weight:bold}
+.status{font-size:11px;color:#6fffc0}
+main{max-width:650px;margin:auto;padding:15px}
 .screen{display:none}.screen.active{display:block}
-.panel{background:linear-gradient(145deg,#291719,#160d0f);border:1px solid #62402f;border-radius:22px;padding:20px;margin-bottom:16px}
-.eyebrow{color:var(--gold);letter-spacing:3px;font-size:12px}
-h1{font-size:29px;margin:18px 0 10px}h2{font-size:22px;margin:12px 0}
-p{color:var(--muted);line-height:1.5}
+.panel{background:linear-gradient(145deg,#291719,#160d0f);border:1px solid #63402e;border-radius:20px;padding:18px;margin-bottom:14px}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:3px}
+h1{font-size:29px}h2{font-size:21px}
+p{color:#c8b8b5;line-height:1.5}
 button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:1px solid #674331;border-radius:13px;background:#2a1719;color:var(--gold);padding:13px 15px}
-button.primary{background:var(--red);color:white;border-color:#ff6c82}
-button:active{transform:scale(.98)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+button{cursor:pointer;border:1px solid #68432f;border-radius:12px;background:#2a1719;color:var(--gold);padding:12px}
+button.primary{background:var(--red);border-color:var(--red);color:white}
+button:disabled{opacity:.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{min-height:95px;text-align:left;color:var(--text)}
-.tile span{display:block;color:var(--gold);font-size:23px;margin-bottom:9px}
-input,textarea,select{width:100%;background:#100b0d;border:1px solid #654231;color:white;padding:13px;border-radius:12px;margin:7px 0}
-textarea{resize:vertical;min-height:75px}
-.chatbox{height:42vh;min-height:230px;overflow:auto;border:1px solid #4b3028;border-radius:14px;padding:12px;background:#100b0d}
-.msg{white-space:pre-wrap;overflow-wrap:anywhere;padding:11px 13px;margin:9px 0;border-radius:12px;line-height:1.5}
-.user{background:#52202a;margin-left:18px}
-.bot{background:#272020;margin-right:18px}
-.small{font-size:12px;color:var(--muted)}
-nav{position:fixed;bottom:0;left:0;right:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);background:#140d0f;border-top:1px solid #654231;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
-nav button{border:0;background:transparent;padding:10px 2px;color:#bca9a9;font-size:12px}
-nav button.active{background:#45151e;color:var(--gold)}
-nav button b{display:block;font-size:21px;margin-bottom:4px}
-.row{display:flex;gap:8px;align-items:center}
-.row input{min-width:0;flex:1}
-.row button{flex-shrink:0}
-hr{border:0;border-top:1px solid #49302b;margin:18px 0}
-@media(min-width:500px){main{padding:24px}.chatbox{height:390px}}
+.tile{text-align:left;min-height:90px;color:white}
+.tile span{display:block;color:var(--gold);font-size:22px;margin-bottom:8px}
+input,textarea,select{width:100%;padding:12px;background:#100b0d;color:white;border:1px solid #654231;border-radius:11px;margin:7px 0}
+textarea{min-height:75px;resize:vertical}
+.chatbox{height:40vh;min-height:220px;overflow:auto;background:#100b0d;border:1px solid #49302b;border-radius:12px;padding:10px}
+.msg{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;padding:11px;margin:8px 0;border-radius:12px}
+.bot{background:#292020;margin-right:12px}
+.user{background:#51202a;margin-left:12px}
+.small{font-size:12px;color:#bba9a9}
+nav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(4,1fr);background:#140d0f;border-top:1px solid #68452f;padding:7px 3px calc(7px + env(safe-area-inset-bottom))}
+nav button{border:0;background:transparent;font-size:12px;padding:9px 2px;color:#c4b2b0}
+nav button b{display:block;font-size:20px;margin-bottom:3px}
+nav button.active{color:var(--gold);background:#40151e}
+hr{border:0;border-top:1px solid #49302b;margin:17px 0}
 </style>
 </head>
 <body>
 <header>
- <div><div class="logo">J.A.R.V.I.S.</div><div class="small">STARK PERSONAL SYSTEM</div></div>
- <div class="status">● SYSTEM ONLINE</div>
+ <div><div class="logo">J.A.R.V.I.S.</div><div class="small">PERSONAL AI SYSTEM</div></div>
+ <div class="status">● ONLINE</div>
 </header>
 
 <main>
 <section id="home" class="screen active">
- <div class="panel" style="text-align:center;padding:28px 18px">
-  <div style="font-size:76px;color:var(--gold)">◉</div>
-  <div class="eyebrow">STARK INDUSTRIES • PERSONAL AI</div>
-  <h1>Assalamualaikum!</h1>
-  <p>Your assistant is ready.</p>
+ <div class="panel" style="text-align:center;padding:25px 14px">
+  <div style="font-size:65px;color:var(--gold)">◉</div>
+  <div class="eyebrow">STARK SYSTEMS</div>
+  <h1>Assalamualaikum, Sir.</h1>
+  <p>Your personal assistant is ready.</p>
   <div class="actions" style="justify-content:center">
-   <button class="primary" data-screen="chat">OPEN CHAT</button>
+   <button class="primary" data-go="chat">OPEN CHAT</button>
    <button id="testVoice">TEST VOICE</button>
   </div>
  </div>
  <div class="panel">
-  <div class="eyebrow">COMMAND CENTER</div><h2>Your systems</h2>
+  <div class="eyebrow">COMMAND CENTRE</div>
+  <h2>Systems</h2>
   <div class="tiles">
-   <button class="tile" data-screen="chat"><span>◉</span>AI Conversation</button>
-   <button class="tile" data-screen="memory"><span>▤</span>Memory Bank</button>
-   <button class="tile" data-screen="settings"><span>⚙</span>Voice & Settings</button>
-   <button class="tile" id="searchBtn"><span>⌕</span>Web Search</button>
+   <button class="tile" data-go="chat"><span>◉</span>AI Chat</button>
+   <button class="tile" data-go="memory"><span>▤</span>Memory</button>
+   <button class="tile" data-go="settings"><span>⚙</span>Voice Settings</button>
+   <button class="tile" id="webSearch"><span>⌕</span>Web Search</button>
   </div>
  </div>
 </section>
 
 <section id="chat" class="screen">
  <div class="panel">
-  <div class="eyebrow">SECURE CHANNEL</div><h2>Talk to Jarvis</h2>
+  <div class="eyebrow">SECURE CHANNEL</div>
+  <h2>Chat with Jarvis</h2>
   <div id="chatbox" class="chatbox" aria-live="polite">
-   <div class="msg bot">Assalamualaikum! Main Jarvis hoon. Aapki kya madad kar sakta hoon?</div>
+   <div class="msg bot">Assalamualaikum, Sir. How may I assist you?</div>
   </div>
   <form id="chatForm">
-   <textarea id="message" placeholder="Jarvis ko message likho..." required></textarea>
+   <textarea id="message" placeholder="Type your message, Sir..." required></textarea>
    <div class="actions">
-    <button class="primary" type="submit" id="sendBtn">SEND ➤</button>
+    <button class="primary" id="sendBtn" type="submit">SEND ➤</button>
     <button type="button" id="micBtn">🎙 MIC</button>
-    <button type="button" id="speakBtn">🔊 REPEAT</button>
+    <button type="button" id="repeatBtn">🔊 REPEAT</button>
    </div>
   </form>
-  <p class="small" id="chatStatus">Ready.</p>
-  <button id="clearChat">Clear chat screen</button>
+  <div id="chatStatus" class="small">Ready, Sir.</div>
+  <hr>
+  <button id="clearChat">CLEAR CHAT</button>
  </div>
 </section>
 
 <section id="memory" class="screen">
  <div class="panel">
-  <div class="eyebrow">PERSONAL DATABASE</div><h2>Memory Bank</h2>
-  <p>Memories is browser par save hongi.</p>
-  <input id="memoryInput" placeholder="Jaise: My favourite game is BGMI">
+  <div class="eyebrow">PERSONAL DATABASE</div>
+  <h2>Memory Bank</h2>
+  <p>Memory is saved in this browser on this device.</p>
+  <input id="memoryInput" placeholder="e.g. My favourite game is BGMI">
   <button class="primary" id="saveMemory">SAVE MEMORY</button>
   <div id="memoryList"></div>
-  <hr><button id="clearMemory">CLEAR ALL MEMORIES</button>
-  <p class="small">Browser data clear karne par local memories mit sakti hain.</p>
+  <hr>
+  <button id="clearMemory">CLEAR ALL MEMORY</button>
  </div>
 </section>
 
 <section id="settings" class="screen">
  <div class="panel">
-  <div class="eyebrow">SYSTEM PREFERENCES</div><h2>Voice & Settings</h2>
-  <label for="voiceSelect">Available device voice</label>
-  <select id="voiceSelect"><option value="">Default device voice</option></select>
+  <div class="eyebrow">PREFERENCES</div>
+  <h2>Voice Settings</h2>
+  <label for="voiceSelect">Device voice</label>
+  <select id="voiceSelect"><option value="">Default voice</option></select>
   <label for="rate">Speaking speed</label>
-  <input id="rate" type="range" min="0.75" max="1.25" step="0.05" value="0.95">
+  <input id="rate" type="range" min=".75" max="1.2" step=".05" value=".95">
   <label for="pitch">Voice pitch</label>
-  <input id="pitch" type="range" min="0.7" max="1.3" step="0.05" value="0.95">
-  <button class="primary" id="testVoice2">TEST ASSALAMUALAIKUM</button>
-  <hr>
-  <label for="personality">Personality</label>
-  <select id="personality">
-   <option>Helpful Jarvis</option><option>Professional</option><option>Friendly</option>
-  </select>
-  <p class="small">Available voices device aur browser par depend karti hain.</p>
+  <input id="pitch" type="range" min=".7" max="1.3" step=".05" value=".95">
+  <button class="primary" id="testVoiceSettings">TEST VOICE</button>
+  <p class="small">Available voices depend on your phone and browser.</p>
  </div>
 </section>
 </main>
 
 <nav>
- <button class="active" data-screen="home"><b>⌂</b>Home</button>
- <button data-screen="chat"><b>◉</b>Chat</button>
- <button data-screen="memory"><b>▤</b>Memory</button>
- <button data-screen="settings"><b>⚙</b>Settings</button>
+ <button class="active" data-go="home"><b>⌂</b>Home</button>
+ <button data-go="chat"><b>◉</b>Chat</button>
+ <button data-go="memory"><b>▤</b>Memory</button>
+ <button data-go="settings"><b>⚙</b>Settings</button>
 </nav>
 
 <script>
 (function(){
 "use strict";
+
+/* Existing Cloudflare Worker */
 const WORKER_URL="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
 const $=id=>document.getElementById(id);
-let lastReply="Assalamualaikum! Main Jarvis hoon.";
+let latestReply="Assalamualaikum, Sir. How may I assist you?";
 let voices=[];
 
-function showScreen(name){
- document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+function go(name){
+ document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
  const target=$(name);
- if(target) target.classList.add("active");
- document.querySelectorAll("nav button").forEach(b=>{
-  b.classList.toggle("active",b.dataset.screen===name);
+ if(target)target.classList.add("active");
+ document.querySelectorAll("nav [data-go]").forEach(b=>{
+  b.classList.toggle("active",b.dataset.go===name);
  });
  window.scrollTo(0,0);
- if(name==="memory")renderMemories();
+ if(name==="memory")renderMemory();
 }
-document.querySelectorAll("[data-screen]").forEach(b=>{
- b.addEventListener("click",()=>showScreen(b.dataset.screen));
+document.querySelectorAll("[data-go]").forEach(b=>{
+ b.addEventListener("click",()=>go(b.dataset.go));
 });
 
 function speak(text){
- if(!("speechSynthesis" in window)){alert("Is browser mein voice support nahi hai.");return;}
+ if(!("speechSynthesis" in window)){
+  alert("Voice support is unavailable in this browser.");return;
+ }
  speechSynthesis.cancel();
- const u=new SpeechSynthesisUtterance(String(text).replace(/[*_#`]/g,""));
+ const clean=String(text).replace(/[*_#`]/g,"");
+ const u=new SpeechSynthesisUtterance(clean);
  const selected=voices.find(v=>v.name===$("voiceSelect").value);
  if(selected)u.voice=selected;
- u.lang=selected?.lang||"hi-IN";
- u.rate=Number($("rate").value)||0.95;
- u.pitch=Number($("pitch").value)||0.95;
+ u.lang=selected?selected.lang:"en-IN";
+ u.rate=Number($("rate").value)||.95;
+ u.pitch=Number($("pitch").value)||.95;
  speechSynthesis.speak(u);
 }
 function loadVoices(){
  if(!("speechSynthesis" in window))return;
  voices=speechSynthesis.getVoices();
- const sel=$("voiceSelect"),old=sel.value;
- sel.innerHTML='<option value="">Default device voice</option>';
+ const s=$("voiceSelect"),old=s.value;
+ s.innerHTML='<option value="">Default voice</option>';
  voices.forEach(v=>{
-  const o=document.createElement("option");o.value=v.name;o.textContent=v.name+" ("+v.lang+")";sel.appendChild(o);
+  const o=document.createElement("option");
+  o.value=v.name;o.textContent=v.name+" ("+v.lang+")";s.appendChild(o);
  });
- if(old)sel.value=old;
+ if(old)s.value=old;
 }
 if("speechSynthesis" in window){
  loadVoices();speechSynthesis.onvoiceschanged=loadVoices;
 }
-$("testVoice").addEventListener("click",()=>speak("Assalamualaikum! Main Jarvis hoon."));
-$("testVoice2").addEventListener("click",()=>speak("Assalamualaikum! Main Jarvis hoon."));
+$("testVoice").addEventListener("click",()=>speak("Yes, Sir. How may I help you?"));
+$("testVoiceSettings").addEventListener("click",()=>speak("Assalamualaikum, Sir. Good morning, Sir."));
 
-function addMessage(text,who){
- const d=document.createElement("div");d.className="msg "+who;d.textContent=text;
- $("chatbox").appendChild(d);$("chatbox").scrollTop=$("chatbox").scrollHeight;
+function memories(){
+ try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]")}
+ catch(e){return []}
 }
-function getMemories(){try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]")}catch(e){return []}}
-function saveMemoriesData(a){localStorage.setItem("jarvis_memories",JSON.stringify(a))}
-function renderMemories(){
+function renderMemory(){
  const box=$("memoryList");box.replaceChildren();
- const a=getMemories();
- if(!a.length){box.textContent="Abhi koi memory save nahi hai.";return}
- a.forEach((m,i)=>{
-  const d=document.createElement("div");d.className="panel";
-  const t=document.createElement("p");t.textContent=m;
+ const list=memories();
+ if(!list.length){box.textContent="No saved memories yet.";return}
+ list.forEach((item,index)=>{
+  const row=document.createElement("div");row.className="panel";
+  const p=document.createElement("p");p.textContent=item;
   const b=document.createElement("button");b.textContent="DELETE";
-  b.addEventListener("click",()=>{const arr=getMemories();arr.splice(i,1);saveMemoriesData(arr);renderMemories()});
-  d.append(t,b);box.appendChild(d);
+  b.addEventListener("click",()=>{
+   const a=memories();a.splice(index,1);
+   localStorage.setItem("jarvis_memories",JSON.stringify(a));renderMemory();
+  });
+  row.append(p,b);box.appendChild(row);
  });
 }
 $("saveMemory").addEventListener("click",()=>{
- const val=$("memoryInput").value.trim();if(!val)return;
- const a=getMemories();a.push(val);saveMemoriesData(a);
- $("memoryInput").value="";renderMemories();
+ const v=$("memoryInput").value.trim();if(!v)return;
+ const a=memories();a.push(v);
+ localStorage.setItem("jarvis_memories",JSON.stringify(a));
+ $("memoryInput").value="";renderMemory();
 });
 $("clearMemory").addEventListener("click",()=>{
- if(confirm("Saari saved memories delete karni hain?")){saveMemoriesData([]);renderMemories()}
-});
-$("searchBtn").addEventListener("click",()=>{
- window.open("https://www.google.com/search?q="+encodeURIComponent(prompt("Kya search karna hai?")||""),"_blank");
+ if(confirm("Delete all saved memories?")){
+  localStorage.setItem("jarvis_memories","[]");renderMemory();
+ }
 });
 
-$("chatForm").addEventListener("submit",async e=>{
+function addMessage(text,type){
+ const el=document.createElement("div");
+ el.className="msg "+type;el.textContent=text;
+ $("chatbox").appendChild(el);$("chatbox").scrollTop=$("chatbox").scrollHeight;
+}
+
+/* Greetings handled locally */
+function greeting(text){
+ const t=text.toLowerCase().trim().replace(/[!.?,]+$/,"");
+ if(/^(hello|hi|hey|hello jarvis|hi jarvis)$/.test(t))
+  return "Yes, Sir. How may I help you?";
+ if(/^(good morning|morning)$/.test(t))
+  return "Good morning, Sir. How may I assist you?";
+ if(/^(good afternoon)$/.test(t))
+  return "Good afternoon, Sir.";
+ if(/^(good evening)$/.test(t))
+  return "Good evening, Sir.";
+ if(/^(assalamualaikum|salam|assalamu alaikum)$/.test(t))
+  return "Wa Alaikum Assalam, Sir. How may I help you?";
+ if(/^(thank you|thanks|thank you jarvis)$/.test(t))
+  return "You're welcome, Sir.";
+ return null;
+}
+
+$("chatForm").addEventListener("submit",async function(e){
  e.preventDefault();
  const text=$("message").value.trim();if(!text)return;
- $("message").value="";addMessage(text,"user");
- $("sendBtn").disabled=true;$("chatStatus").textContent="Jarvis soch raha hai...";
+ $("message").value="";
+ addMessage(text,"user");
+ $("sendBtn").disabled=true;
+ $("chatStatus").textContent="Processing, Sir...";
  try{
-  const remember=text.match(/^(?:remember|save memory|yaad rakhna|yaad rakh)\s*:?\s*(.+)$/i);
-  if(remember){
-   const a=getMemories();a.push(remember[1]);saveMemoriesData(a);renderMemories();
-   lastReply="Theek hai, maine is device par yaad rakh liya: "+remember[1];
-  }else if(/what do you remember|show memories|meri memories|kya yaad hai/i.test(text)){
-   lastReply=getMemories().join(". ")||"Abhi koi memory save nahi hai.";
+  const g=greeting(text);
+  if(g){
+   latestReply=g;
   }else{
-   const context=getMemories();
+   const saved=memories();
    const response=await fetch(WORKER_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:
-     "You are Jarvis, a helpful assistant. Greet with Assalamualaikum when appropriate. Reply in the user's language. Be clear and concise. Saved user memories: "+
-     context.join("; ")+"\nUser message: "+text})
+    body:JSON.stringify({
+     message:"You are Jarvis, a polite professional personal AI assistant. Address the user as Sir when natural. Do not say Namaste. Prefer Assalamualaikum for an Islamic greeting. Reply in the language the user uses. Be helpful and concise. Saved memories: "+saved.join("; ")+". User says: "+text
+    })
    });
    const data=await response.json();
-   if(!response.ok)throw new Error(data.error||("HTTP "+response.status));
-   lastReply=data.reply||data.response||data.text||"Worker se khaali reply mila.";
+   if(!response.ok)throw new Error(data.error||"HTTP "+response.status);
+   latestReply=data.reply||data.response||data.text||"Sorry, Sir. I received an empty response.";
+   latestReply=latestReply.replace(/\bNamaste\b/gi,"Assalamualaikum");
+   latestReply=latestReply.replace(/\bBoss\b/gi,"Sir");
   }
-  addMessage(lastReply,"bot");speak(lastReply);
-  $("chatStatus").textContent="Reply received.";
+  addMessage(latestReply,"bot");
+  speak(latestReply);
+  $("chatStatus").textContent="Ready, Sir.";
  }catch(err){
-  lastReply="Connection error: "+err.message;
-  addMessage(lastReply,"bot");
-  $("chatStatus").textContent="Connection fail. Worker URL ya API check karni hogi.";
- }
- finally{$("sendBtn").disabled=false}
-});
-$("speakBtn").addEventListener("click",()=>speak(lastReply));
-$("clearChat").addEventListener("click",()=>{
- $("chatbox").innerHTML='<div class="msg bot">Assalamualaikum! Main Jarvis hoon. Aapki kya madad kar sakta hoon?</div>';
- lastReply="Assalamualaikum! Main Jarvis hoon.";
+  latestReply="Sorry, Sir. I couldn't connect to the AI service. Error: "+err.message;
+  addMessage(latestReply,"bot");
+  $("chatStatus").textContent="Connection failed. Check the Worker.";
+ }finally{$("sendBtn").disabled=false}
 });
 
+$("repeatBtn").addEventListener("click",()=>speak(latestReply));
+$("clearChat").addEventListener("click",()=>{
+ $("chatbox").innerHTML="";
+ latestReply="Assalamualaikum, Sir. How may I assist you?";
+ addMessage(latestReply,"bot");
+});
+$("webSearch").addEventListener("click",()=>{
+ const q=prompt("What should I search for, Sir?");
+ if(q&&q.trim())window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
+});
 $("micBtn").addEventListener("click",()=>{
  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SR){alert("Is browser mein speech recognition available nahi hai. Chrome mein try karo.");return}
- const r=new SR();r.lang="hi-IN";r.interimResults=false;
- $("chatStatus").textContent="Sun raha hoon...";
- r.onresult=e=>{$("message").value=e.results[0][0].transcript;$("message").focus();$("chatStatus").textContent="Awaaz text mein badal gayi. Send dabao."};
- r.onerror=e=>{$("chatStatus").textContent="Mic error: "+e.error+". Microphone permission check karo."};
- r.onend=()=>{if($("chatStatus").textContent==="Sun raha hoon...")$("chatStatus").textContent="Mic band hua."};
- try{r.start()}catch(e){$("chatStatus").textContent="Mic start nahi hua."}
+ if(!SR){alert("Please try Chrome. Speech recognition may not be supported here.");return}
+ const r=new SR();r.lang="en-IN";r.interimResults=false;
+ $("chatStatus").textContent="Listening, Sir...";
+ r.onresult=e=>{
+  $("message").value=e.results[0][0].transcript;
+  $("chatStatus").textContent="Message ready. Press SEND.";
+ };
+ r.onerror=e=>$("chatStatus").textContent="Microphone error: "+e.error;
+ try{r.start()}catch(e){$("chatStatus").textContent="Could not start microphone."}
 });
 })();
 </script>
