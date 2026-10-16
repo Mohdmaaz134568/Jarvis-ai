@@ -1,44 +1,43 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JARVIS AI</title>
+<title>JARVIS AI V6</title>
 <style>
 :root{color-scheme:dark;--bg:#080b12;--panel:#151e2c;--gold:#e7bd63;--red:#ed2445}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:#f4f5f8;font-family:Arial,sans-serif}
-header{padding:22px 16px;text-align:center;border-bottom:1px solid #4b3c2c}
-header h1{color:var(--gold);letter-spacing:4px;margin:4px}
+header{text-align:center;padding:20px 12px;border-bottom:1px solid #4b3c2c}
+header h1{margin:4px;color:var(--gold);letter-spacing:4px}
 header p{color:#aeb8c9}
-main{max-width:760px;margin:auto;padding:16px;padding-bottom:105px}
-.panel{background:var(--panel);border:1px solid #303b4d;border-radius:22px;padding:18px;margin-bottom:16px}
-h2{margin-top:0}
-button{background:#243144;color:white;border:1px solid #46546a;border-radius:14px;padding:14px;margin:4px 2px;font-size:15px;cursor:pointer}
-button:active{opacity:.7}
+main{max-width:760px;margin:auto;padding:14px 14px 110px}
+.panel{background:var(--panel);border:1px solid #303b4d;border-radius:20px;padding:16px;margin-bottom:14px}
+h2{margin-top:0}.gold{color:var(--gold)}
+button{background:#243144;color:white;border:1px solid #46546a;border-radius:12px;padding:12px;margin:4px 2px;font-size:15px;cursor:pointer}
+button:disabled{opacity:.5}
 .primary{background:var(--red);border-color:#ff6078}
-.gold{color:var(--gold)}
-nav{position:fixed;bottom:0;left:0;right:0;background:#0b101a;border-top:1px solid #394353;display:flex;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}
-nav button{flex:1;padding:12px 3px;font-size:12px}
-nav button.active{border-color:var(--gold);color:var(--gold)}
-.screen{display:none}
-.screen.active{display:block}
-input,textarea,select{width:100%;background:#080d17;color:white;border:1px solid #39475b;border-radius:12px;padding:13px;font-size:16px;margin:5px 0}
-textarea{min-height:70px;resize:vertical}
-#messages{display:flex;flex-direction:column;gap:12px;margin:16px 0}
-.msg{padding:14px;border-radius:15px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+input,textarea{width:100%;background:#080d17;color:white;border:1px solid #39475b;border-radius:12px;padding:13px;font-size:16px;margin:5px 0}
+textarea{min-height:75px;resize:vertical}
+.screen{display:none}.screen.active{display:block}
+nav{position:fixed;bottom:0;left:0;right:0;background:#0b101a;border-top:1px solid #394353;display:flex;justify-content:space-around;padding:7px 2px calc(7px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;padding:11px 2px;font-size:11px}
+nav button.active{color:var(--gold);border-color:var(--gold)}
+.small{font-size:13px;color:#aeb8c9;line-height:1.5}
+.status{font-size:12px;color:var(--gold)}
+#messages{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.msg{padding:13px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
 .user{background:#4a202c;align-self:flex-end;max-width:90%}
 .jarvis{background:#202f40;align-self:stretch}
-.small{font-size:13px;color:#aeb8c9;line-height:1.5}
-#preview{display:none;max-width:100%;max-height:280px;border-radius:14px;margin-top:12px}
-.status{color:var(--gold);font-size:13px}
+#preview,#generatedImage{display:none;max-width:100%;height:auto;max-height:480px;object-fit:contain;border-radius:14px;margin:12px auto}
+#generatedImage{width:100%;background:#080d17}
+.progress{white-space:pre-wrap;color:var(--gold);font-size:13px}
 </style>
 </head>
 <body>
 <header>
 <h1>J.A.R.V.I.S.</h1>
-<p>PERSONAL AI ASSISTANT</p>
+<p>PERSONAL AI ASSISTANT V6</p>
 <div class="status" id="status">SYSTEM ONLINE</div>
 </header>
 
@@ -47,13 +46,13 @@ textarea{min-height:70px;resize:vertical}
 <div class="panel">
 <h2 class="gold">Assalamualaikum, Sir.</h2>
 <p>Welcome back. How may I help you?</p>
-<button class="primary" data-go="chat">Open AI Conversation</button>
-<button data-go="memory">Memory Bank</button>
+<button class="primary" data-go="chat">Open Chat</button>
+<button data-go="images">🎨 Image Generator</button>
 </div>
 <div class="panel">
 <h3>System Status</h3>
 <p>Chat: Ready to test</p>
-<p>Voice: Browser supported</p>
+<p>Image Generator: Ready to test</p>
 <p>Memory: Saved on this device</p>
 </div>
 </section>
@@ -68,23 +67,38 @@ textarea{min-height:70px;resize:vertical}
 <textarea id="message" placeholder="Message Jarvis..." required></textarea>
 <button class="primary" type="submit">Send</button>
 </form>
-<div>
 <button id="photoBtn">▧ Add Photo</button>
 <button id="micBtn">🎙 Speak</button>
 <button id="voiceBtn">🔊 Voice: ON</button>
 <button id="searchBtn">⌕ Google Search</button>
 <input id="photoInput" type="file" accept="image/*" hidden>
 <img id="preview" alt="Selected photo preview">
-<button id="analyzeBtn" hidden>Analyze Photo</button>
-<p class="small" id="photoNote">Photo preview is available. AI photo analysis needs a compatible Worker model.</p>
+<p class="small" id="photoNote">Photo preview works. AI photo analysis depends on model access.</p>
 </div>
+</section>
+
+<section id="images" class="screen">
+<div class="panel">
+<h2 class="gold">🎨 AI Image Generator</h2>
+<p class="small">Describe the image you want Jarvis to create.</p>
+<form id="imageForm">
+<textarea id="imagePrompt" maxlength="2000" placeholder="Example: A futuristic red and gold robotic assistant in a cinematic sci-fi city, glowing lights, detailed digital art..." required></textarea>
+<button class="primary" id="generateBtn" type="submit">✨ Generate Image</button>
+</form>
+<p id="imageStatus" class="progress" aria-live="polite"></p>
+<img id="generatedImage" alt="AI generated image">
+<div id="imageActions" hidden>
+<button id="downloadImage">⬇ Save Image</button>
+<button id="newImage">Create Another</button>
+</div>
+<p class="small">Generation requires the Cloudflare AI model to be available for your account. Free usage may have limits.</p>
 </div>
 </section>
 
 <section id="memory" class="screen">
 <div class="panel">
 <h2>Memory Bank</h2>
-<p class="small">Memory is saved only in this browser on this device.</p>
+<p class="small">Memories are saved in this browser on this device.</p>
 <form id="memoryForm">
 <input id="memoryInput" placeholder="Remember something..." required>
 <button class="primary" type="submit">Save Memory</button>
@@ -110,8 +124,8 @@ textarea{min-height:70px;resize:vertical}
 <label for="workerUrl">Cloudflare Worker URL</label>
 <input id="workerUrl" type="url" placeholder="https://your-worker.workers.dev">
 <button class="primary" id="saveSettings">Save Worker URL</button>
-<p class="small">Default URL is already configured. Don't share private API keys.</p>
 <button id="resetSettings">Restore Default URL</button>
+<p class="small">Keep your private keys and passwords secret.</p>
 </div>
 </section>
 </main>
@@ -119,6 +133,7 @@ textarea{min-height:70px;resize:vertical}
 <nav>
 <button class="active" data-go="home">⌂<br>Home</button>
 <button data-go="chat">◇<br>Chat</button>
+<button data-go="images">🎨<br>Images</button>
 <button data-go="memory">◎<br>Memory</button>
 <button data-go="tools">☷<br>Tools</button>
 <button data-go="settings">⚙<br>Settings</button>
@@ -128,29 +143,23 @@ textarea{min-height:70px;resize:vertical}
 (function(){
 "use strict";
 
-const DEFAULT_WORKER =
-"https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
-const $ = id => document.getElementById(id);
-
-let workerUrl = localStorage.getItem("jarvis_worker_url") || DEFAULT_WORKER;
-let voiceOn = true;
-let selectedPhoto = null;
-
-$("workerUrl").value = workerUrl;
+const DEFAULT_WORKER="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+const $=id=>document.getElementById(id);
+let workerUrl=localStorage.getItem("jarvis_worker_url")||DEFAULT_WORKER;
+let voiceOn=true;
+let selectedPhoto=null;
+let lastImageURL="";
+$("workerUrl").value=workerUrl;
 
 function showScreen(name){
  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
- const screen = $(name);
- if(screen) screen.classList.add("active");
- document.querySelectorAll("nav [data-go]").forEach(b=>{
-  b.classList.toggle("active",b.dataset.go===name);
- });
+ if($(name))$(name).classList.add("active");
+ document.querySelectorAll("nav [data-go]").forEach(b=>b.classList.toggle("active",b.dataset.go===name));
  window.scrollTo(0,0);
 }
-
 document.addEventListener("click",e=>{
- const button=e.target.closest("[data-go]");
- if(button) showScreen(button.dataset.go);
+ const b=e.target.closest("[data-go]");
+ if(b)showScreen(b.dataset.go);
 });
 
 function addMessage(text,who){
@@ -161,162 +170,104 @@ function addMessage(text,who){
  el.scrollIntoView({behavior:"smooth",block:"nearest"});
  return el;
 }
-
 function speak(text){
- if(!voiceOn || !("speechSynthesis" in window)) return;
+ if(!voiceOn||!("speechSynthesis"in window))return;
  speechSynthesis.cancel();
- const utterance=new SpeechSynthesisUtterance(text);
- utterance.lang="en-IN";
- utterance.rate=0.95;
- speechSynthesis.speak(utterance);
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang="en-IN";u.rate=.95;speechSynthesis.speak(u);
 }
-
 function makePrompt(message){
- return "You are JARVIS, a helpful personal AI assistant. " +
- "Reply naturally and respectfully. Never greet the user with Namaste. " +
- "If a greeting is appropriate, use Assalamualaikum. " +
- "Address the user as Sir when natural. Do not claim actions you did not do. " +
- "User message: " + message;
+ return "You are JARVIS, a helpful personal AI assistant. Never greet the user with Namaste. Use Assalamualaikum when appropriate. Address the user as Sir when natural. Be clear and honest. User message: "+message;
+}
+async function postJSON(payload){
+ const r=await fetch(workerUrl,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(payload)
+ });
+ let data;
+ try{data=await r.json()}catch(e){throw new Error("Worker ne valid JSON response nahi diya.")}
+ if(!r.ok)throw new Error(data.error||data.message||("HTTP "+r.status));
+ return data;
 }
 
-async function askAI(message){
- const bubble=addMessage("Connecting to AI...","jarvis");
- $("status").textContent="CONNECTING...";
- try{
-  const response=await fetch(workerUrl,{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({message:makePrompt(message)})
-  });
-  const data=await response.json();
-  if(!response.ok) throw new Error(data.error || data.message || ("HTTP "+response.status));
-  const answer=data.response || data.reply || data.text ||
-    data.result?.response || data.result?.text;
-  if(typeof answer!=="string" || !answer.trim()){
-   throw new Error("Worker response format not recognized.");
-  }
-  bubble.textContent=answer;
-  $("status").textContent="SYSTEM ONLINE";
-  speak(answer);
- }catch(err){
-  bubble.textContent="Jarvis error: "+err.message+
-   "\n\nWorker URL aur Cloudflare Worker logs check karo.";
-  $("status").textContent="CONNECTION ERROR";
- }
-}
-
-$("chatForm").addEventListener("submit",e=>{
+$("chatForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const message=$("message").value.trim();
  if(!message)return;
  $("message").value="";
  addMessage(message,"user");
- askAI(message);
+ const bubble=addMessage("Connecting to AI...","jarvis");
+ $("status").textContent="CONNECTING...";
+ try{
+  const data=await postJSON({message:makePrompt(message)});
+  const answer=data.response||data.reply||data.text||data.result?.response;
+  if(typeof answer!=="string"||!answer.trim())throw new Error("AI returned an empty response.");
+  bubble.textContent=answer;
+  speak(answer);
+  $("status").textContent="SYSTEM ONLINE";
+ }catch(err){
+  bubble.textContent="Jarvis error: "+err.message;
+  $("status").textContent="CONNECTION ERROR";
+ }
 });
 
 $("photoBtn").addEventListener("click",()=>$("photoInput").click());
-
 $("photoInput").addEventListener("change",()=>{
  const file=$("photoInput").files[0];
  if(!file)return;
- if(!file.type.startsWith("image/")){
-  $("photoNote").textContent="Please select an image file.";
-  return;
- }
- if(file.size>8*1024*1024){
-  $("photoNote").textContent="Photo 8 MB se chhoti select karo.";
-  return;
- }
+ if(!file.type.startsWith("image/")){$("photoNote").textContent="Select an image file.";return;}
+ if(file.size>5*1024*1024){$("photoNote").textContent="Select a photo smaller than 5 MB.";return;}
  selectedPhoto=file;
  $("preview").src=URL.createObjectURL(file);
  $("preview").style.display="block";
- $("analyzeBtn").hidden=false;
- $("photoNote").textContent="Photo selected. Preview ready.";
+ $("photoNote").textContent="Photo preview ready. AI analysis is not enabled by this page yet.";
 });
-
-$("analyzeBtn").addEventListener("click",()=>{
- if(!selectedPhoto)return;
- addMessage("Photo selected: "+selectedPhoto.name,"user");
- addMessage(
-  "Photo preview ready hai, Sir. AI analysis abhi available nahi hai: Cloudflare Worker ka vision model licence agreement maang raha hai. Humne photo ko AI ke paas nahi bheja.",
-  "jarvis"
- );
-});
-
 $("voiceBtn").addEventListener("click",()=>{
  voiceOn=!voiceOn;
  $("voiceBtn").textContent=voiceOn?"🔊 Voice: ON":"🔇 Voice: OFF";
- if(!voiceOn && "speechSynthesis" in window) speechSynthesis.cancel();
+ if(!voiceOn&&"speechSynthesis"in window)speechSynthesis.cancel();
 });
-
 $("micBtn").addEventListener("click",()=>{
- const Recognition=window.SpeechRecognition || window.webkitSpeechRecognition;
- if(!Recognition){
-  addMessage("Is browser mein speech recognition supported nahi hai. Keyboard se type karo.","jarvis");
-  return;
- }
- const recognition=new Recognition();
- recognition.lang="en-IN";
- recognition.onresult=e=>{
-  $("message").value=e.results[0][0].transcript;
-  $("message").focus();
- };
- recognition.onerror=()=>addMessage("Microphone error. Browser permission check karo.","jarvis");
- recognition.start();
+ const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Recognition){addMessage("Speech recognition is not supported in this browser. Type your message instead.","jarvis");return;}
+ const rec=new Recognition();rec.lang="en-IN";
+ rec.onresult=e=>{$("message").value=e.results[0][0].transcript;};
+ rec.onerror=()=>addMessage("Microphone error. Check browser permission.","jarvis");
+ rec.start();
 });
-
 function searchGoogle(){
- const query=$("message").value.trim();
- if(!query){
-  $("message").focus();
-  $("toolResult").textContent="Pehle Chat mein search query type karo.";
-  showScreen("chat");
-  return;
- }
- window.open("https://www.google.com/search?q="+encodeURIComponent(query),"_blank");
+ const q=$("message").value.trim();
+ if(!q){showScreen("chat");$("message").focus();return;}
+ window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
 }
 $("searchBtn").addEventListener("click",searchGoogle);
 $("toolSearch").addEventListener("click",()=>{showScreen("chat");searchGoogle();});
 
 function getMemories(){
- try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]");}
- catch(e){return [];}
+ try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]")}catch(e){return []}
 }
 function renderMemories(){
- const list=$("memoryList");
- list.replaceChildren();
+ const list=$("memoryList");list.replaceChildren();
  getMemories().forEach((item,index)=>{
-  const row=document.createElement("div");
-  row.className="panel";
-  const text=document.createElement("p");
-  text.textContent=item;
-  const del=document.createElement("button");
-  del.textContent="Delete";
-  del.addEventListener("click",()=>{
-   const memories=getMemories();
-   memories.splice(index,1);
-   localStorage.setItem("jarvis_memories",JSON.stringify(memories));
-   renderMemories();
+  const box=document.createElement("div");box.className="panel";
+  const p=document.createElement("p");p.textContent=item;
+  const b=document.createElement("button");b.textContent="Delete";
+  b.addEventListener("click",()=>{
+   const a=getMemories();a.splice(index,1);
+   localStorage.setItem("jarvis_memories",JSON.stringify(a));renderMemories();
   });
-  row.append(text,del);
-  list.appendChild(row);
+  box.append(p,b);list.appendChild(box);
  });
 }
 $("memoryForm").addEventListener("submit",e=>{
- e.preventDefault();
- const value=$("memoryInput").value.trim();
- if(!value)return;
- const memories=getMemories();
- memories.push(value);
- localStorage.setItem("jarvis_memories",JSON.stringify(memories));
- $("memoryInput").value="";
- renderMemories();
+ e.preventDefault();const v=$("memoryInput").value.trim();if(!v)return;
+ const a=getMemories();a.push(v);
+ localStorage.setItem("jarvis_memories",JSON.stringify(a));
+ $("memoryInput").value="";renderMemories();
 });
 $("clearMemory").addEventListener("click",()=>{
- if(confirm("Saari saved memories delete karni hain?")){
-  localStorage.removeItem("jarvis_memories");
-  renderMemories();
- }
+ if(confirm("Delete all saved memories?")){localStorage.removeItem("jarvis_memories");renderMemories();}
 });
 renderMemories();
 
@@ -324,25 +275,65 @@ $("testVoice").addEventListener("click",()=>{
  speak("Assalamualaikum, Sir. Yes, Sir. How may I help you?");
  $("toolResult").textContent="Voice test requested.";
 });
-$("testWorker").addEventListener("click",()=>askAI("Reply exactly: Worker connection successful."));
-$("saveSettings").addEventListener("click",()=>{
- const value=$("workerUrl").value.trim();
+$("testWorker").addEventListener("click",async()=>{
+ $("toolResult").textContent="Testing connection...";
  try{
-  const url=new URL(value);
-  if(url.protocol!=="https:")throw new Error();
-  workerUrl=url.href.replace(/\/$/,"");
+  const data=await postJSON({message:"Reply exactly: Worker connection successful."});
+  $("toolResult").textContent=data.response||data.reply||data.text||"Connected, but response format was unexpected.";
+ }catch(e){$("toolResult").textContent="Connection error: "+e.message;}
+});
+$("saveSettings").addEventListener("click",()=>{
+ try{
+  const u=new URL($("workerUrl").value.trim());
+  if(u.protocol!=="https:")throw new Error();
+  workerUrl=u.href.replace(/\/$/,"");
   localStorage.setItem("jarvis_worker_url",workerUrl);
   $("toolResult").textContent="Worker URL saved.";
   $("status").textContent="SETTINGS SAVED";
- }catch(e){
-  $("toolResult").textContent="Valid HTTPS Worker URL enter karo.";
- }
+ }catch(e){$("toolResult").textContent="Enter a valid HTTPS Worker URL.";}
 });
 $("resetSettings").addEventListener("click",()=>{
- workerUrl=DEFAULT_WORKER;
- $("workerUrl").value=workerUrl;
+ workerUrl=DEFAULT_WORKER;$("workerUrl").value=workerUrl;
  localStorage.setItem("jarvis_worker_url",workerUrl);
  $("toolResult").textContent="Default Worker URL restored.";
+});
+
+// IMAGE GENERATION
+$("imageForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const prompt=$("imagePrompt").value.trim();
+ if(!prompt)return;
+ const btn=$("generateBtn");
+ btn.disabled=true;
+ $("imageStatus").textContent="Sending prompt to image model...\nPlease wait.";
+ $("generatedImage").style.display="none";
+ $("imageActions").hidden=true;
+ try{
+  const data=await postJSON({action:"generateImage",prompt});
+  if(!data.dataURI)throw new Error("No image returned. Check Worker code and model access.");
+  lastImageURL=data.dataURI;
+  $("generatedImage").src=lastImageURL;
+  $("generatedImage").style.display="block";
+  $("imageActions").hidden=false;
+  $("imageStatus").textContent="Image generated successfully!";
+ }catch(err){
+  $("imageStatus").textContent="Image generation failed:\n"+err.message+
+   "\n\nCheck that the latest Worker code is deployed and the model is available.";
+ }finally{
+  btn.disabled=false;
+ }
+});
+$("downloadImage").addEventListener("click",()=>{
+ if(!lastImageURL)return;
+ const a=document.createElement("a");
+ a.href=lastImageURL;a.download="jarvis-generated-image.png";
+ document.body.appendChild(a);a.click();a.remove();
+});
+$("newImage").addEventListener("click",()=>{
+ $("imagePrompt").focus();
+ $("imageStatus").textContent="Enter a new prompt.";
+ $("generatedImage").style.display="none";
+ $("imageActions").hidden=true;
 });
 
 })();
