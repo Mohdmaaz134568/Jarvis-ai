@@ -673,4 +673,196 @@ $("rate").value = localStorage.getItem(KEYS.rate) || "0.9";
 $("pitch").value = localStorage.getItem(KEYS.pitch) || "0.8";
 $("rate").addEventListener("change", () =>
   localStorage.setItem(KEYS.rate, $("rate").value));
+
 $("pitch").addEventListener("change", () =>
+  localStorage.setItem(KEYS.pitch, $("pitch").value)
+);
+
+// VOICE
+function speakText(text) {
+  if (!("speechSynthesis" in window)) {
+    $("voiceNotice").textContent = "Voice is not supported in this browser.";
+    return;
+  }
+
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  const selected = availableVoices.find(
+    voice => voice.name === $("voiceSelect").value
+  );
+
+  if (selected) utterance.voice = selected;
+  utterance.rate = Number($("rate").value) || 0.9;
+  utterance.pitch = Number($("pitch").value) || 0.8;
+  utterance.lang = getLanguage() === "hinglish" ? "en-IN" : "en-US";
+
+  utterance.onstart = () => setStatus("SPEAKING...");
+  utterance.onend = () => setStatus("SYSTEM READY");
+  utterance.onerror = () => {
+    $("voiceNotice").textContent = "Voice playback failed.";
+    setStatus("SYSTEM READY");
+  };
+
+  speechSynthesis.speak(utterance);
+}
+
+$("testVoice").addEventListener("click", () => {
+  $("voiceNotice").textContent = "Testing device voice...";
+  speakText(
+    getLanguage() === "hinglish"
+      ? "Assalamualaikum, Sir. Jarvis systems are ready."
+      : "Good day, Sir. Jarvis systems are ready."
+  );
+});
+
+$("stopVoice").addEventListener("click", () => {
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  setStatus("SYSTEM READY");
+  $("voiceNotice").textContent = "Voice stopped.";
+});
+
+// MICROPHONE
+$("micBtn").addEventListener("click", () => {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    $("chatNotice").textContent =
+      "Speech recognition is not supported in this browser. Try Chrome.";
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = getLanguage() === "hinglish" ? "en-IN" : "en-US";
+  recognition.onstart = () => {
+    $("chatNotice").textContent = "Listening...";
+  };
+  recognition.onresult = event => {
+    $("messageInput").value =
+      event.results[0][0].transcript;
+    $("messageInput").focus();
+    $("chatNotice").textContent = "Voice captured. Press SEND.";
+  };
+  recognition.onerror = event => {
+    $("chatNotice").textContent =
+      "Microphone error: " + event.error;
+  };
+  recognition.start();
+});
+
+// MEMORY
+function renderNotes() {
+  const container = $("savedNotes");
+  container.replaceChildren();
+
+  if (!notes.length) {
+    container.textContent = "No saved notes yet.";
+    return;
+  }
+
+  notes.forEach((note, index) => {
+    const card = document.createElement("div");
+    card.className = "panel";
+
+    const content = document.createElement("p");
+    content.textContent = note.text;
+
+    const remove = document.createElement("button");
+    remove.className = "small-btn";
+    remove.textContent = "Delete";
+    remove.addEventListener("click", () => {
+      notes.splice(index, 1);
+      writeJSON(KEYS.notes, notes);
+      renderNotes();
+    });
+
+    card.append(content, remove);
+    container.appendChild(card);
+  });
+}
+
+$("searchMemory").addEventListener("click", () => {
+  const query = $("memorySearch").value.trim().toLowerCase();
+  const results = $("memoryResults");
+  results.replaceChildren();
+
+  if (!query) {
+    results.textContent = "Enter a word or topic to search.";
+    return;
+  }
+
+  const matches = history.filter(item =>
+    String(item.content || "").toLowerCase().includes(query)
+  ).slice(-20);
+
+  const savedMatches = notes.filter(note =>
+    String(note.text || "").toLowerCase().includes(query)
+  );
+
+  if (!matches.length && !savedMatches.length) {
+    results.textContent = "No matching memories found.";
+    return;
+  }
+
+  [...savedMatches.map(n => "Saved note: " + n.text),
+   ...matches.map(m => m.role + ": " + m.content)]
+    .forEach(text => {
+      const line = document.createElement("p");
+      line.textContent = text;
+      results.appendChild(line);
+    });
+});
+
+$("saveNote").addEventListener("click", () => {
+  const text = $("memoryNote").value.trim();
+
+  if (!text) {
+    $("memoryResults").textContent = "Write a note first.";
+    return;
+  }
+
+  notes.push({ text, time: new Date().toISOString() });
+  writeJSON(KEYS.notes, notes);
+  $("memoryNote").value = "";
+  $("memoryResults").textContent = "Note saved.";
+  renderNotes();
+});
+
+$("clearNotes").addEventListener("click", () => {
+  if (!confirm("Delete all saved notes?")) return;
+
+  notes = [];
+  writeJSON(KEYS.notes, notes);
+  renderNotes();
+  $("memoryResults").textContent = "Saved notes cleared.";
+});
+
+// SETTINGS
+$("workerUrl").value = workerURL;
+
+$("saveSettings").addEventListener("click", () => {
+  const value = $("workerUrl").value.trim();
+
+  try {
+    const parsed = new URL(value);
+
+    if (parsed.protocol !== "https:") {
+      throw new Error("Use an HTTPS Worker URL.");
+    }
+
+    workerURL = value.replace(/\/+$/, "");
+    localStorage.setItem(KEYS.url, workerURL);
+    $("workerUrl").value = workerURL;
+    $("settingsNotice").textContent = "Settings saved.";
+  } catch (error) {
+    $("settingsNotice").textContent =
+      "Invalid Worker URL. Please check it and try again.";
+  }
+});
+
+// INITIALIZE
+renderChat();
+renderNotes();
+loadVoices();
+setStatus("SYSTEM READY");
+  
