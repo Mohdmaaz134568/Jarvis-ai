@@ -5,46 +5,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#100809">
-<title>JARVIS V3</title>
+<title>JARVIS V4</title>
 <style>
-:root{--bg:#100809;--panel:#211315;--red:#ff1744;--gold:#ffc857;--white:#fff4ed}
+:root{--bg:#100809;--panel:#211315;--red:#ff1744;--gold:#ffc857;--txt:#fff4ed;--muted:#c4b1b0}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#47101b,#100809 65%);color:var(--white);font-family:Arial,sans-serif;padding-bottom:80px}
-header{padding:18px;border-bottom:1px solid #68452f;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:24px;letter-spacing:3px;color:var(--gold);font-weight:bold}
+body{margin:0;background:radial-gradient(ellipse at top,#48101b,#100809 65%);color:var(--txt);font-family:Arial,sans-serif;padding-bottom:78px}
+header{position:sticky;top:0;z-index:3;background:#160c0ef2;padding:15px;border-bottom:1px solid #68452f;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;letter-spacing:3px;color:var(--gold);font-weight:bold}
 .status{font-size:11px;color:#6fffc0}
-main{max-width:650px;margin:auto;padding:15px}
+main{max-width:720px;margin:auto;padding:14px}
 .screen{display:none}.screen.active{display:block}
-.panel{background:linear-gradient(145deg,#291719,#160d0f);border:1px solid #63402e;border-radius:20px;padding:18px;margin-bottom:14px}
+.panel{background:linear-gradient(145deg,#291719,#160d0f);border:1px solid #63402e;border-radius:19px;padding:17px;margin-bottom:14px}
 .eyebrow{color:var(--gold);font-size:11px;letter-spacing:3px}
-h1{font-size:29px}h2{font-size:21px}
-p{color:#c8b8b5;line-height:1.5}
+h1{font-size:28px}h2{font-size:21px;margin:12px 0}
+p{color:var(--muted);line-height:1.5}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer;border:1px solid #68432f;border-radius:12px;background:#2a1719;color:var(--gold);padding:12px}
 button.primary{background:var(--red);border-color:var(--red);color:white}
 button:disabled{opacity:.5}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{text-align:left;min-height:90px;color:white}
+.tile{text-align:left;min-height:86px;color:white}
 .tile span{display:block;color:var(--gold);font-size:22px;margin-bottom:8px}
 input,textarea,select{width:100%;padding:12px;background:#100b0d;color:white;border:1px solid #654231;border-radius:11px;margin:7px 0}
 textarea{min-height:75px;resize:vertical}
-.chatbox{height:40vh;min-height:220px;overflow:auto;background:#100b0d;border:1px solid #49302b;border-radius:12px;padding:10px}
+label{display:block;margin-top:12px;color:var(--muted);font-size:14px}
+.chatbox{height:43vh;min-height:230px;overflow:auto;background:#100b0d;border:1px solid #49302b;border-radius:12px;padding:10px}
 .msg{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;padding:11px;margin:8px 0;border-radius:12px}
-.bot{background:#292020;margin-right:12px}
-.user{background:#51202a;margin-left:12px}
-.small{font-size:12px;color:#bba9a9}
-nav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(4,1fr);background:#140d0f;border-top:1px solid #68452f;padding:7px 3px calc(7px + env(safe-area-inset-bottom))}
-nav button{border:0;background:transparent;font-size:12px;padding:9px 2px;color:#c4b2b0}
-nav button b{display:block;font-size:20px;margin-bottom:3px}
+.bot{background:#292020;margin-right:12px}.user{background:#51202a;margin-left:12px}
+.small{font-size:12px;color:var(--muted)}
+nav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);background:#140d0f;border-top:1px solid #68452f;padding:6px 2px calc(6px + env(safe-area-inset-bottom))}
+nav button{border:0;background:transparent;font-size:11px;padding:8px 1px;color:#c4b2b0}
+nav button b{display:block;font-size:19px;margin-bottom:3px}
 nav button.active{color:var(--gold);background:#40151e}
-hr{border:0;border-top:1px solid #49302b;margin:17px 0}
+hr{border:0;border-top:1px solid #49302b;margin:16px 0}
+img.preview{max-width:100%;max-height:280px;object-fit:contain;border-radius:12px;display:block;margin-top:12px}
+.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}
+@media(min-width:500px){main{padding:22px}.chatbox{height:390px}}
 </style>
 </head>
 <body>
 <header>
- <div><div class="logo">J.A.R.V.I.S.</div><div class="small">PERSONAL AI SYSTEM</div></div>
- <div class="status">● ONLINE</div>
+ <div><div class="logo">J.A.R.V.I.S.</div><div class="small">PERSONAL AI • V4</div></div>
+ <div class="status">● SYSTEM READY</div>
 </header>
 
 <main>
@@ -60,21 +63,19 @@ hr{border:0;border-top:1px solid #49302b;margin:17px 0}
   </div>
  </div>
  <div class="panel">
-  <div class="eyebrow">COMMAND CENTRE</div>
-  <h2>Systems</h2>
+  <div class="eyebrow">COMMAND CENTRE</div><h2>Your systems</h2>
   <div class="tiles">
    <button class="tile" data-go="chat"><span>◉</span>AI Chat</button>
-   <button class="tile" data-go="memory"><span>▤</span>Memory</button>
-   <button class="tile" data-go="settings"><span>⚙</span>Voice Settings</button>
-   <button class="tile" id="webSearch"><span>⌕</span>Web Search</button>
+   <button class="tile" data-go="memory"><span>▤</span>Memory Bank</button>
+   <button class="tile" data-go="tools"><span>⌕</span>Photo & Search</button>
+   <button class="tile" data-go="settings"><span>⚙</span>Settings</button>
   </div>
  </div>
 </section>
 
 <section id="chat" class="screen">
  <div class="panel">
-  <div class="eyebrow">SECURE CHANNEL</div>
-  <h2>Chat with Jarvis</h2>
+  <div class="eyebrow">AI CONVERSATION</div><h2>Chat with Jarvis</h2>
   <div id="chatbox" class="chatbox" aria-live="polite">
    <div class="msg bot">Assalamualaikum, Sir. How may I assist you?</div>
   </div>
@@ -87,36 +88,69 @@ hr{border:0;border-top:1px solid #49302b;margin:17px 0}
    </div>
   </form>
   <div id="chatStatus" class="small">Ready, Sir.</div>
-  <hr>
-  <button id="clearChat">CLEAR CHAT</button>
+  <div class="actions"><button id="clearChat">CLEAR CHAT</button><button id="stopVoice">STOP VOICE</button></div>
  </div>
 </section>
 
 <section id="memory" class="screen">
  <div class="panel">
-  <div class="eyebrow">PERSONAL DATABASE</div>
-  <h2>Memory Bank</h2>
-  <p>Memory is saved in this browser on this device.</p>
+  <div class="eyebrow">PERSONAL DATABASE</div><h2>Memory Bank</h2>
+  <p>Memories are stored in this browser on this device.</p>
   <input id="memoryInput" placeholder="e.g. My favourite game is BGMI">
   <button class="primary" id="saveMemory">SAVE MEMORY</button>
   <div id="memoryList"></div>
-  <hr>
-  <button id="clearMemory">CLEAR ALL MEMORY</button>
+  <hr><button id="clearMemory">CLEAR ALL MEMORY</button>
+ </div>
+</section>
+
+<section id="tools" class="screen">
+ <div class="panel">
+  <div class="eyebrow">WEB TOOL</div><h2>Search the Web</h2>
+  <form id="searchForm">
+   <input id="searchInput" placeholder="What do you want to search?" required>
+   <button class="primary" type="submit">SEARCH GOOGLE</button>
+  </form>
+  <p class="small">This opens Google results. It does not give the AI live web access.</p>
+ </div>
+ <div class="panel">
+  <div class="eyebrow">PHOTO TOOL</div><h2>Choose a Photo</h2>
+  <input type="file" id="photoInput" accept="image/*">
+  <img id="photoPreview" class="preview" alt="Selected photo preview" hidden>
+  <button id="removePhoto">REMOVE PHOTO</button>
+  <p class="small">This is a local preview only. The photo is not sent to the AI and is not analysed.</p>
+ </div>
+ <div class="panel">
+  <div class="eyebrow">IMAGE STUDIO</div><h2>AI Image Generation</h2>
+  <p>Image generation is not connected in this version. A compatible image-generation service is required.</p>
+  <button id="imageSearch">SEARCH IMAGE TOOLS</button>
  </div>
 </section>
 
 <section id="settings" class="screen">
  <div class="panel">
-  <div class="eyebrow">PREFERENCES</div>
-  <h2>Voice Settings</h2>
+  <div class="eyebrow">PREFERENCES</div><h2>Voice & Personality</h2>
   <label for="voiceSelect">Device voice</label>
-  <select id="voiceSelect"><option value="">Default voice</option></select>
+  <select id="voiceSelect"><option value="">Default device voice</option></select>
   <label for="rate">Speaking speed</label>
   <input id="rate" type="range" min=".75" max="1.2" step=".05" value=".95">
   <label for="pitch">Voice pitch</label>
   <input id="pitch" type="range" min=".7" max="1.3" step=".05" value=".95">
+  <label for="personality">AI personality</label>
+  <select id="personality">
+   <option>Professional Jarvis</option><option>Friendly</option><option>Concise</option>
+  </select>
   <button class="primary" id="testVoiceSettings">TEST VOICE</button>
-  <p class="small">Available voices depend on your phone and browser.</p>
+  <p class="small">Personality is sent as an instruction to the AI. Actual voice choices depend on your device.</p>
+ </div>
+ <div class="panel">
+  <div class="eyebrow">REMINDERS</div><h2>Set a Reminder</h2>
+  <input id="reminderText" placeholder="Reminder name">
+  <label for="reminderMinutes">Remind me in how many minutes?</label>
+  <input id="reminderMinutes" type="number" min="1" max="1440" value="5">
+  <button class="primary" id="setReminder">SET REMINDER</button>
+  <button id="cancelReminder">CANCEL REMINDER</button>
+  <p id="reminderStatus" class="small">No active reminder.</p>
+  <p class="small">Keep this page open. This timer is not a reliable background or phone-locked reminder.</p>
  </div>
 </section>
 </main>
@@ -125,6 +159,7 @@ hr{border:0;border-top:1px solid #49302b;margin:17px 0}
  <button class="active" data-go="home"><b>⌂</b>Home</button>
  <button data-go="chat"><b>◉</b>Chat</button>
  <button data-go="memory"><b>▤</b>Memory</button>
+ <button data-go="tools"><b>⌕</b>Tools</button>
  <button data-go="settings"><b>⚙</b>Settings</button>
 </nav>
 
@@ -132,36 +167,28 @@ hr{border:0;border-top:1px solid #49302b;margin:17px 0}
 (function(){
 "use strict";
 
-/* Existing Cloudflare Worker */
+/* Preserve your existing Cloudflare Worker */
 const WORKER_URL="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
 const $=id=>document.getElementById(id);
 let latestReply="Assalamualaikum, Sir. How may I assist you?";
-let voices=[];
+let voices=[],reminderTimer=null;
 
 function go(name){
- document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
- const target=$(name);
- if(target)target.classList.add("active");
- document.querySelectorAll("nav [data-go]").forEach(b=>{
-  b.classList.toggle("active",b.dataset.go===name);
- });
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ const target=$(name);if(target)target.classList.add("active");
+ document.querySelectorAll("nav [data-go]").forEach(b=>b.classList.toggle("active",b.dataset.go===name));
  window.scrollTo(0,0);
  if(name==="memory")renderMemory();
 }
-document.querySelectorAll("[data-go]").forEach(b=>{
- b.addEventListener("click",()=>go(b.dataset.go));
-});
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 
 function speak(text){
- if(!("speechSynthesis" in window)){
-  alert("Voice support is unavailable in this browser.");return;
- }
+ if(!("speechSynthesis" in window)){alert("Voice support is unavailable in this browser.");return}
  speechSynthesis.cancel();
- const clean=String(text).replace(/[*_#`]/g,"");
- const u=new SpeechSynthesisUtterance(clean);
- const selected=voices.find(v=>v.name===$("voiceSelect").value);
- if(selected)u.voice=selected;
- u.lang=selected?selected.lang:"en-IN";
+ const u=new SpeechSynthesisUtterance(String(text).replace(/[*_#`]/g,""));
+ const v=voices.find(x=>x.name===$("voiceSelect").value);
+ if(v)u.voice=v;
+ u.lang=v?v.lang:"en-IN";
  u.rate=Number($("rate").value)||.95;
  u.pitch=Number($("pitch").value)||.95;
  speechSynthesis.speak(u);
@@ -170,131 +197,134 @@ function loadVoices(){
  if(!("speechSynthesis" in window))return;
  voices=speechSynthesis.getVoices();
  const s=$("voiceSelect"),old=s.value;
- s.innerHTML='<option value="">Default voice</option>';
+ s.innerHTML='<option value="">Default device voice</option>';
  voices.forEach(v=>{
-  const o=document.createElement("option");
-  o.value=v.name;o.textContent=v.name+" ("+v.lang+")";s.appendChild(o);
+  const o=document.createElement("option");o.value=v.name;o.textContent=v.name+" ("+v.lang+")";s.appendChild(o);
  });
  if(old)s.value=old;
 }
-if("speechSynthesis" in window){
- loadVoices();speechSynthesis.onvoiceschanged=loadVoices;
-}
+if("speechSynthesis" in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
 $("testVoice").addEventListener("click",()=>speak("Yes, Sir. How may I help you?"));
 $("testVoiceSettings").addEventListener("click",()=>speak("Assalamualaikum, Sir. Good morning, Sir."));
+$("stopVoice").addEventListener("click",()=>{if("speechSynthesis" in window)speechSynthesis.cancel()});
 
-function memories(){
- try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]")}
- catch(e){return []}
+function getMemories(){
+ try{return JSON.parse(localStorage.getItem("jarvis_v4_memories")||"[]")}catch(e){return []}
 }
 function renderMemory(){
  const box=$("memoryList");box.replaceChildren();
- const list=memories();
- if(!list.length){box.textContent="No saved memories yet.";return}
- list.forEach((item,index)=>{
+ const arr=getMemories();
+ if(!arr.length){box.textContent="No saved memories yet.";return}
+ arr.forEach((item,i)=>{
   const row=document.createElement("div");row.className="panel";
   const p=document.createElement("p");p.textContent=item;
   const b=document.createElement("button");b.textContent="DELETE";
-  b.addEventListener("click",()=>{
-   const a=memories();a.splice(index,1);
-   localStorage.setItem("jarvis_memories",JSON.stringify(a));renderMemory();
-  });
+  b.addEventListener("click",()=>{const a=getMemories();a.splice(i,1);localStorage.setItem("jarvis_v4_memories",JSON.stringify(a));renderMemory()});
   row.append(p,b);box.appendChild(row);
  });
 }
 $("saveMemory").addEventListener("click",()=>{
- const v=$("memoryInput").value.trim();if(!v)return;
- const a=memories();a.push(v);
- localStorage.setItem("jarvis_memories",JSON.stringify(a));
+ const val=$("memoryInput").value.trim();if(!val)return;
+ const a=getMemories();a.push(val);
+ localStorage.setItem("jarvis_v4_memories",JSON.stringify(a));
  $("memoryInput").value="";renderMemory();
 });
 $("clearMemory").addEventListener("click",()=>{
- if(confirm("Delete all saved memories?")){
-  localStorage.setItem("jarvis_memories","[]");renderMemory();
- }
+ if(confirm("Delete all saved memories?")){localStorage.setItem("jarvis_v4_memories","[]");renderMemory()}
 });
 
 function addMessage(text,type){
- const el=document.createElement("div");
- el.className="msg "+type;el.textContent=text;
- $("chatbox").appendChild(el);$("chatbox").scrollTop=$("chatbox").scrollHeight;
+ const d=document.createElement("div");d.className="msg "+type;d.textContent=text;
+ $("chatbox").appendChild(d);$("chatbox").scrollTop=$("chatbox").scrollHeight;
 }
-
-/* Greetings handled locally */
 function greeting(text){
  const t=text.toLowerCase().trim().replace(/[!.?,]+$/,"");
- if(/^(hello|hi|hey|hello jarvis|hi jarvis)$/.test(t))
-  return "Yes, Sir. How may I help you?";
- if(/^(good morning|morning)$/.test(t))
-  return "Good morning, Sir. How may I assist you?";
- if(/^(good afternoon)$/.test(t))
-  return "Good afternoon, Sir.";
- if(/^(good evening)$/.test(t))
-  return "Good evening, Sir.";
- if(/^(assalamualaikum|salam|assalamu alaikum)$/.test(t))
-  return "Wa Alaikum Assalam, Sir. How may I help you?";
- if(/^(thank you|thanks|thank you jarvis)$/.test(t))
-  return "You're welcome, Sir.";
+ if(/^(hello|hi|hey|hello jarvis|hi jarvis)$/.test(t))return "Yes, Sir. How may I help you?";
+ if(/^(good morning|morning)$/.test(t))return "Good morning, Sir. How may I assist you?";
+ if(/^good afternoon$/.test(t))return "Good afternoon, Sir.";
+ if(/^good evening$/.test(t))return "Good evening, Sir.";
+ if(/^(assalamualaikum|salam|assalamu alaikum)$/.test(t))return "Wa Alaikum Assalam, Sir. How may I help you?";
+ if(/^(thank you|thanks)$/.test(t))return "You're welcome, Sir.";
  return null;
 }
-
-$("chatForm").addEventListener("submit",async function(e){
+$("chatForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const text=$("message").value.trim();if(!text)return;
- $("message").value="";
- addMessage(text,"user");
- $("sendBtn").disabled=true;
- $("chatStatus").textContent="Processing, Sir...";
+ $("message").value="";addMessage(text,"user");
+ $("sendBtn").disabled=true;$("chatStatus").textContent="Thinking, Sir...";
  try{
   const g=greeting(text);
-  if(g){
-   latestReply=g;
-  }else{
-   const saved=memories();
+  if(g){latestReply=g}
+  else{
    const response=await fetch(WORKER_URL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-     message:"You are Jarvis, a polite professional personal AI assistant. Address the user as Sir when natural. Do not say Namaste. Prefer Assalamualaikum for an Islamic greeting. Reply in the language the user uses. Be helpful and concise. Saved memories: "+saved.join("; ")+". User says: "+text
-    })
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({message:
+     "You are Jarvis, a helpful professional personal AI. Address the user as Sir when natural. Never greet with Namaste. Use Assalamualaikum for Islamic greetings. Reply in the user's language and be helpful. Personality: "+$("personality").value+
+     ". Saved memories (may be relevant): "+getMemories().join("; ")+
+     ". User message: "+text})
    });
    const data=await response.json();
    if(!response.ok)throw new Error(data.error||"HTTP "+response.status);
-   latestReply=data.reply||data.response||data.text||"Sorry, Sir. I received an empty response.";
-   latestReply=latestReply.replace(/\bNamaste\b/gi,"Assalamualaikum");
-   latestReply=latestReply.replace(/\bBoss\b/gi,"Sir");
+   latestReply=data.reply||data.response||data.text||"Sorry, Sir. The AI returned an empty reply.";
+   latestReply=latestReply.replace(/\bNamaste\b/gi,"Assalamualaikum").replace(/\bBoss\b/gi,"Sir");
   }
-  addMessage(latestReply,"bot");
-  speak(latestReply);
+  addMessage(latestReply,"bot");speak(latestReply);
   $("chatStatus").textContent="Ready, Sir.";
  }catch(err){
-  latestReply="Sorry, Sir. I couldn't connect to the AI service. Error: "+err.message;
-  addMessage(latestReply,"bot");
-  $("chatStatus").textContent="Connection failed. Check the Worker.";
+  latestReply="Sorry, Sir. AI connection failed: "+err.message;
+  addMessage(latestReply,"bot");$("chatStatus").textContent="Connection failed. Check Worker settings.";
  }finally{$("sendBtn").disabled=false}
 });
-
 $("repeatBtn").addEventListener("click",()=>speak(latestReply));
 $("clearChat").addEventListener("click",()=>{
- $("chatbox").innerHTML="";
- latestReply="Assalamualaikum, Sir. How may I assist you?";
+ $("chatbox").replaceChildren();latestReply="Assalamualaikum, Sir. How may I assist you?";
  addMessage(latestReply,"bot");
 });
-$("webSearch").addEventListener("click",()=>{
- const q=prompt("What should I search for, Sir?");
- if(q&&q.trim())window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
-});
+
 $("micBtn").addEventListener("click",()=>{
  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SR){alert("Please try Chrome. Speech recognition may not be supported here.");return}
+ if(!SR){alert("Speech recognition is not supported here. Try Chrome.");return}
  const r=new SR();r.lang="en-IN";r.interimResults=false;
  $("chatStatus").textContent="Listening, Sir...";
- r.onresult=e=>{
-  $("message").value=e.results[0][0].transcript;
-  $("chatStatus").textContent="Message ready. Press SEND.";
- };
+ r.onresult=e=>{$("message").value=e.results[0][0].transcript;$("chatStatus").textContent="Message ready. Press SEND."};
  r.onerror=e=>$("chatStatus").textContent="Microphone error: "+e.error;
  try{r.start()}catch(e){$("chatStatus").textContent="Could not start microphone."}
+});
+
+$("searchForm").addEventListener("submit",e=>{
+ e.preventDefault();const q=$("searchInput").value.trim();
+ if(q)window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
+});
+$("imageSearch").addEventListener("click",()=>window.open("https://www.google.com/search?q=free+AI+image+generator","_blank"));
+
+$("photoInput").addEventListener("change",()=>{
+ const f=$("photoInput").files[0],img=$("photoPreview");
+ if(!f){img.hidden=true;img.removeAttribute("src");return}
+ if(!f.type.startsWith("image/")){alert("Please choose an image file.");return}
+ img.src=URL.createObjectURL(f);img.hidden=false;
+});
+$("removePhoto").addEventListener("click",()=>{
+ const img=$("photoPreview");
+ if(img.src.startsWith("blob:"))URL.revokeObjectURL(img.src);
+ img.removeAttribute("src");img.hidden=true;$("photoInput").value="";
+});
+
+$("setReminder").addEventListener("click",()=>{
+ const text=$("reminderText").value.trim()||"Your reminder";
+ const mins=Number($("reminderMinutes").value);
+ if(!Number.isFinite(mins)||mins<1||mins>1440){alert("Enter 1 to 1440 minutes.");return}
+ if(reminderTimer)clearTimeout(reminderTimer);
+ $("reminderStatus").textContent="Reminder set for "+mins+" minute(s). Keep this page open.";
+ reminderTimer=setTimeout(()=>{
+  reminderTimer=null;
+  $("reminderStatus").textContent="Reminder: "+text;
+  alert("Jarvis Reminder: "+text);
+  speak("Reminder, Sir. "+text);
+ },mins*60000);
+});
+$("cancelReminder").addEventListener("click",()=>{
+ if(reminderTimer)clearTimeout(reminderTimer);
+ reminderTimer=null;$("reminderStatus").textContent="No active reminder.";
 });
 })();
 </script>
