@@ -1,332 +1,130 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#100809">
-<title>JARVIS V4</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090b12">
+<title>JARVIS V5</title>
 <style>
-:root{--bg:#100809;--panel:#211315;--red:#ff1744;--gold:#ffc857;--txt:#fff4ed;--muted:#c4b1b0}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#48101b,#100809 65%);color:var(--txt);font-family:Arial,sans-serif;padding-bottom:78px}
-header{position:sticky;top:0;z-index:3;background:#160c0ef2;padding:15px;border-bottom:1px solid #68452f;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:23px;letter-spacing:3px;color:var(--gold);font-weight:bold}
-.status{font-size:11px;color:#6fffc0}
-main{max-width:720px;margin:auto;padding:14px}
-.screen{display:none}.screen.active{display:block}
-.panel{background:linear-gradient(145deg,#291719,#160d0f);border:1px solid #63402e;border-radius:19px;padding:17px;margin-bottom:14px}
-.eyebrow{color:var(--gold);font-size:11px;letter-spacing:3px}
-h1{font-size:28px}h2{font-size:21px;margin:12px 0}
-p{color:var(--muted);line-height:1.5}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:1px solid #68432f;border-radius:12px;background:#2a1719;color:var(--gold);padding:12px}
-button.primary{background:var(--red);border-color:var(--red);color:white}
-button:disabled{opacity:.5}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{text-align:left;min-height:86px;color:white}
-.tile span{display:block;color:var(--gold);font-size:22px;margin-bottom:8px}
-input,textarea,select{width:100%;padding:12px;background:#100b0d;color:white;border:1px solid #654231;border-radius:11px;margin:7px 0}
-textarea{min-height:75px;resize:vertical}
-label{display:block;margin-top:12px;color:var(--muted);font-size:14px}
-.chatbox{height:43vh;min-height:230px;overflow:auto;background:#100b0d;border:1px solid #49302b;border-radius:12px;padding:10px}
-.msg{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;padding:11px;margin:8px 0;border-radius:12px}
-.bot{background:#292020;margin-right:12px}.user{background:#51202a;margin-left:12px}
-.small{font-size:12px;color:var(--muted)}
-nav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);background:#140d0f;border-top:1px solid #68452f;padding:6px 2px calc(6px + env(safe-area-inset-bottom))}
-nav button{border:0;background:transparent;font-size:11px;padding:8px 1px;color:#c4b2b0}
-nav button b{display:block;font-size:19px;margin-bottom:3px}
-nav button.active{color:var(--gold);background:#40151e}
-hr{border:0;border-top:1px solid #49302b;margin:16px 0}
-img.preview{max-width:100%;max-height:280px;object-fit:contain;border-radius:12px;display:block;margin-top:12px}
-.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}
-@media(min-width:500px){main{padding:22px}.chatbox{height:390px}}
+:root{--bg:#080a10;--panel:#111621;--panel2:#171e2b;--red:#ff3b3b;--gold:#ffc857;--text:#f5f7fb;--muted:#9ca8bb;--line:#30394b;--green:#4ce0a1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#24151c 0,#080a10 48%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer}.app{max-width:1150px;margin:auto;padding:16px 14px 100px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px 18px}.brand{display:flex;align-items:center;gap:10px}.core{width:42px;height:42px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 18px #ffc85745,inset 0 0 12px #ff3b3b44;color:var(--gold);font-weight:900}.brand h1{font-size:18px;letter-spacing:3px;margin:0}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:3px}.status{font-size:11px;color:var(--green);border:1px solid #4ce0a14a;border-radius:20px;padding:7px 10px;white-space:nowrap}.screen{display:none}.screen.active{display:block}.hero{border:1px solid #ffc85755;background:linear-gradient(135deg,#21151cdd,#101722ee);border-radius:22px;padding:24px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffc85730;border-radius:50%;right:-70px;top:-65px;box-shadow:0 0 0 18px #ffc85708,0 0 0 38px #ffc85706}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;text-transform:uppercase}.hero h2{font-size:clamp(27px,6vw,43px);line-height:1.08;margin:12px 0}.hero p{color:var(--muted);max-width:560px;line-height:1.6;margin-bottom:18px}.actions{display:flex;flex-wrap:wrap;gap:10px}.btn{border:1px solid var(--line);background:#202838;color:var(--text);padding:11px 14px;border-radius:12px;font-weight:650}.btn.primary{background:linear-gradient(135deg,#ff3b3b,#a91525);border-color:#ff6767;box-shadow:0 5px 22px #ff3b3b24}.btn.gold{background:linear-gradient(135deg,#ffc857,#bb791a);color:#17110a;border:0}.btn:disabled{opacity:.5;cursor:not-allowed}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}.tile,.panel{background:linear-gradient(150deg,#151c28,#0e131c);border:1px solid var(--line);border-radius:17px;padding:16px}.tile .symbol{font-size:23px}.tile h3{margin:10px 0 5px;font-size:15px}.tile p,.sub{color:var(--muted);font-size:12px;line-height:1.5;margin:0}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 2px 12px}.section-title h2{font-size:19px;margin:0}.section-title small{color:var(--muted)}.panel{margin-top:12px}.chatlog{display:flex;flex-direction:column;gap:12px;min-height:180px;max-height:52vh;overflow:auto;padding:4px 2px 14px}.bubble{max-width:90%;padding:12px 14px;border-radius:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bubble.jarvis{align-self:flex-start;background:#1b2534;border:1px solid #3a465a;border-bottom-left-radius:4px}.bubble.user{align-self:flex-end;background:#54232b;border:1px solid #a73b48;border-bottom-right-radius:4px}.bubble img{display:block;max-width:100%;max-height:220px;border-radius:10px;margin-top:8px}.who{font-size:10px;letter-spacing:1px;color:var(--gold);margin-bottom:4px}.compose{display:flex;gap:8px;align-items:flex-end}.compose textarea{flex:1;resize:vertical;min-height:48px;max-height:140px;border:1px solid var(--line);border-radius:13px;background:#090e17;color:var(--text);padding:13px;outline:none}.compose textarea:focus,input:focus{border-color:var(--gold)}.toolrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tiny{font-size:12px;padding:8px 10px}.preview{display:none;margin-top:12px;border:1px dashed #59667a;border-radius:14px;padding:10px}.preview img{display:block;max-width:100%;max-height:260px;margin:auto;border-radius:10px}.preview .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}.field{width:100%;background:#090e17;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:12px;margin:6px 0 12px}.memory-list{display:flex;flex-direction:column;gap:8px}.memory-item{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#0c121b;border:1px solid var(--line);padding:11px;border-radius:12px;overflow-wrap:anywhere}.bottomnav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:flex;justify-content:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#090b12ee;backdrop-filter:blur(14px);border-top:1px solid #30394b}.navinner{width:min(700px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.navbtn{border:0;background:transparent;color:var(--muted);padding:9px 3px;border-radius:10px;font-size:11px}.navbtn span{display:block;font-size:18px;margin-bottom:4px}.navbtn.active{background:#2a1b20;color:var(--gold);outline:1px solid #ffc85740}.notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px}.pill{display:inline-block;font-size:10px;padding:4px 8px;border:1px solid var(--line);border-radius:20px;color:var(--muted)}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hr{height:1px;background:var(--line);margin:14px 0}.toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:20;background:#182233;border:1px solid var(--gold);padding:10px 14px;border-radius:12px;display:none;max-width:90%;font-size:13px}.danger{border-color:#7d303b;color:#ff9ca5}.foot{text-align:center;color:#647084;font-size:10px;margin:24px 0}
+@media(max-width:650px){.app{padding:10px 10px 100px}.cards{grid-template-columns:1fr 1fr}.tile{padding:13px}.hero{padding:20px}.split{grid-template-columns:1fr}.brand h1{font-size:16px}.status{font-size:10px;padding:6px 8px}.chatlog{max-height:48vh}.bubble{max-width:95%}}
+@media(max-width:380px){.cards{grid-template-columns:1fr}.compose .sendlabel{display:none}}
 </style>
 </head>
 <body>
-<header>
- <div><div class="logo">J.A.R.V.I.S.</div><div class="small">PERSONAL AI • V4</div></div>
- <div class="status">● SYSTEM READY</div>
+<div class="toast" id="toast"></div>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="core">J</div><div><h1>J.A.R.V.I.S.</h1><small>PERSONAL AI SYSTEM · V5</small></div></div>
+  <div class="status">● SYSTEM ONLINE</div>
 </header>
 
-<main>
-<section id="home" class="screen active">
- <div class="panel" style="text-align:center;padding:25px 14px">
-  <div style="font-size:65px;color:var(--gold)">◉</div>
-  <div class="eyebrow">STARK SYSTEMS</div>
-  <h1>Assalamualaikum, Sir.</h1>
-  <p>Your personal assistant is ready.</p>
-  <div class="actions" style="justify-content:center">
-   <button class="primary" data-go="chat">OPEN CHAT</button>
-   <button id="testVoice">TEST VOICE</button>
+<section class="screen active" id="home">
+  <div class="hero">
+    <div class="eyebrow">Stark interface / personal assistant</div>
+    <h2>Assalamualaikum,<br>Sir.</h2>
+    <p>Jarvis is ready. Chat, ask about a photo, use voice, and manage your personal notes from one place.</p>
+    <div class="actions"><button class="btn primary" onclick="showScreen('chat')">Open Chat →</button><button class="btn gold" onclick="startVoice()">🎙 Talk to Jarvis</button></div>
   </div>
- </div>
- <div class="panel">
-  <div class="eyebrow">COMMAND CENTRE</div><h2>Your systems</h2>
-  <div class="tiles">
-   <button class="tile" data-go="chat"><span>◉</span>AI Chat</button>
-   <button class="tile" data-go="memory"><span>▤</span>Memory Bank</button>
-   <button class="tile" data-go="tools"><span>⌕</span>Photo & Search</button>
-   <button class="tile" data-go="settings"><span>⚙</span>Settings</button>
+  <div class="cards">
+    <button class="tile" onclick="showScreen('chat')" style="text-align:left;color:inherit"><div class="symbol">◈</div><h3>AI Chat</h3><p>Ask questions and get replies.</p></button>
+    <button class="tile" onclick="showScreen('chat');document.getElementById('photoInput').click()" style="text-align:left;color:inherit"><div class="symbol">▧</div><h3>Photo AI</h3><p>Choose an image and ask about it.</p></button>
+    <button class="tile" onclick="showScreen('memory')" style="text-align:left;color:inherit"><div class="symbol">◉</div><h3>Memory</h3><p>Save and manage notes on this device.</p></button>
   </div>
- </div>
+  <div class="panel"><div class="section-title" style="margin-top:0"><h2>Quick command</h2><span class="pill">READY</span></div><div class="actions"><button class="btn tiny" onclick="quickAsk('Tell me a useful fact')">Useful fact</button><button class="btn tiny" onclick="quickAsk('Help me plan my day')">Plan my day</button><button class="btn tiny" onclick="showScreen('tools')">Open tools</button></div></div>
 </section>
 
-<section id="chat" class="screen">
- <div class="panel">
-  <div class="eyebrow">AI CONVERSATION</div><h2>Chat with Jarvis</h2>
-  <div id="chatbox" class="chatbox" aria-live="polite">
-   <div class="msg bot">Assalamualaikum, Sir. How may I assist you?</div>
+<section class="screen" id="chat">
+  <div class="section-title"><h2>AI Conversation</h2><button class="btn tiny" onclick="clearChat()">Clear chat</button></div>
+  <div class="panel">
+    <div class="chatlog" id="chatlog"><div class="bubble jarvis"><div class="who">JARVIS</div>Assalamualaikum, Sir. Yes, Sir. How may I help you?</div></div>
+    <form id="chatForm">
+      <div class="compose"><textarea id="message" placeholder="Message Jarvis..." rows="1"></textarea><button class="btn primary" id="sendBtn" type="submit">➤ <span class="sendlabel">Send</span></button></div>
+    </form>
+    <div class="toolrow">
+      <button class="btn tiny" onclick="document.getElementById('photoInput').click()">▧ Add photo</button>
+      <button class="btn tiny" onclick="startVoice()">🎙 Speak</button>
+      <button class="btn tiny" onclick="toggleSpeech()">🔊 Voice replies: <span id="voiceState">ON</span></button>
+      <button class="btn tiny" onclick="openSearch()">⌕ Google Search</button>
+      <input type="file" id="photoInput" accept="image/*" hidden>
+    </div>
+    <div class="preview" id="previewBox"><img id="previewImg" alt="Selected photo preview"><div class="row"><span class="sub" id="photoName">Photo selected</span><button class="btn tiny danger" onclick="removePhoto()">Remove</button></div><p class="notice">Photo analysis sends the selected image to your Cloudflare Worker. Avoid uploading private or sensitive photos.</p><div class="toolrow"><button class="btn gold" id="analyzeBtn" onclick="analyzePhoto()">Analyze Photo</button></div></div>
+    <p class="notice">Jarvis memory is stored in this browser only. Do not enter passwords, API keys, or other secrets.</p>
   </div>
-  <form id="chatForm">
-   <textarea id="message" placeholder="Type your message, Sir..." required></textarea>
-   <div class="actions">
-    <button class="primary" id="sendBtn" type="submit">SEND ➤</button>
-    <button type="button" id="micBtn">🎙 MIC</button>
-    <button type="button" id="repeatBtn">🔊 REPEAT</button>
-   </div>
-  </form>
-  <div id="chatStatus" class="small">Ready, Sir.</div>
-  <div class="actions"><button id="clearChat">CLEAR CHAT</button><button id="stopVoice">STOP VOICE</button></div>
- </div>
 </section>
 
-<section id="memory" class="screen">
- <div class="panel">
-  <div class="eyebrow">PERSONAL DATABASE</div><h2>Memory Bank</h2>
-  <p>Memories are stored in this browser on this device.</p>
-  <input id="memoryInput" placeholder="e.g. My favourite game is BGMI">
-  <button class="primary" id="saveMemory">SAVE MEMORY</button>
-  <div id="memoryList"></div>
-  <hr><button id="clearMemory">CLEAR ALL MEMORY</button>
- </div>
+<section class="screen" id="memory">
+  <div class="section-title"><h2>Personal Memory</h2><span class="pill">THIS DEVICE</span></div>
+  <div class="panel">
+    <label for="memoryInput" class="sub">Save a note or preference</label><textarea class="field" id="memoryInput" rows="3" placeholder="Example: Remember that I prefer short Hinglish answers."></textarea>
+    <button class="btn primary" onclick="saveMemory()">Save memory</button>
+    <div class="hr"></div><div class="section-title"><h2>Saved memories</h2><button class="btn tiny danger" onclick="clearMemory()">Delete all</button></div>
+    <div class="memory-list" id="memoryList"></div>
+    <p class="notice">These notes are saved in local browser storage. They are not automatically shared with the AI chat.</p>
+  </div>
 </section>
 
-<section id="tools" class="screen">
- <div class="panel">
-  <div class="eyebrow">WEB TOOL</div><h2>Search the Web</h2>
-  <form id="searchForm">
-   <input id="searchInput" placeholder="What do you want to search?" required>
-   <button class="primary" type="submit">SEARCH GOOGLE</button>
-  </form>
-  <p class="small">This opens Google results. It does not give the AI live web access.</p>
- </div>
- <div class="panel">
-  <div class="eyebrow">PHOTO TOOL</div><h2>Choose a Photo</h2>
-  <input type="file" id="photoInput" accept="image/*">
-  <img id="photoPreview" class="preview" alt="Selected photo preview" hidden>
-  <button id="removePhoto">REMOVE PHOTO</button>
-  <p class="small">This is a local preview only. The photo is not sent to the AI and is not analysed.</p>
- </div>
- <div class="panel">
-  <div class="eyebrow">IMAGE STUDIO</div><h2>AI Image Generation</h2>
-  <p>Image generation is not connected in this version. A compatible image-generation service is required.</p>
-  <button id="imageSearch">SEARCH IMAGE TOOLS</button>
- </div>
+<section class="screen" id="tools">
+  <div class="section-title"><h2>Tools</h2><span class="pill">QUICK ACCESS</span></div>
+  <div class="cards">
+    <button class="tile" onclick="openSearch()" style="text-align:left;color:inherit"><div class="symbol">⌕</div><h3>Google Search</h3><p>Open a search in a new tab.</p></button>
+    <button class="tile" onclick="showScreen('chat');startVoice()" style="text-align:left;color:inherit"><div class="symbol">🎙</div><h3>Voice input</h3><p>Speak a prompt to Jarvis.</p></button>
+    <button class="tile" onclick="showScreen('memory')" style="text-align:left;color:inherit"><div class="symbol">◉</div><h3>Memory manager</h3><p>Save and remove local notes.</p></button>
+  </div>
+  <div class="panel"><h3>Image generation</h3><p class="sub">Image generation is not built into this Worker yet. Use a separate image-generation service if needed.</p><div class="toolrow"><button class="btn" onclick="window.open('https://www.google.com/search?tbm=isch&q=AI+image+generator','_blank','noopener')">Find image tools ↗</button></div></div>
 </section>
 
-<section id="settings" class="screen">
- <div class="panel">
-  <div class="eyebrow">PREFERENCES</div><h2>Voice & Personality</h2>
-  <label for="voiceSelect">Device voice</label>
-  <select id="voiceSelect"><option value="">Default device voice</option></select>
-  <label for="rate">Speaking speed</label>
-  <input id="rate" type="range" min=".75" max="1.2" step=".05" value=".95">
-  <label for="pitch">Voice pitch</label>
-  <input id="pitch" type="range" min=".7" max="1.3" step=".05" value=".95">
-  <label for="personality">AI personality</label>
-  <select id="personality">
-   <option>Professional Jarvis</option><option>Friendly</option><option>Concise</option>
-  </select>
-  <button class="primary" id="testVoiceSettings">TEST VOICE</button>
-  <p class="small">Personality is sent as an instruction to the AI. Actual voice choices depend on your device.</p>
- </div>
- <div class="panel">
-  <div class="eyebrow">REMINDERS</div><h2>Set a Reminder</h2>
-  <input id="reminderText" placeholder="Reminder name">
-  <label for="reminderMinutes">Remind me in how many minutes?</label>
-  <input id="reminderMinutes" type="number" min="1" max="1440" value="5">
-  <button class="primary" id="setReminder">SET REMINDER</button>
-  <button id="cancelReminder">CANCEL REMINDER</button>
-  <p id="reminderStatus" class="small">No active reminder.</p>
-  <p class="small">Keep this page open. This timer is not a reliable background or phone-locked reminder.</p>
- </div>
+<section class="screen" id="settings">
+  <div class="section-title"><h2>System settings</h2><span class="pill">V5</span></div>
+  <div class="panel">
+    <label class="sub" for="workerUrl">Cloudflare Worker URL</label>
+    <input class="field" id="workerUrl" type="url" value="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev" placeholder="https://your-worker.workers.dev">
+    <button class="btn primary" onclick="saveSettings()">Save Worker URL</button>
+    <div class="hr"></div>
+    <div class="split"><div><h3>Voice replies</h3><p class="sub">Uses your browser/device speech voice.</p><button class="btn tiny" onclick="toggleSpeech()">Toggle voice</button></div><div><h3>Test connection</h3><p class="sub">Checks whether the Worker responds.</p><button class="btn tiny" onclick="testConnection()">Test Worker</button></div></div>
+    <p class="notice">No API key is stored in this page. Keep provider secrets on the server, never in public GitHub code.</p>
+  </div>
 </section>
-</main>
+<div class="foot">JARVIS V5 · Personal assistant interface · Not affiliated with Marvel</div>
+</div>
 
-<nav>
- <button class="active" data-go="home"><b>⌂</b>Home</button>
- <button data-go="chat"><b>◉</b>Chat</button>
- <button data-go="memory"><b>▤</b>Memory</button>
- <button data-go="tools"><b>⌕</b>Tools</button>
- <button data-go="settings"><b>⚙</b>Settings</button>
-</nav>
+<nav class="bottomnav"><div class="navinner">
+<button class="navbtn active" data-screen="home" onclick="showScreen('home')"><span>⌂</span>Home</button>
+<button class="navbtn" data-screen="chat" onclick="showScreen('chat')"><span>◈</span>Chat</button>
+<button class="navbtn" data-screen="memory" onclick="showScreen('memory')"><span>◉</span>Memory</button>
+<button class="navbtn" data-screen="tools" onclick="showScreen('tools')"><span>⚙</span>Tools</button>
+<button class="navbtn" data-screen="settings" onclick="showScreen('settings')"><span>☷</span>Settings</button>
+</div></nav>
 
 <script>
-(function(){
-"use strict";
+const DEFAULT_WORKER = "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+let WORKER_URL = localStorage.getItem("jarvis_worker_url") || DEFAULT_WORKER;
+let selectedImage = "";
+let selectedImageName = "";
+let voiceReplies = localStorage.getItem("jarvis_voice") !== "off";
+const $ = id => document.getElementById(id);
+$("workerUrl").value = WORKER_URL;
+$("voiceState").textContent = voiceReplies ? "ON" : "OFF";
 
-/* Preserve your existing Cloudflare Worker */
-const WORKER_URL="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
-const $=id=>document.getElementById(id);
-let latestReply="Assalamualaikum, Sir. How may I assist you?";
-let voices=[],reminderTimer=null;
-
-function go(name){
- document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
- const target=$(name);if(target)target.classList.add("active");
- document.querySelectorAll("nav [data-go]").forEach(b=>b.classList.toggle("active",b.dataset.go===name));
- window.scrollTo(0,0);
- if(name==="memory")renderMemory();
-}
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
-
-function speak(text){
- if(!("speechSynthesis" in window)){alert("Voice support is unavailable in this browser.");return}
- speechSynthesis.cancel();
- const u=new SpeechSynthesisUtterance(String(text).replace(/[*_#`]/g,""));
- const v=voices.find(x=>x.name===$("voiceSelect").value);
- if(v)u.voice=v;
- u.lang=v?v.lang:"en-IN";
- u.rate=Number($("rate").value)||.95;
- u.pitch=Number($("pitch").value)||.95;
- speechSynthesis.speak(u);
-}
-function loadVoices(){
- if(!("speechSynthesis" in window))return;
- voices=speechSynthesis.getVoices();
- const s=$("voiceSelect"),old=s.value;
- s.innerHTML='<option value="">Default device voice</option>';
- voices.forEach(v=>{
-  const o=document.createElement("option");o.value=v.name;o.textContent=v.name+" ("+v.lang+")";s.appendChild(o);
- });
- if(old)s.value=old;
-}
-if("speechSynthesis" in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
-$("testVoice").addEventListener("click",()=>speak("Yes, Sir. How may I help you?"));
-$("testVoiceSettings").addEventListener("click",()=>speak("Assalamualaikum, Sir. Good morning, Sir."));
-$("stopVoice").addEventListener("click",()=>{if("speechSynthesis" in window)speechSynthesis.cancel()});
-
-function getMemories(){
- try{return JSON.parse(localStorage.getItem("jarvis_v4_memories")||"[]")}catch(e){return []}
-}
-function renderMemory(){
- const box=$("memoryList");box.replaceChildren();
- const arr=getMemories();
- if(!arr.length){box.textContent="No saved memories yet.";return}
- arr.forEach((item,i)=>{
-  const row=document.createElement("div");row.className="panel";
-  const p=document.createElement("p");p.textContent=item;
-  const b=document.createElement("button");b.textContent="DELETE";
-  b.addEventListener("click",()=>{const a=getMemories();a.splice(i,1);localStorage.setItem("jarvis_v4_memories",JSON.stringify(a));renderMemory()});
-  row.append(p,b);box.appendChild(row);
- });
-}
-$("saveMemory").addEventListener("click",()=>{
- const val=$("memoryInput").value.trim();if(!val)return;
- const a=getMemories();a.push(val);
- localStorage.setItem("jarvis_v4_memories",JSON.stringify(a));
- $("memoryInput").value="";renderMemory();
-});
-$("clearMemory").addEventListener("click",()=>{
- if(confirm("Delete all saved memories?")){localStorage.setItem("jarvis_v4_memories","[]");renderMemory()}
-});
-
-function addMessage(text,type){
- const d=document.createElement("div");d.className="msg "+type;d.textContent=text;
- $("chatbox").appendChild(d);$("chatbox").scrollTop=$("chatbox").scrollHeight;
-}
-function greeting(text){
- const t=text.toLowerCase().trim().replace(/[!.?,]+$/,"");
- if(/^(hello|hi|hey|hello jarvis|hi jarvis)$/.test(t))return "Yes, Sir. How may I help you?";
- if(/^(good morning|morning)$/.test(t))return "Good morning, Sir. How may I assist you?";
- if(/^good afternoon$/.test(t))return "Good afternoon, Sir.";
- if(/^good evening$/.test(t))return "Good evening, Sir.";
- if(/^(assalamualaikum|salam|assalamu alaikum)$/.test(t))return "Wa Alaikum Assalam, Sir. How may I help you?";
- if(/^(thank you|thanks)$/.test(t))return "You're welcome, Sir.";
- return null;
-}
-$("chatForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const text=$("message").value.trim();if(!text)return;
- $("message").value="";addMessage(text,"user");
- $("sendBtn").disabled=true;$("chatStatus").textContent="Thinking, Sir...";
- try{
-  const g=greeting(text);
-  if(g){latestReply=g}
-  else{
-   const response=await fetch(WORKER_URL,{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:
-     "You are Jarvis, a helpful professional personal AI. Address the user as Sir when natural. Never greet with Namaste. Use Assalamualaikum for Islamic greetings. Reply in the user's language and be helpful. Personality: "+$("personality").value+
-     ". Saved memories (may be relevant): "+getMemories().join("; ")+
-     ". User message: "+text})
-   });
-   const data=await response.json();
-   if(!response.ok)throw new Error(data.error||"HTTP "+response.status);
-   latestReply=data.reply||data.response||data.text||"Sorry, Sir. The AI returned an empty reply.";
-   latestReply=latestReply.replace(/\bNamaste\b/gi,"Assalamualaikum").replace(/\bBoss\b/gi,"Sir");
-  }
-  addMessage(latestReply,"bot");speak(latestReply);
-  $("chatStatus").textContent="Ready, Sir.";
- }catch(err){
-  latestReply="Sorry, Sir. AI connection failed: "+err.message;
-  addMessage(latestReply,"bot");$("chatStatus").textContent="Connection failed. Check Worker settings.";
- }finally{$("sendBtn").disabled=false}
-});
-$("repeatBtn").addEventListener("click",()=>speak(latestReply));
-$("clearChat").addEventListener("click",()=>{
- $("chatbox").replaceChildren();latestReply="Assalamualaikum, Sir. How may I assist you?";
- addMessage(latestReply,"bot");
-});
-
-$("micBtn").addEventListener("click",()=>{
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SR){alert("Speech recognition is not supported here. Try Chrome.");return}
- const r=new SR();r.lang="en-IN";r.interimResults=false;
- $("chatStatus").textContent="Listening, Sir...";
- r.onresult=e=>{$("message").value=e.results[0][0].transcript;$("chatStatus").textContent="Message ready. Press SEND."};
- r.onerror=e=>$("chatStatus").textContent="Microphone error: "+e.error;
- try{r.start()}catch(e){$("chatStatus").textContent="Could not start microphone."}
-});
-
-$("searchForm").addEventListener("submit",e=>{
- e.preventDefault();const q=$("searchInput").value.trim();
- if(q)window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
-});
-$("imageSearch").addEventListener("click",()=>window.open("https://www.google.com/search?q=free+AI+image+generator","_blank"));
-
-$("photoInput").addEventListener("change",()=>{
- const f=$("photoInput").files[0],img=$("photoPreview");
- if(!f){img.hidden=true;img.removeAttribute("src");return}
- if(!f.type.startsWith("image/")){alert("Please choose an image file.");return}
- img.src=URL.createObjectURL(f);img.hidden=false;
-});
-$("removePhoto").addEventListener("click",()=>{
- const img=$("photoPreview");
- if(img.src.startsWith("blob:"))URL.revokeObjectURL(img.src);
- img.removeAttribute("src");img.hidden=true;$("photoInput").value="";
-});
-
-$("setReminder").addEventListener("click",()=>{
- const text=$("reminderText").value.trim()||"Your reminder";
- const mins=Number($("reminderMinutes").value);
- if(!Number.isFinite(mins)||mins<1||mins>1440){alert("Enter 1 to 1440 minutes.");return}
- if(reminderTimer)clearTimeout(reminderTimer);
- $("reminderStatus").textContent="Reminder set for "+mins+" minute(s). Keep this page open.";
- reminderTimer=setTimeout(()=>{
-  reminderTimer=null;
-  $("reminderStatus").textContent="Reminder: "+text;
-  alert("Jarvis Reminder: "+text);
-  speak("Reminder, Sir. "+text);
- },mins*60000);
-});
-$("cancelReminder").addEventListener("click",()=>{
- if(reminderTimer)clearTimeout(reminderTimer);
- reminderTimer=null;$("reminderStatus").textContent="No active reminder.";
-});
-})();
-</script>
-</body>
-</html>
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.style.display="none",3000)}
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.screen===id));window.scrollTo({top:0,behavior:"smooth"})}
+function saveSettings(){const v=$("workerUrl").value.trim();if(!v.startsWith("https://"))return toast("Worker URL https:// se shuru hona chahiye.");WORKER_URL=v.replace(/\/+$/,"");localStorage.setItem("jarvis_worker_url",WORKER_URL);toast("Worker URL saved.")}
+function toggleSpeech(){voiceReplies=!voiceReplies;localStorage.setItem("jarvis_voice",voiceReplies?"on":"off");$("voiceState").textContent=voiceReplies?"ON":"OFF";toast("Voice replies "+(voiceReplies?"ON":"OFF"))}
+function say(text){if(!voiceReplies||!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-IN";u.rate=.94;u.pitch=.92;window.speechSynthesis.speak(u)}
+function addBubble(text,who="jarvis",image=""){const b=document.createElement("div");b.className="bubble "+who;const label=document.createElement("div");label.className="who";label.textContent=who==="user"?"YOU":"JARVIS";b.appendChild(label);const body=document.createElement("div");body.textContent=text;b.appendChild(body);if(image){const img=document.createElement("img");img.src=image;img.alt="Photo sent with message";b.appendChild(img)}$("chatlog").appendChild(b);$("chatlog").scrollTop=$("chatlog").scrollHeight;return b}
+function clearChat(){$("chatlog").innerHTML='<div class="bubble jarvis"><div class="who">JARVIS</div>Assalamualaikum, Sir. Yes, Sir. How may I help you?</div>';toast("Chat cleared.")}
+function quickAsk(text){showScreen("chat");$("message").value=text;sendMessage(text)}
+function openSearch(){const q=$("message").value.trim();window.open("https://www.google.com/search?q="+encodeURIComponent(q||"Google Search"),"_blank","noopener")}
+async function sendMessage(text){text=(text||"").trim();if(!text&&!selectedImage)return;if(!text&&selectedImage)text="Please describe this photo and answer what you can observe.";addBubble(text,"user",selectedImage);const sentImage=selectedImage;const b=addBubble("Connecting to AI…");$("sendBtn").disabled=true;try{const payload={message:text};if(sentImage)payload.image=sentImage;const res=await fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.error||data.message||("HTTP "+res.status));const reply=data.reply||data.response||data.result?.response||data.result||"AI ne empty response diya.";b.lastChild.textContent=typeof reply==="string"?reply:JSON.stringify(reply);say(typeof reply==="string"?reply:JSON.stringify(reply));if(sentImage)removePhoto();}catch(e){b.lastChild.textContent="Jarvis connection error: "+e.message+"\nCheck Worker deployment, AI binding, and Cloudflare logs.";toast("AI request failed. Check Worker.");}finally{$("sendBtn").disabled=false}}
+$("chatForm").addEventListener("submit",e=>{e.preventDefault();const text=$("message").value;$("message").value="";sendMessage(text)});
+$("message").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("chatForm").requestSubmit()}});
+$("photoInput").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith("image/"))return toast("Please choose an image.");if(f.size>4*1024*1024){e.target.value="";return toast("Photo 4 MB se chhoti choose karo.");}const reader=new FileReader();reader.onload=()=>{selectedImage=String(reader.result||"");selectedImageName=f.name;$("previewImg").src=selectedImage;$("photoName").textContent=f.name;$("previewBox").style.display="block";toast("Photo ready. Analyze Photo dabao.");};reader.onerror=()=>toast("Photo read nahi ho saki.");reader.readAsDataURL(f)});
+function removePhoto(){selectedImage="";selectedImageName="";$("photoInput").value="";$("previewImg").removeAttribute("src");$("previewBox").style.display="none"}
+async function analyzePhoto(){if(!selectedImage)return toast("Pehle photo select karo.");const prompt=$("message").value.trim()||"Describe this image in simple Hinglish. Explain the visible objects and any readable text. If something is unclear, say so."; $("message").value="";await sendMessage(prompt)}
+function startVoice(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return toast("Is browser mein voice input support nahi hai. Chrome try karo.");const rec=new SR();rec.lang="en-IN";rec.interimResults=false;rec.maxAlternatives=1;toast("Listening… bolo, Sir.");rec.onresult=e=>{const text=e.results[0][0].transcript;$("message").value=text;showScreen("chat");sendMessage(text)};rec.onerror=e=>toast("Mic error: "+e.error+". Mic permission check karo.");rec.start()}
+async function testConnection(){saveSettings();try{const r=await fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:"Reply with exactly: Jarvis connection OK"})});const d=await r.json();if(!r.ok)throw new Error(d.error||"HTTP "+r.status);toast("Worker response received: "+String(d.reply||d.response||"OK").slice(0,65));}catch(e){toast("Connection test failed: "+e.message)}}
+function getMemories(){try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]")}catch{return []}}
+function renderMemories(){const list=$("memoryList");list.innerHTML="";const arr=getMemories();if(!arr.length){list.innerHTML='<p class="sub">Abhi koi memory saved nahi hai.</p>';return}arr.forEach((m,i)=>{const row=document.createElement("div");row.className="memory-item";const txt=document.createElement("span");txt.textContent=m;const del=document.createElement("button");del.className="btn tiny danger";del.textContent="Delete";del.onclick=()=>{const a=getMemories();a.splice(i,1);localStorage.setItem("jarvis_memories",JSON.stringify(a));renderMemories();toast("Memory deleted.")};row.append(txt,del);list.appendChild(row)})}
+function saveMemory(){const v=$("memoryInput").value.trim();if(!v)return toast("Pehle note likho.");const a=getMemories();a.unshift(v);
