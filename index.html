@@ -9,860 +9,649 @@
 
 <style>
 :root {
+  --bg:#090b12;
+  --panel:#111622;
+  --panel2:#171d2a;
   --red:#ff343b;
   --gold:#ffc45c;
   --cyan:#6beaff;
-  --bg:#080b12;
-  --panel:#111722;
-  --line:#57432c;
-  --text:#f5f3ee;
-  --muted:#9da9b9;
+  --text:#f4f6fb;
+  --muted:#98a3b7;
+  --line:#30394b;
 }
 * { box-sizing:border-box; }
 body {
   margin:0;
-  background:
-    radial-gradient(ellipse at 50% 0%,#3a171b 0,transparent 44%),
-    var(--bg);
+  background:radial-gradient(ellipse at top,#20202b 0,#090b12 58%);
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
 }
-button,input,select,textarea { font:inherit; }
+button,input,textarea,select { font:inherit; }
 button {
-  color:var(--text);
-  background:#171d29;
-  border:1px solid var(--line);
-  border-radius:9px;
-  padding:11px 13px;
   cursor:pointer;
-  transition:.2s;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:11px 14px;
+  background:#171d2a;
 }
-button:hover {
-  border-color:var(--gold);
-  box-shadow:0 0 12px #ffc45c22;
-}
+button:hover { border-color:var(--gold); }
 button:disabled { opacity:.5; cursor:wait; }
-header {
+button.primary {
+  background:linear-gradient(120deg,#8e171f,#e7353c);
+  border-color:var(--red);
+}
+button.gold {
+  color:#1b1205;
+  background:linear-gradient(120deg,#ffad36,#ffe19a);
+  border-color:var(--gold);
+  font-weight:bold;
+}
+input,textarea,select {
+  width:100%;
+  padding:12px;
+  color:var(--text);
+  background:#0b101a;
+  border:1px solid var(--line);
+  border-radius:12px;
+  outline:none;
+}
+input:focus,textarea:focus,select:focus { border-color:var(--cyan); }
+textarea { resize:vertical; min-height:85px; }
+.topbar {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  padding:15px;
-  border-bottom:1px solid var(--line);
-  background:#080b12eF;
+  gap:12px;
+  padding:16px;
+  border-bottom:1px solid #38303a;
+  background:#090b12dd;
   position:sticky;
   top:0;
   z-index:5;
+  backdrop-filter:blur(12px);
 }
-.logo { color:var(--gold); font-weight:900; letter-spacing:3px; }
-.status { color:#71f5a1; font-size:11px; margin-top:5px; }
-select,input,textarea {
-  width:100%;
-  background:#0b1019;
-  color:var(--text);
-  border:1px solid #394354;
-  border-radius:9px;
-  padding:12px;
-  outline:none;
-}
-select:focus,input:focus,textarea:focus { border-color:var(--gold); }
-.layout {
-  display:grid;
-  grid-template-columns:175px minmax(0,1fr);
-  max-width:1150px;
-  margin:auto;
-  min-height:calc(100vh - 70px);
-}
-nav {
-  border-right:1px solid var(--line);
-  padding:14px 10px;
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-}
-nav button { text-align:left; }
-nav button.active {
-  color:var(--gold);
-  border-color:var(--gold);
-  background:#2a2018;
-}
-main { min-width:0; padding:18px; }
-.screen { display:none; }
-.screen.active { display:block; }
-h1,h2,h3 { color:var(--gold); }
-h1 { font-size:25px; }
-p { line-height:1.5; }
-.muted { color:var(--muted); font-size:13px; }
-.panel {
-  background:linear-gradient(145deg,#151b27,#0d1119);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
-}
-.reactor-wrap {
-  display:flex;
-  justify-content:center;
-  padding:16px 0 24px;
-}
+.brand { display:flex; align-items:center; gap:11px; }
+.brand h1 { margin:0; font-size:20px; letter-spacing:3px; }
+.brand small { display:block; color:var(--gold); margin-top:4px; letter-spacing:2px; }
 .reactor {
-  width:180px;
-  height:180px;
+  width:43px;
+  height:43px;
+  border:3px solid var(--gold);
   border-radius:50%;
   display:grid;
   place-items:center;
-  position:relative;
-  background:repeating-conic-gradient(
-    from 0deg,#ffc45c 0deg 3deg,transparent 3deg 12deg
-  );
-  box-shadow:0 0 22px #ff343b55,0 0 45px #ffc45c20;
-  animation:spin 18s linear infinite;
+  box-shadow:0 0 16px #ffb52d55,inset 0 0 12px #ffb52d33;
+  color:var(--cyan);
+  font-size:21px;
 }
-.reactor::before {
-  content:"";
-  position:absolute;
-  inset:12px;
-  border:3px solid var(--red);
+.status { color:#8df5b4; font-size:12px; white-space:nowrap; }
+.app {
+  width:min(1100px,100%);
+  margin:auto;
+  padding:16px;
+}
+.nav {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:12px;
+}
+.nav button { flex:0 0 auto; }
+.nav button.active { border-color:var(--gold); color:var(--gold); }
+.panel {
+  background:linear-gradient(145deg,#141a27ed,#0d111aef);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 12px 35px #0003;
+}
+.view { display:none; }
+.view.active { display:block; }
+h2 { margin:0 0 12px; font-size:21px; }
+h3 { margin:0 0 10px; }
+p { line-height:1.5; }
+.muted { color:var(--muted); }
+.goldtext { color:var(--gold); }
+.cyantext { color:var(--cyan); }
+.hero {
+  text-align:center;
+  padding:32px 16px;
+}
+.hero .bigreactor {
+  width:116px;
+  height:116px;
+  border:5px solid var(--gold);
   border-radius:50%;
-  box-shadow:inset 0 0 20px #ff343b44;
+  margin:4px auto 22px;
+  display:grid;
+  place-items:center;
+  font-size:56px;
+  color:var(--cyan);
+  box-shadow:0 0 35px #ffb52d44,inset 0 0 25px #6beaff22;
 }
-.reactor-core {
-  width:90px;
-  height:90px;
-  border:5px solid var(--cyan);
-  border-radius:50%;
-  background:radial-gradient(circle,#fff 0,#6beaff 15%,#155d85 50%,#101722 75%);
-  box-shadow:0 0 18px var(--cyan),inset 0 0 15px #fff;
+.hero h2 { font-size:30px; letter-spacing:4px; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
 }
-@keyframes spin { to { transform:rotate(360deg); } }
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.actions { display:flex; flex-wrap:wrap; gap:8px; }
-.gold { color:var(--gold); }
-.chat-log {
-  height:48vh;
-  min-height:260px;
+.tile {
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:#111723;
+  text-align:left;
+  min-height:95px;
+}
+.tile b { display:block; color:var(--gold); margin-bottom:8px; }
+.row { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+.row > .grow { flex:1; min-width:150px; }
+.row button { flex:0 0 auto; }
+.chatlog {
+  height:min(48vh,480px);
+  min-height:250px;
   overflow-y:auto;
   display:flex;
   flex-direction:column;
   gap:12px;
-  padding:12px 0;
+  padding:8px 2px 16px;
 }
-.message {
-  max-width:95%;
-  padding:12px;
-  border-radius:12px;
+.msg {
+  padding:12px 14px;
+  border-radius:14px;
+  max-width:92%;
   line-height:1.5;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
 }
-.user {
+.msg.user {
   align-self:flex-end;
-  background:#33271b;
-  border:1px solid #8b6534;
+  background:#64232a;
+  border:1px solid #a83a40;
 }
-.assistant {
+.msg.jarvis {
   align-self:flex-start;
-  background:#131c28;
-  border:1px solid #344557;
+  background:#18202d;
+  border:1px solid #364257;
 }
-.chat-form { display:flex; gap:8px; align-items:stretch; }
-.chat-form input { min-width:0; }
-.chat-form button { flex-shrink:0; }
-.small-btn { padding:8px 10px; font-size:12px; }
-.preview {
-  max-width:100%;
-  max-height:430px;
-  border-radius:12px;
+.msg .who {
   display:block;
-  margin-top:12px;
-}
-.notice {
-  color:var(--muted);
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  font-size:13px;
-}
-footer {
-  text-align:center;
-  color:var(--muted);
+  color:var(--gold);
   font-size:11px;
-  padding:18px;
+  margin-bottom:5px;
+  letter-spacing:1px;
 }
-@media(max-width:650px) {
-  .layout { display:block; }
-  nav {
-    position:sticky;
-    top:61px;
-    z-index:4;
-    flex-direction:row;
-    overflow-x:auto;
-    background:#0b0e16;
-    border-right:0;
-    border-bottom:1px solid var(--line);
-  }
-  nav button { white-space:nowrap; padding:10px; }
-  main { padding:13px; }
-  .grid2 { grid-template-columns:1fr; }
-  .reactor { width:145px; height:145px; }
-  .reactor-core { width:72px; height:72px; }
-  .chat-form { flex-wrap:wrap; }
-  .chat-form input { flex:1 1 70%; }
+.chatcomposer {
+  display:flex;
+  gap:8px;
+  align-items:flex-end;
+}
+.chatcomposer textarea { min-height:48px; max-height:140px; }
+.chatcomposer button { min-height:48px; }
+.small { font-size:12px; }
+.memoryitem {
+  padding:12px;
+  margin:8px 0;
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow-wrap:anywhere;
+}
+.memoryitem button { margin-top:8px; }
+.resultimage {
+  width:100%;
+  max-height:600px;
+  object-fit:contain;
+  background:#080a10;
+  border-radius:14px;
+  margin-top:12px;
+  border:1px solid var(--line);
+}
+label { display:block; margin:12px 0 6px; color:var(--muted); }
+.notice { color:var(--muted); font-size:13px; }
+.footer { text-align:center; padding:18px; color:#69758b; font-size:11px; }
+#toast {
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#202939;
+  border:1px solid var(--gold);
+  padding:12px 16px;
+  border-radius:12px;
+  z-index:20;
+  display:none;
+  max-width:90%;
+}
+@media(max-width:560px) {
+  .app { padding:10px; }
+  .topbar { padding:12px; }
+  .brand h1 { font-size:17px; }
+  .brand small { font-size:9px; }
+  .status { font-size:10px; }
+  .panel { padding:14px; }
+  .grid { grid-template-columns:1fr 1fr; gap:8px; }
+  .tile { padding:12px; font-size:13px; }
+  .hero h2 { font-size:24px; }
+  .msg { max-width:96%; }
+  .chatcomposer { flex-wrap:wrap; }
+  .chatcomposer textarea { flex:1 1 100%; }
 }
 </style>
 </head>
 
 <body>
-<header>
-  <div>
-    <div class="logo">J.A.R.V.I.S.</div>
-    <div class="status" id="status">● SYSTEM READY</div>
+<header class="topbar">
+  <div class="brand">
+    <div class="reactor">✦</div>
+    <div>
+      <h1>J.A.R.V.I.S.</h1>
+      <small>PERSONAL AI SYSTEM · V9</small>
+    </div>
   </div>
-  <div style="width:125px">
-    <select id="language" aria-label="Response language">
-      <option value="hinglish">Hinglish</option>
-      <option value="english">English</option>
-    </select>
-  </div>
+  <div class="status" id="status">● SYSTEM READY</div>
 </header>
 
-<div class="layout">
-<nav aria-label="Main navigation">
-  <button class="active" data-screen="home">⌂ Home</button>
-  <button data-screen="chat">◈ Chat</button>
-  <button data-screen="images">▧ Images</button>
-  <button data-screen="voice">♫ Voice</button>
-  <button data-screen="memory">◎ Memory</button>
-  <button data-screen="settings">⚙ Settings</button>
-</nav>
+<main class="app">
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-go="home">⌂ Home</button>
+    <button data-go="chat">◈ Chat</button>
+    <button data-go="images">▧ Images</button>
+    <button data-go="memory">◎ Memory</button>
+    <button data-go="voice">♫ Voice</button>
+    <button data-go="settings">⚙ Settings</button>
+  </nav>
 
-<main>
-<section id="home" class="screen active">
-  <div class="reactor-wrap">
-    <div class="reactor" aria-label="Arc reactor">
-      <div class="reactor-core"></div>
+  <section class="view active" id="home">
+    <div class="panel hero">
+      <div class="bigreactor">✦</div>
+      <p class="goldtext">PERSONAL ASSISTANT ONLINE</p>
+      <h2>WELCOME BACK, SIR</h2>
+      <p class="muted">Your personal AI interface is ready.</p>
+      <button class="primary" data-go="chat">START CONVERSATION</button>
     </div>
-  </div>
-  <div class="panel" style="text-align:center">
-    <h1>Good day, Sir.</h1>
-    <p class="muted">Personal AI interface · V9</p>
-    <p id="welcome">Systems are standing by.</p>
-    <button id="homeChat">START CONVERSATION</button>
-  </div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>AI CHAT</h3>
-      <p class="muted">Ask questions and continue conversations.</p>
-      <button data-goto="chat">Open Chat</button>
+    <div class="grid">
+      <button class="tile" data-go="chat"><b>◈ AI CHAT</b>Ask questions and get answers.</button>
+      <button class="tile" data-go="images"><b>▧ IMAGE STUDIO</b>Generate images using your Worker.</button>
+      <button class="tile" data-go="memory"><b>◎ SMART MEMORY</b>Save and search personal notes.</button>
+      <button class="tile" data-go="voice"><b>♫ VOICE CONTROL</b>Test speech and microphone.</button>
     </div>
-    <div class="panel">
-      <h3>IMAGE LAB</h3>
-      <p class="muted">Create images using your Worker.</p>
-      <button data-goto="images">Open Images</button>
-    </div>
-  </div>
-</section>
-
-<section id="chat" class="screen">
-  <h1>AI Conversation</h1>
-  <div class="actions">
-    <button id="newChat" class="small-btn">New Chat</button>
-    <button id="exportChat" class="small-btn">Export History</button>
-  </div>
-  <div id="chatLog" class="chat-log" aria-live="polite"></div>
-  <form id="chatForm" class="chat-form">
-    <input id="messageInput" placeholder="Ask me anything, Sir..." autocomplete="off" required>
-    <button id="sendBtn" type="submit">SEND</button>
-    <button type="button" id="micBtn" title="Speak">🎙</button>
-  </form>
-  <p id="chatNotice" class="notice"></p>
-</section>
-
-<section id="images" class="screen">
-  <h1>Image Generation</h1>
-  <div class="panel">
-    <label for="imagePrompt">Describe the image you want</label>
-    <textarea id="imagePrompt" rows="4" placeholder="A futuristic red and gold AI interface..."></textarea>
-    <div class="actions" style="margin-top:12px">
-      <button id="generateBtn">GENERATE IMAGE</button>
-      <button id="clearImage">Clear Preview</button>
-    </div>
-    <p id="imageNotice" class="notice"></p>
-    <img id="imagePreview" class="preview" alt="Generated image preview" hidden>
-  </div>
-</section>
-
-<section id="voice" class="screen">
-  <h1>Voice Control</h1>
-  <div class="panel">
-    <label for="voiceSelect">Available device voice</label>
-    <select id="voiceSelect"></select>
-    <p class="muted">Available voices depend on your device and browser.</p>
-    <div class="grid2">
-      <div>
-        <label for="rate">Speech rate</label>
-        <input id="rate" type="range" min="0.7" max="1.2" step="0.05" value="0.9">
-      </div>
-      <div>
-        <label for="pitch">Voice pitch</label>
-        <input id="pitch" type="range" min="0.5" max="1.2" step="0.05" value="0.8">
+    <div class="panel" style="margin-top:14px">
+      <h3>System overview</h3>
+      <p class="muted small">Chat history and saved memories are stored in this browser. AI replies and image generation need your Cloudflare Worker to be online.</p>
+      <div class="row">
+        <button data-go="settings">Open Settings</button>
+        <button id="clearChatBtn">Clear Chat History</button>
       </div>
     </div>
-    <div class="actions" style="margin-top:15px">
-      <button id="testVoice">TEST VOICE</button>
-      <button id="stopVoice">STOP VOICE</button>
-    </div>
-    <p id="voiceNotice" class="notice"></p>
-  </div>
-</section>
+  </section>
 
-<section id="memory" class="screen">
-  <h1>Memory Archive</h1>
-  <div class="panel">
-    <p class="muted">Conversation history and saved notes stay in this browser's local storage.</p>
-    <div class="actions">
-      <button id="searchMemory">Search Relevant History</button>
-      <button id="saveNote">Save Note</button>
+  <section class="view" id="chat">
+    <div class="panel">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <h2>JARVIS CHAT</h2>
+          <p class="muted small">Ask me anything, Sir.</p>
+        </div>
+        <button id="clearChatBtn2">Clear Chat</button>
+      </div>
+      <div class="chatlog" id="chatlog" aria-live="polite"></div>
+      <div class="chatcomposer">
+        <textarea id="messageInput" placeholder="Type your message..." aria-label="Your message"></textarea>
+        <button id="micBtn" title="Speak your message">🎙️</button>
+        <button class="primary" id="sendBtn">Send ➤</button>
+      </div>
+      <p class="notice">Tip: press Enter to send. Shift + Enter adds a new line.</p>
+      <div class="row">
+        <button id="stopVoiceBtn">■ Stop Speaking</button>
+        <button id="speakLastBtn">♫ Read Last Reply</button>
+      </div>
     </div>
-    <input id="memorySearch" placeholder="Search past conversations..." style="margin-top:12px">
-    <div id="memoryResults" class="notice" style="margin-top:12px"></div>
-    <textarea id="memoryNote" rows="3" placeholder="Write a useful note to remember..." style="margin-top:12px"></textarea>
-    <div id="savedNotes"></div>
-    <button id="clearNotes" class="small-btn">Clear Saved Notes</button>
-  </div>
-</section>
+  </section>
 
-<section id="settings" class="screen">
-  <h1>System Settings</h1>
-  <div class="panel">
-    <label for="workerUrl">Cloudflare Worker URL</label>
-    <input id="workerUrl" type="url" spellcheck="false">
-    <p class="muted">Your existing Worker URL is prefilled. Do not change it unless necessary.</p>
-    <button id="saveSettings">SAVE SETTINGS</button>
-    <p id="settingsNotice" class="notice"></p>
-  </div>
-  <div class="panel">
-    <h3>Local Data</h3>
-    <p class="muted">Export your history before clearing it. Clearing history cannot be undone.</p>
-    <div class="actions">
-      <button id="downloadBackup">Download Backup</button>
-      <button id="clearHistory">Clear Chat History</button>
+  <section class="view" id="images">
+    <div class="panel">
+      <h2>IMAGE STUDIO</h2>
+      <p class="muted">Describe the image you want JARVIS to generate.</p>
+      <label for="imagePrompt">Image description</label>
+      <textarea id="imagePrompt" placeholder="Example: Futuristic red and gold sports car in a cinematic city at night"></textarea>
+      <div class="row" style="margin-top:12px">
+        <button class="gold" id="generateBtn">✦ Generate Image</button>
+        <button id="clearImageBtn">Clear</button>
+      </div>
+      <p id="imageStatus" class="notice" aria-live="polite"></p>
+      <img id="generatedImage" class="resultimage" alt="Generated image" hidden>
+      <div class="row" id="imageActions" hidden style="margin-top:10px">
+        <button id="downloadImageBtn">Save Image</button>
+      </div>
+      <p class="notice">Image generation works only if your existing Worker supports the generateImage action and returns an image.</p>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section class="view" id="memory">
+    <div class="panel">
+      <h2>SMART MEMORY</h2>
+      <p class="muted">Save notes for future chats on this browser.</p>
+      <label for="memoryInput">Memory or personal note</label>
+      <textarea id="memoryInput" placeholder="Example: I prefer answers in Hinglish."></textarea>
+      <button class="gold" id="saveMemoryBtn" style="margin-top:10px">＋ Save Memory</button>
+      <label for="memorySearch">Search saved memories</label>
+      <input id="memorySearch" placeholder="Search your notes...">
+      <div id="memoryList"></div>
+      <p class="notice">Memories are stored locally in this browser; they are not a cloud account-wide memory.</p>
+      <button id="deleteAllMemoryBtn">Delete All Memories</button>
+    </div>
+  </section>
+
+  <section class="view" id="voice">
+    <div class="panel">
+      <h2>VOICE CONTROL</h2>
+      <p class="muted">Uses the voices and speech features available in your browser/device.</p>
+      <label for="voiceSelect">Available voice</label>
+      <select id="voiceSelect"><option value="">Default device voice</option></select>
+      <label for="rate">Speech speed: <span id="rateValue">1.0</span></label>
+      <input id="rate" type="range" min="0.7" max="1.3" step="0.1" value="1">
+      <label for="pitch">Voice pitch: <span id="pitchValue">1.0</span></label>
+      <input id="pitch" type="range" min="0.7" max="1.3" step="0.1" value="1">
+      <div class="row" style="margin-top:16px">
+        <button class="gold" id="testVoiceBtn">♫ Test Voice</button>
+        <button id="stopVoiceBtn2">■ Stop Voice</button>
+        <button id="testMicBtn">🎙️ Test Microphone</button>
+      </div>
+      <p id="voiceStatus" class="notice" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="view" id="settings">
+    <div class="panel">
+      <h2>SETTINGS</h2>
+      <label for="language">Response language</label>
+      <select id="language">
+        <option value="Hinglish">Hinglish (Roman Hindi + English)</option>
+        <option value="English">English only</option>
+      </select>
+      <label for="assistantName">Assistant name</label>
+      <input id="assistantName" value="JARVIS" maxlength="30">
+      <div class="row" style="margin-top:14px">
+        <button class="gold" id="saveSettingsBtn">Save Settings</button>
+        <button id="checkWorkerBtn">Test Worker</button>
+      </div>
+      <p id="settingsStatus" class="notice" aria-live="polite"></p>
+      <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+      <h3>Data controls</h3>
+      <p class="notice">Clearing chat removes saved conversation history from this browser. Saved memories are managed separately.</p>
+      <button id="clearChatBtn3">Clear Chat History</button>
+    </div>
+  </section>
+
+  <div class="footer">JARVIS V9 · PERSONAL AI INTERFACE</div>
 </main>
-</div>
-
-<footer>JARVIS V9 · PERSONAL AI INTERFACE</footer>
+<div id="toast" role="status"></div>
 
 <script>
-"use strict";
+(() => {
+  "use strict";
 
-const DEFAULT_WORKER =
-  "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+  const WORKER_URL = "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
 
-const $ = id => document.getElementById(id);
-const KEYS = {
-  history:"jarvis_chat_history",
-  notes:"jarvis_memories",
-  url:"jarvis_worker_url",
-  lang:"jarvis_language",
-  voice:"jarvis_voice_name",
-  rate:"jarvis_voice_rate",
-  pitch:"jarvis_voice_pitch"
-};
-
-function readJSON(key, fallback) {
-  try {
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : fallback;
-  } catch {
-    return fallback;
-  }
-}
-function writeJSON(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    setStatus("Storage is full. Export and clear old history.");
-  }
-}
-
-let history = readJSON(KEYS.history, []);
-let notes = readJSON(KEYS.notes, []);
-let workerURL = localStorage.getItem(KEYS.url) || DEFAULT_WORKER;
-let busy = false;
-let availableVoices = [];
-
-if (!Array.isArray(history)) history = [];
-if (!Array.isArray(notes)) notes = [];
-
-function setStatus(message) {
-  $("status").textContent = "● " + message;
-}
-function showScreen(name) {
-  document.querySelectorAll(".screen").forEach(el =>
-    el.classList.toggle("active", el.id === name)
-  );
-  document.querySelectorAll("[data-screen]").forEach(el =>
-    el.classList.toggle("active", el.dataset.screen === name)
-  );
-  if (name === "memory") renderNotes();
-  if (name === "voice") loadVoices();
-}
-document.querySelectorAll("[data-screen]").forEach(button => {
-  button.addEventListener("click", () => showScreen(button.dataset.screen));
-});
-document.querySelectorAll("[data-goto]").forEach(button => {
-  button.addEventListener("click", () => showScreen(button.dataset.goto));
-});
-$("homeChat").addEventListener("click", () => showScreen("chat"));
-
-function saveHistory() {
-  writeJSON(KEYS.history, history);
-}
-function addMessage(role, content, save = true) {
-  const item = {
-    role,
-    content: String(content),
-    time: new Date().toISOString()
+  const KEYS = {
+    chat: "jarvis_v9_chat",
+    memories: "jarvis_v9_memories",
+    language: "jarvis_v9_language",
+    name: "jarvis_v9_name",
+    rate: "jarvis_v9_rate",
+    pitch: "jarvis_v9_pitch",
+    voice: "jarvis_v9_voice"
   };
-  history.push(item);
-  if (history.length > 500) history = history.slice(-500);
-  if (save) saveHistory();
-  renderChat();
-}
-function renderChat() {
-  const log = $("chatLog");
-  log.replaceChildren();
-  history.slice(-100).forEach(item => {
+
+  const $ = id => document.getElementById(id);
+  let chatHistory = readJSON(KEYS.chat, []);
+  let memories = readJSON(KEYS.memories, []);
+  let busy = false;
+  let lastReply = "";
+  let recognition = null;
+  let voices = [];
+
+  function readJSON(key, fallback) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key));
+      return value ?? fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function saveJSON(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      toast("Browser storage is full or unavailable.");
+    }
+  }
+
+  function toast(message) {
+    const el = $("toast");
+    el.textContent = message;
+    el.style.display = "block";
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() => el.style.display = "none", 2800);
+  }
+
+  function setStatus(message) {
+    $("status").textContent = message;
+  }
+
+  function getLanguage() {
+    return $("language").value || "Hinglish";
+  }
+
+  function getAssistantName() {
+    return $("assistantName").value.trim() || "JARVIS";
+  }
+
+  function navigate(viewId) {
+    if (!$ (viewId)) return;
+    document.querySelectorAll(".view").forEach(view => {
+      view.classList.toggle("active", view.id === viewId);
+    });
+    document.querySelectorAll("[data-go]").forEach(button => {
+      button.classList.toggle("active", button.dataset.go === viewId);
+    });
+    if (viewId === "memory") renderMemories();
+    if (viewId === "chat") $("messageInput").focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.querySelectorAll("[data-go]").forEach(button => {
+    button.addEventListener("click", () => navigate(button.dataset.go));
+  });
+
+  function addMessage(role, text, persist = true) {
+    const entry = { role, text, time: Date.now() };
+    chatHistory.push(entry);
+    if (chatHistory.length > 150) chatHistory = chatHistory.slice(-150);
+    if (persist) saveJSON(KEYS.chat, chatHistory);
+    renderMessage(entry);
+  }
+
+  function renderMessage(entry) {
+    const log = $("chatlog");
     const bubble = document.createElement("div");
-    bubble.className = "message " +
-      (item.role === "user" ? "user" : "assistant");
-    bubble.textContent = item.content;
+    bubble.className = "msg " + (entry.role === "user" ? "user" : "jarvis");
+
+    const who = document.createElement("span");
+    who.className = "who";
+    who.textContent = entry.role === "user" ? "YOU" : getAssistantName();
+
+    const body = document.createElement("div");
+    body.textContent = entry.text;
+
+    bubble.append(who, body);
     log.appendChild(bubble);
-  });
-  log.scrollTop = log.scrollHeight;
-}
-function getLanguage() {
-  return $("language").value;
-}
-$("language").value = localStorage.getItem(KEYS.lang) || "hinglish";
-$("language").addEventListener("change", () => {
-  localStorage.setItem(KEYS.lang, getLanguage());
-});
-
-function findRelevantHistory(query) {
-  const words = query.toLowerCase()
-    .split(/[^a-z0-9]+/).filter(w => w.length > 2);
-  if (!words.length) return [];
-  return history.slice(0, -1).map((item, index) => {
-    const text = String(item.content || "").toLowerCase();
-    let score = 0;
-    words.forEach(word => {
-      if (text.includes(word)) score++;
-    });
-    return {item, index, score};
-  }).filter(x => x.score > 0)
-    .sort((a,b) => b.score - a.score || b.index - a.index)
-    .slice(0, 6).map(x => x.item);
-}
-function buildMemoryContext(query) {
-  const relevant = findRelevantHistory(query);
-  const saved = notes.slice(-15).map(n => n.text);
-  let parts = [];
-  if (saved.length) {
-    parts.push("USER SAVED NOTES:\n" + saved.join("\n"));
+    log.scrollTop = log.scrollHeight;
   }
-  if (relevant.length) {
-    parts.push("RELEVANT PAST CONVERSATION:\n" +
-      relevant.map(m => m.role + ": " + m.content).join("\n"));
-  }
-  return parts.join("\n\n").slice(0, 5000);
-}
 
-async function postWorker(payload) {
-  const response = await fetch(workerURL, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(payload)
-  });
-  const raw = await response.text();
-  let data;
-  try { data = JSON.parse(raw); }
-  catch { throw new Error("Worker returned a non-JSON response."); }
-  if (!response.ok) {
-    throw new Error(data.error || data.message ||
-      ("Worker error: HTTP " + response.status));
-  }
-  if (data.error) throw new Error(data.error);
-  return data;
-}
-
-function extractText(data) {
-  if (typeof data === "string") return data;
-  if (typeof data.response === "string") return data.response;
-  if (typeof data.output_text === "string") return data.output_text;
-  if (typeof data.result === "string") return data.result;
-  if (data.result && typeof data.result.response === "string")
-    return data.result.response;
-  if (data.result && typeof data.result.output_text === "string")
-    return data.result.output_text;
-  if (data.result && Array.isArray(data.result))
-    return JSON.stringify(data.result);
-  return "";
-}
-
-$("chatForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  if (busy) return;
-  const input = $("messageInput");
-  const question = input.value.trim();
-  if (!question) return;
-
-  input.value = "";
-  addMessage("user", question);
-  const memory = buildMemoryContext(question);
-  const languageInstruction = getLanguage() === "hinglish"
-    ? "Reply ONLY in Hinglish written in Roman letters. Do not use Devanagari. Keep the answer concise unless more detail is requested."
-    : "Reply ONLY in English. Keep the answer concise unless more detail is requested.";
-
-  const messageForAI =
-    languageInstruction +
-    (memory ? "\n\nUse the following past context only when relevant:\n" +
-      memory : "") +
-    "\n\nUser message:\n" + question;
-
-  busy = true;
-  $("sendBtn").disabled = true;
-  $("chatNotice").textContent = "";
-  setStatus("THINKING...");
-
-  try {
-    const data = await postWorker({
-      message:messageForAI,
-      language:getLanguage()
-    });
-    const answer = extractText(data);
-    if (!answer) throw new Error("No answer returned by the Worker.");
-    addMessage("assistant", answer);
-    setStatus("SYSTEM READY");
-  } catch (error) {
-    $("chatNotice").textContent =
-      "Could not get a reply: " + error.message +
-      "\nCheck your Worker URL, deployment and connection.";
-    setStatus("CONNECTION ERROR");
-  } finally {
-    busy = false;
-    $("sendBtn").disabled = false;
-    input.focus();
-  }
-});
-
-$("newChat").addEventListener("click", () => {
-  if (!confirm("Start a new chat? This will clear the saved conversation history.")) return;
-  history = [];
-  saveHistory();
-  renderChat();
-  $("chatNotice").textContent = "New conversation started.";
-});
-
-function downloadFile(name, content, type) {
-  const blob = new Blob([content], {type});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-function exportBackup() {
-  downloadFile("jarvis-backup.json", JSON.stringify({
-    history, notes, language:getLanguage(), workerURL
-  }, null, 2), "application/json");
-}
-$("exportChat").addEventListener("click", exportBackup);
-$("downloadBackup").addEventListener("click", exportBackup);
-$("clearHistory").addEventListener("click", () => {
-  if (!confirm("Permanently clear all saved chat history? Export a backup first if needed.")) return;
-  history = [];
-  saveHistory();
-  renderChat();
-  setStatus("HISTORY CLEARED");
-});
-
-$("generateBtn").addEventListener("click", async () => {
-  const prompt = $("imagePrompt").value.trim();
-  if (!prompt || busy) {
-    $("imageNotice").textContent = prompt ? "Please wait..." : "Enter an image description first.";
-    return;
-  }
-  busy = true;
-  $("generateBtn").disabled = true;
-  $("imageNotice").textContent = "Generating image...";
-  setStatus("IMAGE GENERATION...");
-  try {
-    const data = await postWorker({
-      action:"generateImage",
-      prompt:prompt
-    });
-    let image = data.dataURI || data.image ||
-      data.result?.dataURI || data.result?.image;
-    if (typeof image === "string" &&
-        !image.startsWith("data:") &&
-        !image.startsWith("https://") &&
-        !image.startsWith("http://")) {
-      image = "data:image/png;base64," + image;
+  function renderChat() {
+    $("chatlog").replaceChildren();
+    if (!chatHistory.length) {
+      const welcome = {
+        role: "assistant",
+        text: getLanguage() === "English"
+          ? "Hello, Sir. How may I help you?"
+          : "Assalamualaikum Sir! Batao, main aapki kya help karun?"
+      };
+      renderMessage(welcome);
+      return;
     }
-    if (!image || typeof image !== "string") {
-      throw new Error("No image received. Check the Worker's image-generation format.");
+    chatHistory.forEach(renderMessage);
+  }
+
+  function clearChat() {
+    if (!confirm("Delete all chat history from this browser?")) return;
+    chatHistory = [];
+    saveJSON(KEYS.chat, chatHistory);
+    lastReply = "";
+    renderChat();
+    toast("Chat history cleared.");
+  }
+
+  ["clearChatBtn", "clearChatBtn2", "clearChatBtn3"].forEach(id => {
+    $(id).addEventListener("click", clearChat);
+  });
+
+  function relevantMemories(message) {
+    const words = message.toLowerCase().match(/[a-z0-9]+/g) || [];
+    if (!words.length || !memories.length) return [];
+    const scored = memories.map(memory => {
+      const content = memory.text.toLowerCase();
+      const score = words.reduce((sum, word) => {
+        return sum + (word.length > 2 && content.includes(word) ? 1 : 0);
+      }, 0);
+      return { text: memory.text, score };
+    });
+    return scored.filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .map(item => item.text);
+  }
+
+  async function sendMessage() {
+    const message = $("messageInput").value.trim();
+    if (!message || busy) return;
+
+    $("messageInput").value = "";
+    addMessage("user", message);
+    busy = true;
+    $("sendBtn").disabled = true;
+    setStatus("● THINKING...");
+
+    try {
+      const found = relevantMemories(message);
+      let prompt = message;
+
+      if (found.length) {
+        prompt = "Relevant saved notes (use only if helpful):\n- " +
+          found.join("\n- ") + "\n\nUser's message: " + message;
+      }
+
+      const response = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: prompt,
+          language: getLanguage()
+        })
+      });
+
+      const raw = await response.text();
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error("Worker returned an invalid response. Check your Worker code.");
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || data.message || ("Worker error: " + response.status));
+      }
+
+      const reply = extractReply(data);
+      if (!reply) {
+        throw new Error(data.error || "No text reply received from Worker.");
+      }
+
+      lastReply = reply;
+      addMessage("assistant", reply);
+      setStatus("● SYSTEM READY");
+      speak(reply);
+    } catch (error) {
+      const messageText = "Sorry Sir, connection issue: " + (error.message || "Please try again.");
+      addMessage("assistant", messageText);
+      setStatus("● CONNECTION ISSUE");
+    } finally {
+      busy = false;
+      $("sendBtn").disabled = false;
+      $("messageInput").focus();
     }
-    $("imagePreview").src = image;
-    $("imagePreview").hidden = false;
-    $("imageNotice").textContent = "Image generated.";
-    setStatus("SYSTEM READY");
-  } catch (error) {
-    $("imageNotice").textContent =
-      "Image generation failed: " + error.message;
-    setStatus("IMAGE ERROR");
-  } finally {
-    busy = false;
-    $("generateBtn").disabled = false;
   }
-});
-$("clearImage").addEventListener("click", () => {
-  $("imagePreview").removeAttribute("src");
-  $("imagePreview").hidden = true;
-  $("imageNotice").textContent = "";
-});
 
-function loadVoices() {
-  if (!("speechSynthesis" in window)) {
-    $("voiceNotice").textContent = "Speech synthesis is not supported in this browser.";
-    return;
+  function extractReply(data) {
+    if (typeof data === "string") return data;
+    if (!data || typeof data !== "object") return "";
+    const value = data.reply ?? data.response ?? data.output_text ?? data.result;
+    if (typeof value === "string") return value;
+    if (value && typeof value === "object") {
+      return value.text ?? value.response ?? value.output_text ?? "";
+    }
+    return "";
   }
-  availableVoices = speechSynthesis.getVoices();
-  const select = $("voiceSelect");
-  const previous = localStorage.getItem(KEYS.voice) || "";
-  select.replaceChildren();
-  if (!availableVoices.length) {
-    const option = document.createElement("option");
-    option.textContent = "No device voices available";
-    option.value = "";
-    select.appendChild(option);
-    return;
-  }
-  availableVoices.forEach((voice, index) => {
-    const option = document.createElement("option");
-    option.value = voice.name;
-    option.textContent = voice.name + " (" + voice.lang + ")";
-    select.appendChild(option);
-    if (voice.name === previous) select.value = voice.name;
-    else if (!previous && /en/i.test(voice.lang) && index === 0)
-      select.value = voice.name;
+
+  $("sendBtn").addEventListener("click", sendMessage);
+
+  $("messageInput").addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
   });
-}
-if ("speechSynthesis" in window) {
-  speechSynthesis.onvoiceschanged = loadVoices;
-}
-loadVoices();
 
-$("voiceSelect").addEventListener("change", () =>
-  localStorage.setItem(KEYS.voice, $("voiceSelect").value));
-$("rate").value = localStorage.getItem(KEYS.rate) || "0.9";
-$("pitch").value = localStorage.getItem(KEYS.pitch) || "0.8";
-$("rate").addEventListener("change", () =>
-  localStorage.setItem(KEYS.rate, $("rate").value));
+  function loadVoices() {
+    if (!("speechSynthesis" in window)) return;
+    voices = window.speechSynthesis.getVoices();
+    const select = $("voiceSelect");
+    const savedVoice = localStorage.getItem(KEYS.voice) || "";
+    select.replaceChildren(new Option("Default device voice", ""));
 
-$("pitch").addEventListener("change", () =>
-  localStorage.setItem(KEYS.pitch, $("pitch").value)
-);
-
-// VOICE
-function speakText(text) {
-  if (!("speechSynthesis" in window)) {
-    $("voiceNotice").textContent = "Voice is not supported in this browser.";
-    return;
-  }
-
-  speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  const selected = availableVoices.find(
-    voice => voice.name === $("voiceSelect").value
-  );
-
-  if (selected) utterance.voice = selected;
-  utterance.rate = Number($("rate").value) || 0.9;
-  utterance.pitch = Number($("pitch").value) || 0.8;
-  utterance.lang = getLanguage() === "hinglish" ? "en-IN" : "en-US";
-
-  utterance.onstart = () => setStatus("SPEAKING...");
-  utterance.onend = () => setStatus("SYSTEM READY");
-  utterance.onerror = () => {
-    $("voiceNotice").textContent = "Voice playback failed.";
-    setStatus("SYSTEM READY");
-  };
-
-  speechSynthesis.speak(utterance);
-}
-
-$("testVoice").addEventListener("click", () => {
-  $("voiceNotice").textContent = "Testing device voice...";
-  speakText(
-    getLanguage() === "hinglish"
-      ? "Assalamualaikum, Sir. Jarvis systems are ready."
-      : "Good day, Sir. Jarvis systems are ready."
-  );
-});
-
-$("stopVoice").addEventListener("click", () => {
-  if ("speechSynthesis" in window) speechSynthesis.cancel();
-  setStatus("SYSTEM READY");
-  $("voiceNotice").textContent = "Voice stopped.";
-});
-
-// MICROPHONE
-$("micBtn").addEventListener("click", () => {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    $("chatNotice").textContent =
-      "Speech recognition is not supported in this browser. Try Chrome.";
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = getLanguage() === "hinglish" ? "en-IN" : "en-US";
-  recognition.onstart = () => {
-    $("chatNotice").textContent = "Listening...";
-  };
-  recognition.onresult = event => {
-    $("messageInput").value =
-      event.results[0][0].transcript;
-    $("messageInput").focus();
-    $("chatNotice").textContent = "Voice captured. Press SEND.";
-  };
-  recognition.onerror = event => {
-    $("chatNotice").textContent =
-      "Microphone error: " + event.error;
-  };
-  recognition.start();
-});
-
-// MEMORY
-function renderNotes() {
-  const container = $("savedNotes");
-  container.replaceChildren();
-
-  if (!notes.length) {
-    container.textContent = "No saved notes yet.";
-    return;
-  }
-
-  notes.forEach((note, index) => {
-    const card = document.createElement("div");
-    card.className = "panel";
-
-    const content = document.createElement("p");
-    content.textContent = note.text;
-
-    const remove = document.createElement("button");
-    remove.className = "small-btn";
-    remove.textContent = "Delete";
-    remove.addEventListener("click", () => {
-      notes.splice(index, 1);
-      writeJSON(KEYS.notes, notes);
-      renderNotes();
+    voices.forEach((voice, index) => {
+      const option = new Option(
+        `${voice.name} (${voice.lang})`,
+        String(index)
+      );
+      select.appendChild(option);
     });
 
-    card.append(content, remove);
-    container.appendChild(card);
-  });
-}
-
-$("searchMemory").addEventListener("click", () => {
-  const query = $("memorySearch").value.trim().toLowerCase();
-  const results = $("memoryResults");
-  results.replaceChildren();
-
-  if (!query) {
-    results.textContent = "Enter a word or topic to search.";
-    return;
+    if (savedVoice !== "" && Number(savedVoice) < voices.length) {
+      select.value = savedVoice;
+    }
   }
 
-  const matches = history.filter(item =>
-    String(item.content || "").toLowerCase().includes(query)
-  ).slice(-20);
-
-  const savedMatches = notes.filter(note =>
-    String(note.text || "").toLowerCase().includes(query)
-  );
-
-  if (!matches.length && !savedMatches.length) {
-    results.textContent = "No matching memories found.";
-    return;
-  }
-
-  [...savedMatches.map(n => "Saved note: " + n.text),
-   ...matches.map(m => m.role + ": " + m.content)]
-    .forEach(text => {
-      const line = document.createElement("p");
-      line.textContent = text;
-      results.appendChild(line);
-    });
-});
-
-$("saveNote").addEventListener("click", () => {
-  const text = $("memoryNote").value.trim();
-
-  if (!text) {
-    $("memoryResults").textContent = "Write a note first.";
-    return;
-  }
-
-  notes.push({ text, time: new Date().toISOString() });
-  writeJSON(KEYS.notes, notes);
-  $("memoryNote").value = "";
-  $("memoryResults").textContent = "Note saved.";
-  renderNotes();
-});
-
-$("clearNotes").addEventListener("click", () => {
-  if (!confirm("Delete all saved notes?")) return;
-
-  notes = [];
-  writeJSON(KEYS.notes, notes);
-  renderNotes();
-  $("memoryResults").textContent = "Saved notes cleared.";
-});
-
-// SETTINGS
-$("workerUrl").value = workerURL;
-
-$("saveSettings").addEventListener("click", () => {
-  const value = $("workerUrl").value.trim();
-
-  try {
-    const parsed = new URL(value);
-
-    if (parsed.protocol !== "https:") {
-      throw new Error("Use an HTTPS Worker URL.");
+  function speak(text) {
+    if (!("speechSynthesis" in window) || !text) {
+      $("voiceStatus").textContent = "Speech synthesis is not supported in this browser.";
+      return;
     }
 
-    workerURL = value.replace(/\/+$/, "");
-    localStorage.setItem(KEYS.url, workerURL);
-    $("workerUrl").value = workerURL;
-    $("settingsNotice").textContent = "Settings saved.";
-  } catch (error) {
-    $("settingsNotice").textContent =
-      "Invalid Worker URL. Please check it and try again.";
-  }
-});
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(
+      text.replace(/[*#_`]/g, "").slice(0, 4000)
+    );
 
-// INITIALIZE
-renderChat();
-renderNotes();
-loadVoices();
-setStatus("SYSTEM READY");
-  
+    const voiceIndex = $("voiceSelect").value;
+    if (voiceIndex !== "" && voices[Number(voiceIndex)]) {
+      utterance.voice = voices[Number(voiceIndex)];
+    } else {
+      const preferred = voices.find(v => /^en-IN$/i.test(v.lang))
+        || voices.find(v => /^hi-IN$/i.test(v.lang))
+   
