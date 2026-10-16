@@ -1,398 +1,350 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090b12">
-<title>JARVIS V5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JARVIS AI</title>
 <style>
-:root{--bg:#090b12;--panel:#141a25;--red:#ff414d;--gold:#ffc857;--text:#f5f5f7;--muted:#a8b0bf;--line:#30394b}
+:root{color-scheme:dark;--bg:#080b12;--panel:#151e2c;--gold:#e7bd63;--red:#ed2445}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,Arial,sans-serif}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-.app{max-width:900px;margin:auto;padding:16px 14px 95px}
-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0 20px}
-.brand{font-weight:900;letter-spacing:3px;color:var(--gold);font-size:20px}
-.status{font-size:11px;color:#61e8ae}
+body{margin:0;background:var(--bg);color:#f4f5f8;font-family:Arial,sans-serif}
+header{padding:22px 16px;text-align:center;border-bottom:1px solid #4b3c2c}
+header h1{color:var(--gold);letter-spacing:4px;margin:4px}
+header p{color:#aeb8c9}
+main{max-width:760px;margin:auto;padding:16px;padding-bottom:105px}
+.panel{background:var(--panel);border:1px solid #303b4d;border-radius:22px;padding:18px;margin-bottom:16px}
+h2{margin-top:0}
+button{background:#243144;color:white;border:1px solid #46546a;border-radius:14px;padding:14px;margin:4px 2px;font-size:15px;cursor:pointer}
+button:active{opacity:.7}
+.primary{background:var(--red);border-color:#ff6078}
+.gold{color:var(--gold)}
+nav{position:fixed;bottom:0;left:0;right:0;background:#0b101a;border-top:1px solid #394353;display:flex;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;padding:12px 3px;font-size:12px}
+nav button.active{border-color:var(--gold);color:var(--gold)}
 .screen{display:none}
 .screen.active{display:block}
-.hero,.panel,.tile{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:12px}
-.hero{background:linear-gradient(135deg,#30171f,#141a25);border-color:#76502c}
-h1,h2,h3{margin-top:0}
-.hero h1{font-size:34px;margin:12px 0}
-p{color:var(--muted);line-height:1.5}
-button{background:#252e3d;color:white;border:1px solid #414c60;border-radius:11px;padding:11px 13px}
-button.primary{background:linear-gradient(120deg,#ff414d,#a71c2b);border-color:#ff7279}
-button.gold{background:linear-gradient(120deg,#ffc857,#d38c24);color:#17120a;border:0}
-button:disabled{opacity:.5}
-.actions,.tools{display:flex;gap:8px;flex-wrap:wrap}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.tile{text-align:left;color:white;width:100%;margin:0}
-.tile strong{display:block;margin-bottom:6px}
-textarea,input{background:#090e17;color:white;border:1px solid var(--line);border-radius:11px;padding:12px;width:100%;margin:5px 0 10px}
-.chatlog{display:flex;flex-direction:column;gap:10px;max-height:48vh;overflow:auto;margin-bottom:14px}
-.bubble{white-space:pre-wrap;overflow-wrap:anywhere;max-width:92%;padding:12px;border-radius:13px;background:#202b3b}
-.bubble.user{align-self:flex-end;background:#54232b}
-.bubble img{display:block;max-width:100%;max-height:220px;margin-top:8px;border-radius:9px}
-.compose{display:flex;gap:8px;align-items:stretch}
-.compose textarea{flex:1;min-width:0;resize:vertical}
-.compose button{align-self:flex-end;margin-bottom:10px}
-#photoBox{display:none;border:1px dashed #68748a;padding:10px;border-radius:12px;margin:10px 0}
-#photoPreview{display:block;max-width:100%;max-height:250px;margin:auto}
-.small{font-size:12px;color:var(--muted)}
-.memory{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;background:#0d121c;border-radius:10px;margin:7px 0;overflow-wrap:anywhere}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:4px;padding:8px;background:#090b12f5;border-top:1px solid var(--line);padding-bottom:max(8px,env(safe-area-inset-bottom))}
-nav button{flex:1;max-width:130px;padding:10px 2px;font-size:12px}
-nav button.active{color:var(--gold);border-color:var(--gold)}
-#toast{display:none;position:fixed;top:12px;left:5%;width:90%;z-index:10;background:#242e40;border:1px solid var(--gold);padding:12px;border-radius:12px}
-@media(min-width:650px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+input,textarea,select{width:100%;background:#080d17;color:white;border:1px solid #39475b;border-radius:12px;padding:13px;font-size:16px;margin:5px 0}
+textarea{min-height:70px;resize:vertical}
+#messages{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.msg{padding:14px;border-radius:15px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+.user{background:#4a202c;align-self:flex-end;max-width:90%}
+.jarvis{background:#202f40;align-self:stretch}
+.small{font-size:13px;color:#aeb8c9;line-height:1.5}
+#preview{display:none;max-width:100%;max-height:280px;border-radius:14px;margin-top:12px}
+.status{color:var(--gold);font-size:13px}
 </style>
 </head>
 <body>
-<div id="toast"></div>
-<div class="app">
 <header>
-  <div class="brand">◉ J.A.R.V.I.S.</div>
-  <div class="status">● SYSTEM READY</div>
+<h1>J.A.R.V.I.S.</h1>
+<p>PERSONAL AI ASSISTANT</p>
+<div class="status" id="status">SYSTEM ONLINE</div>
 </header>
 
+<main>
 <section id="home" class="screen active">
-  <div class="hero">
-    <div class="small">PERSONAL AI SYSTEM · V5</div>
-    <h1>Assalamualaikum,<br>Sir.</h1>
-    <p>Your personal assistant is ready.</p>
-    <div class="actions">
-      <button class="primary" data-go="chat">Open Chat →</button>
-      <button class="gold" id="homeVoice">🎙 Talk to Jarvis</button>
-    </div>
-  </div>
-  <div class="cards">
-    <button class="tile" data-go="chat"><strong>◈ AI Chat</strong><span class="small">Ask Jarvis questions.</span></button>
-    <button class="tile" data-go="chat" id="homePhoto"><strong>▧ Photo AI</strong><span class="small">Ask about a photo.</span></button>
-    <button class="tile" data-go="memory"><strong>◉ Memory</strong><span class="small">Save personal notes.</span></button>
-  </div>
+<div class="panel">
+<h2 class="gold">Assalamualaikum, Sir.</h2>
+<p>Welcome back. How may I help you?</p>
+<button class="primary" data-go="chat">Open AI Conversation</button>
+<button data-go="memory">Memory Bank</button>
+</div>
+<div class="panel">
+<h3>System Status</h3>
+<p>Chat: Ready to test</p>
+<p>Voice: Browser supported</p>
+<p>Memory: Saved on this device</p>
+</div>
 </section>
 
 <section id="chat" class="screen">
-  <div class="panel">
-    <h2>AI Conversation</h2>
-    <div id="chatlog" class="chatlog">
-      <div class="bubble">Assalamualaikum, Sir. Yes, Sir. How may I help you?</div>
-    </div>
-    <form id="chatForm">
-      <div class="compose">
-        <textarea id="message" rows="2" placeholder="Message Jarvis..."></textarea>
-        <button class="primary" id="sendBtn" type="submit">Send</button>
-      </div>
-    </form>
-    <div class="tools">
-      <button type="button" id="pickPhoto">▧ Add Photo</button>
-      <button type="button" id="micBtn">🎙 Speak</button>
-      <button type="button" id="voiceToggle">🔊 Voice: ON</button>
-      <button type="button" id="searchBtn">⌕ Google Search</button>
-      <button type="button" id="clearChat">Clear Chat</button>
-    </div>
-    <input type="file" id="photoInput" accept="image/*" hidden>
-    <div id="photoBox">
-      <img id="photoPreview" alt="Selected photo">
-      <p id="photoName" class="small"></p>
-      <div class="tools">
-        <button type="button" id="analyzeBtn" class="gold">Analyze Photo</button>
-        <button type="button" id="removePhoto">Remove Photo</button>
-      </div>
-      <p class="small">Photo analysis sends the selected image to your Worker. Avoid private photos.</p>
-    </div>
-  </div>
+<div class="panel">
+<h2>AI Conversation</h2>
+<div id="messages" aria-live="polite">
+<div class="msg jarvis">Assalamualaikum, Sir. Yes, Sir. How may I help you?</div>
+</div>
+<form id="chatForm">
+<textarea id="message" placeholder="Message Jarvis..." required></textarea>
+<button class="primary" type="submit">Send</button>
+</form>
+<div>
+<button id="photoBtn">▧ Add Photo</button>
+<button id="micBtn">🎙 Speak</button>
+<button id="voiceBtn">🔊 Voice: ON</button>
+<button id="searchBtn">⌕ Google Search</button>
+<input id="photoInput" type="file" accept="image/*" hidden>
+<img id="preview" alt="Selected photo preview">
+<button id="analyzeBtn" hidden>Analyze Photo</button>
+<p class="small" id="photoNote">Photo preview is available. AI photo analysis needs a compatible Worker model.</p>
+</div>
+</div>
 </section>
 
 <section id="memory" class="screen">
-  <div class="panel">
-    <h2>Personal Memory</h2>
-    <p class="small">Notes are stored in this browser only.</p>
-    <textarea id="memoryInput" rows="3" placeholder="Write a note to remember..."></textarea>
-    <button class="primary" id="saveMemory">Save Memory</button>
-    <button id="deleteAllMemory">Delete All</button>
-    <div id="memoryList"></div>
-  </div>
+<div class="panel">
+<h2>Memory Bank</h2>
+<p class="small">Memory is saved only in this browser on this device.</p>
+<form id="memoryForm">
+<input id="memoryInput" placeholder="Remember something..." required>
+<button class="primary" type="submit">Save Memory</button>
+</form>
+<div id="memoryList"></div>
+<button id="clearMemory">Clear All Memories</button>
+</div>
 </section>
 
 <section id="tools" class="screen">
-  <div class="panel">
-    <h2>Tools</h2>
-    <div class="actions">
-      <button id="toolsSearch">Google Search</button>
-      <button data-go="chat">AI Chat</button>
-      <button data-go="memory">Memory</button>
-      <button id="toolsVoice">Voice Input</button>
-    </div>
-    <p class="small">Image generation is not included in this Worker yet.</p>
-  </div>
+<div class="panel">
+<h2>Tools</h2>
+<button id="toolSearch">Google Search</button>
+<button id="testVoice">Test Voice</button>
+<button id="testWorker">Test AI Connection</button>
+<p id="toolResult" class="small"></p>
+</div>
 </section>
 
 <section id="settings" class="screen">
-  <div class="panel">
-    <h2>Settings</h2>
-    <label class="small" for="workerUrl">Cloudflare Worker URL</label>
-    <input id="workerUrl" type="url" value="https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev">
-    <button class="primary" id="saveSettings">Save URL</button>
-    <button id="testWorker">Test AI Connection</button>
-    <p class="small">Never put API keys or passwords in this public page.</p>
-  </div>
-</section>
+<div class="panel">
+<h2>Settings</h2>
+<label for="workerUrl">Cloudflare Worker URL</label>
+<input id="workerUrl" type="url" placeholder="https://your-worker.workers.dev">
+<button class="primary" id="saveSettings">Save Worker URL</button>
+<p class="small">Default URL is already configured. Don't share private API keys.</p>
+<button id="resetSettings">Restore Default URL</button>
 </div>
+</section>
+</main>
 
 <nav>
-  <button class="active" data-go="home">⌂<br>Home</button>
-  <button data-go="chat">◈<br>Chat</button>
-  <button data-go="memory">◉<br>Memory</button>
-  <button data-go="tools">⚙<br>Tools</button>
-  <button data-go="settings">☷<br>Settings</button>
+<button class="active" data-go="home">⌂<br>Home</button>
+<button data-go="chat">◇<br>Chat</button>
+<button data-go="memory">◎<br>Memory</button>
+<button data-go="tools">☷<br>Tools</button>
+<button data-go="settings">⚙<br>Settings</button>
 </nav>
 
 <script>
 (function(){
 "use strict";
 
+const DEFAULT_WORKER =
+"https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
 const $ = id => document.getElementById(id);
-const DEFAULT_URL = "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
-let workerURL = localStorage.getItem("jarvis_worker_url") || DEFAULT_URL;
-let photoData = "";
-let voiceOn = localStorage.getItem("jarvis_voice") !== "off";
-$("workerUrl").value = workerURL;
 
-function notify(message){
-  const box=$("toast");
-  box.textContent=message;
-  box.style.display="block";
-  clearTimeout(window.jarvisToast);
-  window.jarvisToast=setTimeout(()=>box.style.display="none",3500);
+let workerUrl = localStorage.getItem("jarvis_worker_url") || DEFAULT_WORKER;
+let voiceOn = true;
+let selectedPhoto = null;
+
+$("workerUrl").value = workerUrl;
+
+function showScreen(name){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ const screen = $(name);
+ if(screen) screen.classList.add("active");
+ document.querySelectorAll("nav [data-go]").forEach(b=>{
+  b.classList.toggle("active",b.dataset.go===name);
+ });
+ window.scrollTo(0,0);
 }
 
-function go(screen){
-  document.querySelectorAll(".screen").forEach(el=>{
-    el.classList.toggle("active",el.id===screen);
-  });
-  document.querySelectorAll("nav button").forEach(el=>{
-    el.classList.toggle("active",el.dataset.go===screen);
-  });
-  window.scrollTo(0,0);
-}
-
-document.querySelectorAll("[data-go]").forEach(button=>{
-  button.addEventListener("click",()=>go(button.dataset.go));
+document.addEventListener("click",e=>{
+ const button=e.target.closest("[data-go]");
+ if(button) showScreen(button.dataset.go);
 });
 
-function addBubble(text,who){
-  const div=document.createElement("div");
-  div.className="bubble "+(who||"jarvis");
-  div.textContent=text;
-  $("chatlog").appendChild(div);
-  $("chatlog").scrollTop=$("chatlog").scrollHeight;
-  return div;
+function addMessage(text,who){
+ const el=document.createElement("div");
+ el.className="msg "+who;
+ el.textContent=text;
+ $("messages").appendChild(el);
+ el.scrollIntoView({behavior:"smooth",block:"nearest"});
+ return el;
 }
 
 function speak(text){
-  if(!voiceOn || !("speechSynthesis" in window)) return;
-  speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(text);
-  utterance.lang="en-IN";
-  utterance.rate=.95;
-  speechSynthesis.speak(utterance);
+ if(!voiceOn || !("speechSynthesis" in window)) return;
+ speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang="en-IN";
+ utterance.rate=0.95;
+ speechSynthesis.speak(utterance);
 }
 
-async function askAI(text,includePhoto){
-  const prompt=(text||"").trim();
-  if(!prompt && !photoData){notify("Pehle message ya photo add karo.");return;}
-  const sentPhoto=includePhoto ? photoData : "";
-  addBubble(prompt || "Please describe this photo.","user");
-  if(sentPhoto){
-    const image=document.createElement("img");
-    image.src=sentPhoto;
-    image.alt="Photo sent";
-    image.style.maxWidth="180px";
-    image.style.display="block";
-    $("chatlog").lastElementChild.appendChild(image);
+function makePrompt(message){
+ return "You are JARVIS, a helpful personal AI assistant. " +
+ "Reply naturally and respectfully. Never greet the user with Namaste. " +
+ "If a greeting is appropriate, use Assalamualaikum. " +
+ "Address the user as Sir when natural. Do not claim actions you did not do. " +
+ "User message: " + message;
+}
+
+async function askAI(message){
+ const bubble=addMessage("Connecting to AI...","jarvis");
+ $("status").textContent="CONNECTING...";
+ try{
+  const response=await fetch(workerUrl,{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({message:makePrompt(message)})
+  });
+  const data=await response.json();
+  if(!response.ok) throw new Error(data.error || data.message || ("HTTP "+response.status));
+  const answer=data.response || data.reply || data.text ||
+    data.result?.response || data.result?.text;
+  if(typeof answer!=="string" || !answer.trim()){
+   throw new Error("Worker response format not recognized.");
   }
-  const loading=addBubble("Jarvis is thinking...","jarvis");
-  $("sendBtn").disabled=true;
-
-  try{
-    const body={message:prompt || "Describe this photo in simple Hinglish."};
-    if(sentPhoto) body.image=sentPhoto;
-    const response=await fetch(workerURL,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(body)
-    });
-    const data=await response.json().catch(()=>({}));
-    if(!response.ok) throw new Error(data.error || "HTTP "+response.status);
-    const answer=data.reply || data.response || "AI ne empty reply diya.";
-    loading.textContent=answer;
-    speak(answer);
-    if(sentPhoto) removePhoto();
-  }catch(error){
-    loading.textContent="Jarvis error: "+error.message;
-    notify("AI request fail hui. Worker URL aur Cloudflare logs check karo.");
-  }finally{
-    $("sendBtn").disabled=false;
-  }
+  bubble.textContent=answer;
+  $("status").textContent="SYSTEM ONLINE";
+  speak(answer);
+ }catch(err){
+  bubble.textContent="Jarvis error: "+err.message+
+   "\n\nWorker URL aur Cloudflare Worker logs check karo.";
+  $("status").textContent="CONNECTION ERROR";
+ }
 }
 
-$("chatForm").addEventListener("submit",event=>{
-  event.preventDefault();
-  const text=$("message").value;
-  $("message").value="";
-  askAI(text,false);
+$("chatForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const message=$("message").value.trim();
+ if(!message)return;
+ $("message").value="";
+ addMessage(message,"user");
+ askAI(message);
 });
 
-$("pickPhoto").addEventListener("click",()=>$("photoInput").click());
-$("homePhoto").addEventListener("click",()=>{
-  go("chat");
-  $("photoInput").click();
+$("photoBtn").addEventListener("click",()=>$("photoInput").click());
+
+$("photoInput").addEventListener("change",()=>{
+ const file=$("photoInput").files[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){
+  $("photoNote").textContent="Please select an image file.";
+  return;
+ }
+ if(file.size>8*1024*1024){
+  $("photoNote").textContent="Photo 8 MB se chhoti select karo.";
+  return;
+ }
+ selectedPhoto=file;
+ $("preview").src=URL.createObjectURL(file);
+ $("preview").style.display="block";
+ $("analyzeBtn").hidden=false;
+ $("photoNote").textContent="Photo selected. Preview ready.";
 });
 
-$("photoInput").addEventListener("change",event=>{
-  const file=event.target.files && event.target.files[0];
-  if(!file)return;
-  if(!file.type.startsWith("image/")){notify("Image file choose karo.");return;}
-  if(file.size>4*1024*1024){notify("4 MB se chhoti photo choose karo.");return;}
-  const reader=new FileReader();
-  reader.onload=()=>{
-    photoData=String(reader.result||"");
-    $("photoPreview").src=photoData;
-    $("photoName").textContent=file.name;
-    $("photoBox").style.display="block";
-    notify("Photo ready. Analyze Photo dabao.");
-  };
-  reader.onerror=()=>notify("Photo read nahi ho saki.");
-  reader.readAsDataURL(file);
-});
-
-function removePhoto(){
-  photoData="";
-  $("photoInput").value="";
-  $("photoPreview").removeAttribute("src");
-  $("photoBox").style.display="none";
-}
-$("removePhoto").addEventListener("click",removePhoto);
 $("analyzeBtn").addEventListener("click",()=>{
-  const prompt=$("message").value.trim() || "Describe this image in simple Hinglish. Explain visible objects and readable text.";
-  $("message").value="";
-  askAI(prompt,true);
+ if(!selectedPhoto)return;
+ addMessage("Photo selected: "+selectedPhoto.name,"user");
+ addMessage(
+  "Photo preview ready hai, Sir. AI analysis abhi available nahi hai: Cloudflare Worker ka vision model licence agreement maang raha hai. Humne photo ko AI ke paas nahi bheja.",
+  "jarvis"
+ );
 });
 
-function startMic(){
-  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!Recognition){notify("Voice input ke liye Chrome try karo.");return;}
-  const recognition=new Recognition();
-  recognition.lang="en-IN";
-  recognition.onstart=()=>notify("Listening... bolo Sir.");
-  recognition.onerror=event=>notify("Mic error: "+event.error);
-  recognition.onresult=event=>{
-    const text=event.results[0][0].transcript;
-    go("chat");
-    $("message").value=text;
-    askAI(text,false);
-  };
-  recognition.start();
-}
-$("micBtn").addEventListener("click",startMic);
-$("toolsVoice").addEventListener("click",startMic);
-$("homeVoice").addEventListener("click",()=>{go("chat");startMic();});
+$("voiceBtn").addEventListener("click",()=>{
+ voiceOn=!voiceOn;
+ $("voiceBtn").textContent=voiceOn?"🔊 Voice: ON":"🔇 Voice: OFF";
+ if(!voiceOn && "speechSynthesis" in window) speechSynthesis.cancel();
+});
 
-function toggleVoice(){
-  voiceOn=!voiceOn;
-  localStorage.setItem("jarvis_voice",voiceOn?"on":"off");
-  $("voiceToggle").textContent="🔊 Voice: "+(voiceOn?"ON":"OFF");
-  notify("Voice "+(voiceOn?"ON":"OFF"));
-}
-$("voiceToggle").textContent="🔊 Voice: "+(voiceOn?"ON":"OFF");
-$("voiceToggle").addEventListener("click",toggleVoice);
+$("micBtn").addEventListener("click",()=>{
+ const Recognition=window.SpeechRecognition || window.webkitSpeechRecognition;
+ if(!Recognition){
+  addMessage("Is browser mein speech recognition supported nahi hai. Keyboard se type karo.","jarvis");
+  return;
+ }
+ const recognition=new Recognition();
+ recognition.lang="en-IN";
+ recognition.onresult=e=>{
+  $("message").value=e.results[0][0].transcript;
+  $("message").focus();
+ };
+ recognition.onerror=()=>addMessage("Microphone error. Browser permission check karo.","jarvis");
+ recognition.start();
+});
 
 function searchGoogle(){
-  const query=$("message").value.trim();
-  window.open("https://www.google.com/search?q="+encodeURIComponent(query||"Google Search"),"_blank","noopener");
+ const query=$("message").value.trim();
+ if(!query){
+  $("message").focus();
+  $("toolResult").textContent="Pehle Chat mein search query type karo.";
+  showScreen("chat");
+  return;
+ }
+ window.open("https://www.google.com/search?q="+encodeURIComponent(query),"_blank");
 }
 $("searchBtn").addEventListener("click",searchGoogle);
-$("toolsSearch").addEventListener("click",searchGoogle);
-$("clearChat").addEventListener("click",()=>{
-  $("chatlog").innerHTML="";
-  addBubble("Assalamualaikum, Sir. Yes, Sir. How may I help you?","jarvis");
-});
+$("toolSearch").addEventListener("click",()=>{showScreen("chat");searchGoogle();});
 
 function getMemories(){
-  try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]");}
-  catch(error){return [];}
+ try{return JSON.parse(localStorage.getItem("jarvis_memories")||"[]");}
+ catch(e){return [];}
 }
 function renderMemories(){
-  const list=$("memoryList");
-  list.innerHTML="";
-  const memories=getMemories();
-  if(!memories.length){
-    list.textContent="Abhi koi memory saved nahi hai.";
-    list.className="small";
-    return;
-  }
-  list.className="";
-  memories.forEach((item,index)=>{
-    const row=document.createElement("div");
-    row.className="memory";
-    const text=document.createElement("span");
-    text.textContent=item;
-    const del=document.createElement("button");
-    del.textContent="Delete";
-    del.addEventListener("click",()=>{
-      const updated=getMemories();
-      updated.splice(index,1);
-      localStorage.setItem("jarvis_memories",JSON.stringify(updated));
-      renderMemories();
-      notify("Memory deleted.");
-    });
-    row.append(text,del);
-    list.appendChild(row);
+ const list=$("memoryList");
+ list.replaceChildren();
+ getMemories().forEach((item,index)=>{
+  const row=document.createElement("div");
+  row.className="panel";
+  const text=document.createElement("p");
+  text.textContent=item;
+  const del=document.createElement("button");
+  del.textContent="Delete";
+  del.addEventListener("click",()=>{
+   const memories=getMemories();
+   memories.splice(index,1);
+   localStorage.setItem("jarvis_memories",JSON.stringify(memories));
+   renderMemories();
   });
+  row.append(text,del);
+  list.appendChild(row);
+ });
 }
-$("saveMemory").addEventListener("click",()=>{
-  const text=$("memoryInput").value.trim();
-  if(!text){notify("Pehle note likho.");return;}
-  const memories=getMemories();
-  memories.unshift(text);
-  localStorage.setItem("jarvis_memories",JSON.stringify(memories.slice(0,100)));
-  $("memoryInput").value="";
-  renderMemories();
-  notify("Memory saved.");
+$("memoryForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const value=$("memoryInput").value.trim();
+ if(!value)return;
+ const memories=getMemories();
+ memories.push(value);
+ localStorage.setItem("jarvis_memories",JSON.stringify(memories));
+ $("memoryInput").value="";
+ renderMemories();
 });
-$("deleteAllMemory").addEventListener("click",()=>{
-  if(!confirm("Saari saved memories delete karni hain?"))return;
+$("clearMemory").addEventListener("click",()=>{
+ if(confirm("Saari saved memories delete karni hain?")){
   localStorage.removeItem("jarvis_memories");
   renderMemories();
-  notify("All memories deleted.");
+ }
 });
-
-$("saveSettings").addEventListener("click",()=>{
-  const url=$("workerUrl").value.trim().replace(/\/+$/,"");
-  if(!url.startsWith("https://")){notify("Valid HTTPS Worker URL daalo.");return;}
-  workerURL=url;
-  localStorage.setItem("jarvis_worker_url",url);
-  notify("Worker URL saved.");
-});
-$("testWorker").addEventListener("click",async()=>{
-  try{
-    const response=await fetch(workerURL,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:"Reply exactly: Jarvis connection OK"})
-    });
-    const data=await response.json();
-    if(!response.ok)throw new Error(data.error||"HTTP "+response.status);
-    notify("Worker replied: "+String(data.reply||"OK").slice(0,65));
-  }catch(error){
-    notify("Connection error: "+error.message);
-  }
-});
-
 renderMemories();
+
+$("testVoice").addEventListener("click",()=>{
+ speak("Assalamualaikum, Sir. Yes, Sir. How may I help you?");
+ $("toolResult").textContent="Voice test requested.";
+});
+$("testWorker").addEventListener("click",()=>askAI("Reply exactly: Worker connection successful."));
+$("saveSettings").addEventListener("click",()=>{
+ const value=$("workerUrl").value.trim();
+ try{
+  const url=new URL(value);
+  if(url.protocol!=="https:")throw new Error();
+  workerUrl=url.href.replace(/\/$/,"");
+  localStorage.setItem("jarvis_worker_url",workerUrl);
+  $("toolResult").textContent="Worker URL saved.";
+  $("status").textContent="SETTINGS SAVED";
+ }catch(e){
+  $("toolResult").textContent="Valid HTTPS Worker URL enter karo.";
+ }
+});
+$("resetSettings").addEventListener("click",()=>{
+ workerUrl=DEFAULT_WORKER;
+ $("workerUrl").value=workerUrl;
+ localStorage.setItem("jarvis_worker_url",workerUrl);
+ $("toolResult").textContent="Default Worker URL restored.";
+});
+
 })();
 </script>
 </body>
