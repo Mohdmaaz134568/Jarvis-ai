@@ -5,657 +5,496 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090b12">
-<title>JARVIS V9</title>
+<title>JARVIS V10</title>
 
 <style>
-:root {
-  --bg:#090b12;
-  --panel:#111622;
-  --panel2:#171d2a;
-  --red:#ff343b;
-  --gold:#ffc45c;
-  --cyan:#6beaff;
-  --text:#f4f6fb;
-  --muted:#98a3b7;
-  --line:#30394b;
+:root{
+  --bg:#080a10;--panel:#111520;--panel2:#171d2a;
+  --red:#ff3845;--gold:#ffc45c;--cyan:#70eaff;
+  --text:#f3f5fa;--muted:#9ba5b8;--border:#2a3243;
 }
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:radial-gradient(ellipse at top,#20202b 0,#090b12 58%);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
-}
-button,input,textarea,select { font:inherit; }
-button {
-  cursor:pointer;
-  color:var(--text);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:11px 14px;
-  background:#171d2a;
-}
-button:hover { border-color:var(--gold); }
-button:disabled { opacity:.5; cursor:wait; }
-button.primary {
-  background:linear-gradient(120deg,#8e171f,#e7353c);
-  border-color:var(--red);
-}
-button.gold {
-  color:#1b1205;
-  background:linear-gradient(120deg,#ffad36,#ffe19a);
-  border-color:var(--gold);
-  font-weight:bold;
-}
-input,textarea,select {
-  width:100%;
-  padding:12px;
-  color:var(--text);
-  background:#0b101a;
-  border:1px solid var(--line);
-  border-radius:12px;
-  outline:none;
-}
-input:focus,textarea:focus,select:focus { border-color:var(--cyan); }
-textarea { resize:vertical; min-height:85px; }
-.topbar {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:16px;
-  border-bottom:1px solid #38303a;
-  background:#090b12dd;
-  position:sticky;
-  top:0;
-  z-index:5;
-  backdrop-filter:blur(12px);
-}
-.brand { display:flex; align-items:center; gap:11px; }
-.brand h1 { margin:0; font-size:20px; letter-spacing:3px; }
-.brand small { display:block; color:var(--gold); margin-top:4px; letter-spacing:2px; }
-.reactor {
-  width:43px;
-  height:43px;
-  border:3px solid var(--gold);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  box-shadow:0 0 16px #ffb52d55,inset 0 0 12px #ffb52d33;
-  color:var(--cyan);
-  font-size:21px;
-}
-.status { color:#8df5b4; font-size:12px; white-space:nowrap; }
-.app {
-  width:min(1100px,100%);
-  margin:auto;
-  padding:16px;
-}
-.nav {
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding-bottom:12px;
-}
-.nav button { flex:0 0 auto; }
-.nav button.active { border-color:var(--gold); color:var(--gold); }
-.panel {
-  background:linear-gradient(145deg,#141a27ed,#0d111aef);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
-  box-shadow:0 12px 35px #0003;
-}
-.view { display:none; }
-.view.active { display:block; }
-h2 { margin:0 0 12px; font-size:21px; }
-h3 { margin:0 0 10px; }
-p { line-height:1.5; }
-.muted { color:var(--muted); }
-.goldtext { color:var(--gold); }
-.cyantext { color:var(--cyan); }
-.hero {
-  text-align:center;
-  padding:32px 16px;
-}
-.hero .bigreactor {
-  width:116px;
-  height:116px;
-  border:5px solid var(--gold);
-  border-radius:50%;
-  margin:4px auto 22px;
-  display:grid;
-  place-items:center;
-  font-size:56px;
-  color:var(--cyan);
-  box-shadow:0 0 35px #ffb52d44,inset 0 0 25px #6beaff22;
-}
-.hero h2 { font-size:30px; letter-spacing:4px; }
-.grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-.tile {
-  padding:16px;
-  border:1px solid var(--line);
-  border-radius:15px;
-  background:#111723;
-  text-align:left;
-  min-height:95px;
-}
-.tile b { display:block; color:var(--gold); margin-bottom:8px; }
-.row { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
-.row > .grow { flex:1; min-width:150px; }
-.row button { flex:0 0 auto; }
-.chatlog {
-  height:min(48vh,480px);
-  min-height:250px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  padding:8px 2px 16px;
-}
-.msg {
-  padding:12px 14px;
-  border-radius:14px;
-  max-width:92%;
-  line-height:1.5;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-.msg.user {
-  align-self:flex-end;
-  background:#64232a;
-  border:1px solid #a83a40;
-}
-.msg.jarvis {
-  align-self:flex-start;
-  background:#18202d;
-  border:1px solid #364257;
-}
-.msg .who {
-  display:block;
-  color:var(--gold);
-  font-size:11px;
-  margin-bottom:5px;
-  letter-spacing:1px;
-}
-.chatcomposer {
-  display:flex;
-  gap:8px;
-  align-items:flex-end;
-}
-.chatcomposer textarea { min-height:48px; max-height:140px; }
-.chatcomposer button { min-height:48px; }
-.small { font-size:12px; }
-.memoryitem {
-  padding:12px;
-  margin:8px 0;
-  border:1px solid var(--line);
-  border-radius:12px;
-  overflow-wrap:anywhere;
-}
-.memoryitem button { margin-top:8px; }
-.resultimage {
-  width:100%;
-  max-height:600px;
-  object-fit:contain;
-  background:#080a10;
-  border-radius:14px;
-  margin-top:12px;
-  border:1px solid var(--line);
-}
-label { display:block; margin:12px 0 6px; color:var(--muted); }
-.notice { color:var(--muted); font-size:13px; }
-.footer { text-align:center; padding:18px; color:#69758b; font-size:11px; }
-#toast {
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#202939;
-  border:1px solid var(--gold);
-  padding:12px 16px;
-  border-radius:12px;
-  z-index:20;
-  display:none;
-  max-width:90%;
-}
-@media(max-width:560px) {
-  .app { padding:10px; }
-  .topbar { padding:12px; }
-  .brand h1 { font-size:17px; }
-  .brand small { font-size:9px; }
-  .status { font-size:10px; }
-  .panel { padding:14px; }
-  .grid { grid-template-columns:1fr 1fr; gap:8px; }
-  .tile { padding:12px; font-size:13px; }
-  .hero h2 { font-size:24px; }
-  .msg { max-width:96%; }
-  .chatcomposer { flex-wrap:wrap; }
-  .chatcomposer textarea { flex:1 1 100%; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+outline:2px solid var(--cyan);outline-offset:2px}
+.app{display:flex;min-height:100vh}
+.sidebar{width:265px;background:#0c0f17;border-right:1px solid var(--border);
+padding:18px;display:flex;flex-direction:column;gap:12px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:12px;padding:8px 0 18px}
+.core{width:43px;height:43px;border:2px solid var(--cyan);border-radius:50%;
+display:grid;place-items:center;color:var(--gold);font-size:23px;
+box-shadow:0 0 18px #70eaff25,inset 0 0 15px #70eaff20}
+.brand h1{font-size:19px;letter-spacing:2px;margin:0}
+.brand small{color:var(--cyan);letter-spacing:3px;font-size:10px}
+.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);
+border-radius:10px;padding:11px 13px;transition:.15s}
+.btn:hover{border-color:var(--gold);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(110deg,#a91d2a,#e43a40);
+border-color:#ff6570;font-weight:bold}
+.btn.gold{color:var(--gold);border-color:#72552a}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nav .btn.active{border-color:var(--cyan);color:var(--cyan);background:#12202b}
+.section-label{font-size:10px;letter-spacing:2px;color:var(--muted);
+margin:10px 0 2px}
+.history-list{display:flex;flex-direction:column;gap:5px;overflow-y:auto;
+max-height:36vh}
+.history-item{display:flex;gap:5px;align-items:center}
+.history-open{flex:1;min-width:0;text-align:left;white-space:nowrap;
+overflow:hidden;text-overflow:ellipsis;background:transparent;border:1px solid transparent;
+color:#dce3ef;border-radius:8px;padding:10px}
+.history-open:hover,.history-open.current{background:var(--panel2);border-color:var(--border)}
+.history-delete{padding:7px 9px;border:0;background:transparent;color:var(--muted)}
+.sidebar-bottom{margin-top:auto;display:grid;gap:8px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh}
+.topbar{height:66px;border-bottom:1px solid var(--border);display:flex;
+align-items:center;justify-content:space-between;gap:10px;padding:0 22px}
+.topbar-title{font-size:13px;letter-spacing:2px;color:var(--gold)}
+.status{font-size:11px;color:#7df0bd}
+.workspace{display:none;flex:1;min-height:0}
+.workspace.active{display:flex;flex-direction:column}
+.chat-layout{max-width:940px;width:100%;margin:0 auto;padding:20px;
+display:flex;flex:1;flex-direction:column;min-height:0}
+.welcome{text-align:center;margin:auto 0;padding:30px 0}
+.reactor{width:94px;height:94px;border:2px solid var(--cyan);border-radius:50%;
+margin:0 auto 20px;display:grid;place-items:center;font-size:42px;color:var(--gold);
+box-shadow:0 0 35px #70eaff20,inset 0 0 25px #70eaff15}
+.welcome h2{font-size:clamp(24px,4vw,37px);letter-spacing:2px;margin:8px}
+.welcome h2 span{color:var(--gold)}
+.welcome p{color:var(--muted);line-height:1.6}
+.suggestions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:22px}
+.suggestions button{font-size:12px}
+.messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;
+padding:8px 0 20px}
+.message{max-width:88%;padding:13px 15px;border-radius:14px;line-height:1.55;
+white-space:pre-wrap;overflow-wrap:anywhere}
+.message.user{align-self:flex-end;background:#35222a;border:1px solid #70313b}
+.message.jarvis{align-self:flex-start;background:var(--panel);border:1px solid var(--border)}
+.message .who{font-size:10px;letter-spacing:1px;color:var(--cyan);margin-bottom:6px}
+.message img{max-width:100%;border-radius:10px;margin-top:8px}
+.message-tools{display:flex;gap:6px;margin-top:8px}
+.message-tools button{font-size:11px;padding:5px 8px}
+.composer{border:1px solid var(--border);background:var(--panel);border-radius:15px;
+padding:10px;display:flex;gap:8px;align-items:flex-end}
+.composer textarea{flex:1;min-width:0;resize:vertical;min-height:45px;max-height:150px;
+background:transparent;color:var(--text);border:0;outline:none;padding:12px}
+.composer button{min-height:43px}
+.composer button:disabled{opacity:.5;cursor:wait}
+.hint{font-size:10px;color:var(--muted);text-align:center;margin:9px}
+.panel-page{width:100%;max-width:850px;margin:0 auto;padding:24px}
+.panel-page h2{color:var(--gold)}
+.card{border:1px solid var(--border);background:var(--panel);border-radius:14px;
+padding:17px;margin:12px 0}
+.field{display:grid;gap:7px;margin:14px 0}
+.field label{color:var(--muted);font-size:12px}
+.field input,.field textarea,.field select{width:100%;background:#090d15;color:var(--text);
+border:1px solid var(--border);border-radius:9px;padding:12px}
+.field textarea{min-height:100px;resize:vertical}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small{font-size:12px;color:var(--muted);line-height:1.6}
+#imageResult img{max-width:100%;border-radius:12px;margin-top:12px}
+#imageResult a{display:inline-block;color:var(--cyan);margin-top:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+background:#202838;border:1px solid var(--border);padding:11px 16px;
+border-radius:10px;z-index:10;max-width:90%;display:none}
+#menuBtn{display:none}
+@media(max-width:760px){
+ .sidebar{display:none;position:fixed;z-index:5;inset:0 auto 0 0;width:min(290px,85vw);
+ box-shadow:15px 0 50px #0009}
+ .sidebar.open{display:flex}
+ #menuBtn{display:inline-block}
+ .topbar{padding:0 12px;height:58px}
+ .chat-layout{padding:12px}
+ .message{max-width:94%}
+ .welcome{padding:20px 0}
+ .panel-page{padding:16px}
+ .history-list{max-height:40vh}
 }
 </style>
 </head>
 
 <body>
-<header class="topbar">
-  <div class="brand">
-    <div class="reactor">✦</div>
-    <div>
-      <h1>J.A.R.V.I.S.</h1>
-      <small>PERSONAL AI SYSTEM · V9</small>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="core">✦</div>
+      <div><h1>J.A.R.V.I.S.</h1><small>VERSION 10</small></div>
     </div>
-  </div>
-  <div class="status" id="status">● SYSTEM READY</div>
-</header>
 
-<main class="app">
-  <nav class="nav" aria-label="Main navigation">
-    <button class="active" data-go="home">⌂ Home</button>
-    <button data-go="chat">◈ Chat</button>
-    <button data-go="images">▧ Images</button>
-    <button data-go="memory">◎ Memory</button>
-    <button data-go="voice">♫ Voice</button>
-    <button data-go="settings">⚙ Settings</button>
-  </nav>
+    <button class="btn primary" id="newChatBtn">＋ New Chat</button>
 
-  <section class="view active" id="home">
-    <div class="panel hero">
-      <div class="bigreactor">✦</div>
-      <p class="goldtext">PERSONAL ASSISTANT ONLINE</p>
-      <h2>WELCOME BACK, SIR</h2>
-      <p class="muted">Your personal AI interface is ready.</p>
-      <button class="primary" data-go="chat">START CONVERSATION</button>
+    <div class="nav">
+      <button class="btn active" data-page="chat">◉ Chat</button>
+      <button class="btn" data-page="images">▧ Images</button>
+      <button class="btn" data-page="memory">⌘ Memory</button>
+      <button class="btn" data-page="settings">⚙ Settings</button>
     </div>
-    <div class="grid">
-      <button class="tile" data-go="chat"><b>◈ AI CHAT</b>Ask questions and get answers.</button>
-      <button class="tile" data-go="images"><b>▧ IMAGE STUDIO</b>Generate images using your Worker.</button>
-      <button class="tile" data-go="memory"><b>◎ SMART MEMORY</b>Save and search personal notes.</button>
-      <button class="tile" data-go="voice"><b>♫ VOICE CONTROL</b>Test speech and microphone.</button>
+
+    <div class="section-label">YOUR CHAT HISTORY</div>
+    <div class="history-list" id="historyList"></div>
+
+    <div class="sidebar-bottom">
+      <button class="btn" id="renameChatBtn">✎ Rename Current Chat</button>
+      <button class="btn" id="exportBtn">⇩ Export Chat History</button>
+      <button class="btn" id="clearHistoryBtn">Clear All History</button>
+      <div class="small">History is saved in this browser on this device.</div>
     </div>
-    <div class="panel" style="margin-top:14px">
-      <h3>System overview</h3>
-      <p class="muted small">Chat history and saved memories are stored in this browser. AI replies and image generation need your Cloudflare Worker to be online.</p>
-      <div class="row">
-        <button data-go="settings">Open Settings</button>
-        <button id="clearChatBtn">Clear Chat History</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn" id="menuBtn" aria-label="Open menu">☰</button>
+        <div class="topbar-title">PERSONAL AI SYSTEM</div>
       </div>
-    </div>
-  </section>
+      <div class="status" id="status">● READY</div>
+    </header>
 
-  <section class="view" id="chat">
-    <div class="panel">
-      <div class="row" style="justify-content:space-between">
-        <div>
-          <h2>JARVIS CHAT</h2>
-          <p class="muted small">Ask me anything, Sir.</p>
+    <section class="workspace active" id="page-chat">
+      <div class="chat-layout">
+        <div class="welcome" id="welcome">
+          <div class="reactor">✦</div>
+          <h2>HELLO, <span>SIR.</span></h2>
+          <p>Your personal AI assistant is ready.<br>How may I help you today?</p>
+          <div class="suggestions">
+            <button class="btn" data-prompt="Tell me something interesting.">Explore something</button>
+            <button class="btn" data-prompt="Help me plan my day.">Plan my day</button>
+            <button class="btn" data-prompt="What do you remember from our saved chats?">Search my history</button>
+          </div>
         </div>
-        <button id="clearChatBtn2">Clear Chat</button>
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <div class="composer">
+          <button class="btn" id="micBtn" title="Voice input" aria-label="Voice input">🎙</button>
+          <textarea id="messageInput" placeholder="Message JARVIS..." rows="1"></textarea>
+          <button class="btn" id="sendBtn" aria-label="Send message">➤</button>
+        </div>
+        <div class="hint">Enter to send · Shift + Enter for a new line</div>
       </div>
-      <div class="chatlog" id="chatlog" aria-live="polite"></div>
-      <div class="chatcomposer">
-        <textarea id="messageInput" placeholder="Type your message..." aria-label="Your message"></textarea>
-        <button id="micBtn" title="Speak your message">🎙️</button>
-        <button class="primary" id="sendBtn">Send ➤</button>
-      </div>
-      <p class="notice">Tip: press Enter to send. Shift + Enter adds a new line.</p>
-      <div class="row">
-        <button id="stopVoiceBtn">■ Stop Speaking</button>
-        <button id="speakLastBtn">♫ Read Last Reply</button>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="view" id="images">
-    <div class="panel">
-      <h2>IMAGE STUDIO</h2>
-      <p class="muted">Describe the image you want JARVIS to generate.</p>
-      <label for="imagePrompt">Image description</label>
-      <textarea id="imagePrompt" placeholder="Example: Futuristic red and gold sports car in a cinematic city at night"></textarea>
-      <div class="row" style="margin-top:12px">
-        <button class="gold" id="generateBtn">✦ Generate Image</button>
-        <button id="clearImageBtn">Clear</button>
+    <section class="workspace" id="page-images">
+      <div class="panel-page">
+        <h2>▧ IMAGE STUDIO</h2>
+        <p class="small">Describe the image you want JARVIS to generate.</p>
+        <div class="card">
+          <div class="field">
+            <label for="imagePrompt">IMAGE DESCRIPTION</label>
+            <textarea id="imagePrompt" placeholder="Example: futuristic red and gold AI holographic interface, cinematic lighting..."></textarea>
+          </div>
+          <button class="btn primary" id="generateImageBtn">Generate Image</button>
+          <div id="imageResult" class="small" aria-live="polite"></div>
+        </div>
       </div>
-      <p id="imageStatus" class="notice" aria-live="polite"></p>
-      <img id="generatedImage" class="resultimage" alt="Generated image" hidden>
-      <div class="row" id="imageActions" hidden style="margin-top:10px">
-        <button id="downloadImageBtn">Save Image</button>
+    </section>
+
+    <section class="workspace" id="page-memory">
+      <div class="panel-page">
+        <h2>⌘ SMART MEMORY</h2>
+        <p class="small">Save notes that can be included in future AI requests. This is separate from chat history.</p>
+        <div class="card">
+          <div class="field">
+            <label for="memoryInput">NEW MEMORY / NOTE</label>
+            <textarea id="memoryInput" placeholder="Example: My current project is JARVIS V10."></textarea>
+          </div>
+          <button class="btn primary" id="saveMemoryBtn">Save Memory</button>
+        </div>
+        <div id="memoryList"></div>
+        <div class="card">
+          <button class="btn" id="clearMemoryBtn">Clear All Saved Memories</button>
+        </div>
       </div>
-      <p class="notice">Image generation works only if your existing Worker supports the generateImage action and returns an image.</p>
-    </div>
-  </section>
+    </section>
 
-  <section class="view" id="memory">
-    <div class="panel">
-      <h2>SMART MEMORY</h2>
-      <p class="muted">Save notes for future chats on this browser.</p>
-      <label for="memoryInput">Memory or personal note</label>
-      <textarea id="memoryInput" placeholder="Example: I prefer answers in Hinglish."></textarea>
-      <button class="gold" id="saveMemoryBtn" style="margin-top:10px">＋ Save Memory</button>
-      <label for="memorySearch">Search saved memories</label>
-      <input id="memorySearch" placeholder="Search your notes...">
-      <div id="memoryList"></div>
-      <p class="notice">Memories are stored locally in this browser; they are not a cloud account-wide memory.</p>
-      <button id="deleteAllMemoryBtn">Delete All Memories</button>
-    </div>
-  </section>
-
-  <section class="view" id="voice">
-    <div class="panel">
-      <h2>VOICE CONTROL</h2>
-      <p class="muted">Uses the voices and speech features available in your browser/device.</p>
-      <label for="voiceSelect">Available voice</label>
-      <select id="voiceSelect"><option value="">Default device voice</option></select>
-      <label for="rate">Speech speed: <span id="rateValue">1.0</span></label>
-      <input id="rate" type="range" min="0.7" max="1.3" step="0.1" value="1">
-      <label for="pitch">Voice pitch: <span id="pitchValue">1.0</span></label>
-      <input id="pitch" type="range" min="0.7" max="1.3" step="0.1" value="1">
-      <div class="row" style="margin-top:16px">
-        <button class="gold" id="testVoiceBtn">♫ Test Voice</button>
-        <button id="stopVoiceBtn2">■ Stop Voice</button>
-        <button id="testMicBtn">🎙️ Test Microphone</button>
+    <section class="workspace" id="page-settings">
+      <div class="panel-page">
+        <h2>⚙ SYSTEM SETTINGS</h2>
+        <div class="card">
+          <div class="field">
+            <label for="languageSelect">RESPONSE LANGUAGE</label>
+            <select id="languageSelect">
+              <option value="hinglish">Hinglish (Roman Hindi)</option>
+              <option value="english">English</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="voiceSelect">DEVICE SPEAKING VOICE</label>
+            <select id="voiceSelect"><option value="">Default device voice</option></select>
+          </div>
+          <div class="field">
+            <label for="rateSelect">SPEECH SPEED: <span id="rateValue">1</span></label>
+            <input id="rateSelect" type="range" min="0.7" max="1.3" step="0.1" value="1">
+          </div>
+          <div class="row-actions">
+            <button class="btn" id="testVoiceBtn">Test Voice</button>
+            <button class="btn" id="stopVoiceBtn">Stop Speaking</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Worker Connection</h3>
+          <p class="small">V10 uses your existing Cloudflare Worker. Keep this URL unchanged unless you have deployed a different Worker.</p>
+          <div class="field">
+            <label for="workerUrl">CLOUDFLARE WORKER URL</label>
+            <input id="workerUrl" type="url" autocomplete="url">
+          </div>
+          <button class="btn" id="saveWorkerBtn">Save Worker URL</button>
+          <button class="btn" id="testConnectionBtn">Test Connection</button>
+          <p id="connectionResult" class="small" aria-live="polite"></p>
+        </div>
+        <div class="card">
+          <h3>Privacy & Storage</h3>
+          <p class="small">Chats and notes are stored in this browser's local storage. They may not appear on another device or browser. Clearing browser site data may remove them.</p>
+        </div>
       </div>
-      <p id="voiceStatus" class="notice" aria-live="polite"></p>
-    </div>
-  </section>
-
-  <section class="view" id="settings">
-    <div class="panel">
-      <h2>SETTINGS</h2>
-      <label for="language">Response language</label>
-      <select id="language">
-        <option value="Hinglish">Hinglish (Roman Hindi + English)</option>
-        <option value="English">English only</option>
-      </select>
-      <label for="assistantName">Assistant name</label>
-      <input id="assistantName" value="JARVIS" maxlength="30">
-      <div class="row" style="margin-top:14px">
-        <button class="gold" id="saveSettingsBtn">Save Settings</button>
-        <button id="checkWorkerBtn">Test Worker</button>
-      </div>
-      <p id="settingsStatus" class="notice" aria-live="polite"></p>
-      <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-      <h3>Data controls</h3>
-      <p class="notice">Clearing chat removes saved conversation history from this browser. Saved memories are managed separately.</p>
-      <button id="clearChatBtn3">Clear Chat History</button>
-    </div>
-  </section>
-
-  <div class="footer">JARVIS V9 · PERSONAL AI INTERFACE</div>
-</main>
-<div id="toast" role="status"></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
 (() => {
-  "use strict";
+"use strict";
 
-  const WORKER_URL = "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+const DEFAULT_WORKER = "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+const KEYS = {
+  history: "jarvis_chat_history",
+  memories: "jarvis_memories",
+  worker: "jarvis_worker_url",
+  language: "jarvis_language",
+  voice: "jarvis_voice",
+  rate: "jarvis_rate"
+};
 
-  const KEYS = {
-    chat: "jarvis_v9_chat",
-    memories: "jarvis_v9_memories",
-    language: "jarvis_v9_language",
-    name: "jarvis_v9_name",
-    rate: "jarvis_v9_rate",
-    pitch: "jarvis_v9_pitch",
-    voice: "jarvis_v9_voice"
+const $ = id => document.getElementById(id);
+const makeId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const now = () => new Date().toISOString();
+
+function safeRead(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+function safeWrite(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch {
+    notify("Browser storage is full. Export or clear old chats.");
+    return false;
+  }
+}
+function notify(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.style.display = "block";
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => toast.style.display = "none", 3000);
+}
+function getWorker() {
+  return (localStorage.getItem(KEYS.worker) || DEFAULT_WORKER).trim().replace(/\/+$/, "");
+}
+function getLanguage() {
+  return $("languageSelect").value;
+}
+function languageInstruction() {
+  return getLanguage() === "english"
+    ? "Reply in clear, concise English."
+    : "Reply in natural Roman Hinglish (Hindi written in English letters). Do not use Devanagari Hindi. Keep answers concise unless the user asks for detail.";
+}
+
+let memories = safeRead(KEYS.memories, []);
+if (!Array.isArray(memories)) memories = [];
+
+function normalizeMessage(m) {
+  if (!m || typeof m !== "object") return null;
+  const role = m.role === "user" ? "user" : (m.role === "assistant" || m.role === "jarvis" ? "assistant" : "");
+  const content = String(m.content ?? m.text ?? m.message ?? "").trim();
+  if (!role || !content) return null;
+  return { id: m.id || makeId(), role, content, time: m.time || m.timestamp || now() };
+}
+function normalizeChat(c) {
+  if (!c || typeof c !== "object") return null;
+  const messages = Array.isArray(c.messages) ? c.messages.map(normalizeMessage).filter(Boolean) : [];
+  if (!messages.length) return null;
+  return {
+    id: String(c.id || makeId()),
+    title: String(c.title || messages.find(m => m.role === "user")?.content || "Previous Chat").slice(0,80),
+    created: c.created || c.createdAt || now(),
+    updated: c.updated || c.updatedAt || now(),
+    messages
   };
+}
 
-  const $ = id => document.getElementById(id);
-  let chatHistory = readJSON(KEYS.chat, []);
-  let memories = readJSON(KEYS.memories, []);
-  let busy = false;
-  let lastReply = "";
-  let recognition = null;
-  let voices = [];
-
-  function readJSON(key, fallback) {
-    try {
-      const value = JSON.parse(localStorage.getItem(key));
-      return value ?? fallback;
-    } catch {
-      return fallback;
-    }
+function loadChats() {
+  const raw = safeRead(KEYS.history, []);
+  if (!Array.isArray(raw)) return [];
+  if (raw.some(item => item && Array.isArray(item.messages))) {
+    return raw.map(normalizeChat).filter(Boolean).sort((a,b) => b.updated.localeCompare(a.updated));
   }
-
-  function saveJSON(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      toast("Browser storage is full or unavailable.");
-    }
+  // Keep older V9 flat message history by migrating it into one chat.
+  const oldMessages = raw.map(normalizeMessage).filter(Boolean);
+  if (oldMessages.length) {
+    return [{
+      id: makeId(), title: "Imported Previous History",
+      created: oldMessages[0].time, updated: now(), messages: oldMessages
+    }];
   }
+  return [];
+}
 
-  function toast(message) {
-    const el = $("toast");
-    el.textContent = message;
-    el.style.display = "block";
-    clearTimeout(toast.timer);
-    toast.timer = setTimeout(() => el.style.display = "none", 2800);
-  }
+let chats = loadChats();
+let currentChatId = chats[0]?.id || null;
+let busy = false;
+let recognition = null;
+let listening = false;
+let voices = [];
 
-  function setStatus(message) {
-    $("status").textContent = message;
-  }
+function currentChat() {
+  return chats.find(c => c.id === currentChatId) || null;
+}
+function persistChats() {
+  safeWrite(KEYS.history, chats);
+  renderHistory();
+}
+function newChat() {
+  const chat = { id: makeId(), title: "New Chat", created: now(), updated: now(), messages: [] };
+  chats.unshift(chat);
+  currentChatId = chat.id;
+  persistChats();
+  renderMessages();
+  showPage("chat");
+  closeMobileMenu();
+  $("messageInput").focus();
+}
+function makeTitle(text) {
+  const cleaned = text.replace(/\s+/g," ").trim();
+  return cleaned.length > 36 ? cleaned.slice(0,36) + "…" : (cleaned || "New Chat");
+}
 
-  function getLanguage() {
-    return $("language").value || "Hinglish";
-  }
+function renderHistory() {
+  const list = $("historyList");
+  list.replaceChildren();
+  chats.forEach(chat => {
+    const wrap = document.createElement("div");
+    wrap.className = "history-item";
 
-  function getAssistantName() {
-    return $("assistantName").value.trim() || "JARVIS";
-  }
-
-  function navigate(viewId) {
-    if (!$ (viewId)) return;
-    document.querySelectorAll(".view").forEach(view => {
-      view.classList.toggle("active", view.id === viewId);
+    const open = document.createElement("button");
+    open.className = "history-open" + (chat.id === currentChatId ? " current" : "");
+    open.textContent = chat.title || "New Chat";
+    open.title = chat.title;
+    open.addEventListener("click", () => {
+      currentChatId = chat.id;
+      renderHistory();
+      renderMessages();
+      showPage("chat");
+      closeMobileMenu();
     });
-    document.querySelectorAll("[data-go]").forEach(button => {
-      button.classList.toggle("active", button.dataset.go === viewId);
-    });
-    if (viewId === "memory") renderMemories();
-    if (viewId === "chat") $("messageInput").focus();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
-  document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => navigate(button.dataset.go));
+    const del = document.createElement("button");
+    del.className = "history-delete";
+    del.textContent = "×";
+    del.title = "Delete this chat";
+    del.setAttribute("aria-label", "Delete " + chat.title);
+    del.addEventListener("click", () => {
+      if (!confirm('Delete chat "' + chat.title + '"?')) return;
+      chats = chats.filter(c => c.id !== chat.id);
+      if (currentChatId === chat.id) currentChatId = chats[0]?.id || null;
+      persistChats();
+      renderMessages();
+      notify("Chat deleted.");
+    });
+    wrap.append(open, del);
+    list.append(wrap);
   });
+}
 
-  function addMessage(role, text, persist = true) {
-    const entry = { role, text, time: Date.now() };
-    chatHistory.push(entry);
-    if (chatHistory.length > 150) chatHistory = chatHistory.slice(-150);
-    if (persist) saveJSON(KEYS.chat, chatHistory);
-    renderMessage(entry);
+function addMessage(role, content, extra = {}) {
+  let chat = currentChat();
+  if (!chat) {
+    chat = { id: makeId(), title: "New Chat", created: now(), updated: now(), messages: [] };
+    chats.unshift(chat);
+    currentChatId = chat.id;
   }
+  const message = { id: makeId(), role, content: String(content), time: now(), ...extra };
+  chat.messages.push(message);
+  chat.updated = now();
+  if (role === "user" && (chat.title === "New Chat" || chat.title === "Imported Previous History")) {
+    chat.title = makeTitle(content);
+  }
+  persistChats();
+  renderMessages();
+  return message;
+}
 
-  function renderMessage(entry) {
-    const log = $("chatlog");
-    const bubble = document.createElement("div");
-    bubble.className = "msg " + (entry.role === "user" ? "user" : "jarvis");
+function renderMessages() {
+  const chat = currentChat();
+  const box = $("messages");
+  box.replaceChildren();
+  $("welcome").style.display = chat && chat.messages.length ? "none" : "block";
+  if (!chat) return;
 
-    const who = document.createElement("span");
+  chat.messages.forEach(message => {
+    const item = document.createElement("div");
+    item.className = "message " + (message.role === "user" ? "user" : "jarvis");
+
+    const who = document.createElement("div");
     who.className = "who";
-    who.textContent = entry.role === "user" ? "YOU" : getAssistantName();
+    who.textContent = message.role === "user" ? "YOU" : "JARVIS";
+    item.append(who);
 
     const body = document.createElement("div");
-    body.textContent = entry.text;
+    body.textContent = message.content;
+    item.append(body);
 
-    bubble.append(who, body);
-    log.appendChild(bubble);
-    log.scrollTop = log.scrollHeight;
-  }
-
-  function renderChat() {
-    $("chatlog").replaceChildren();
-    if (!chatHistory.length) {
-      const welcome = {
-        role: "assistant",
-        text: getLanguage() === "English"
-          ? "Hello, Sir. How may I help you?"
-          : "Assalamualaikum Sir! Batao, main aapki kya help karun?"
-      };
-      renderMessage(welcome);
-      return;
+    if (message.imageUrl) {
+      const img = document.createElement("img");
+      img.src = message.imageUrl;
+      img.alt = "Generated image";
+      img.loading = "lazy";
+      item.append(img);
     }
-    chatHistory.forEach(renderMessage);
-  }
-
-  function clearChat() {
-    if (!confirm("Delete all chat history from this browser?")) return;
-    chatHistory = [];
-    saveJSON(KEYS.chat, chatHistory);
-    lastReply = "";
-    renderChat();
-    toast("Chat history cleared.");
-  }
-
-  ["clearChatBtn", "clearChatBtn2", "clearChatBtn3"].forEach(id => {
-    $(id).addEventListener("click", clearChat);
-  });
-
-  function relevantMemories(message) {
-    const words = message.toLowerCase().match(/[a-z0-9]+/g) || [];
-    if (!words.length || !memories.length) return [];
-    const scored = memories.map(memory => {
-      const content = memory.text.toLowerCase();
-      const score = words.reduce((sum, word) => {
-        return sum + (word.length > 2 && content.includes(word) ? 1 : 0);
-      }, 0);
-      return { text: memory.text, score };
-    });
-    return scored.filter(item => item.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 5)
-      .map(item => item.text);
-  }
-
-  async function sendMessage() {
-    const message = $("messageInput").value.trim();
-    if (!message || busy) return;
-
-    $("messageInput").value = "";
-    addMessage("user", message);
-    busy = true;
-    $("sendBtn").disabled = true;
-    setStatus("● THINKING...");
-
-    try {
-      const found = relevantMemories(message);
-      let prompt = message;
-
-      if (found.length) {
-        prompt = "Relevant saved notes (use only if helpful):\n- " +
-          found.join("\n- ") + "\n\nUser's message: " + message;
-      }
-
-      const response = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: prompt,
-          language: getLanguage()
-        })
+    if (message.role === "assistant") {
+      const tools = document.createElement("div");
+      tools.className = "message-tools";
+      const speak = document.createElement("button");
+      speak.className = "btn";
+      speak.textContent = "🔊 Speak";
+      speak.addEventListener("click", () => speakText(message.content));
+      const copy = document.createElement("button");
+      copy.className = "btn";
+      copy.textContent = "Copy";
+      copy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(message.content);
+          notify("Copied.");
+        } catch { notify("Copy not available in this browser."); }
       });
-
-      const raw = await response.text();
-      let data;
-      try {
-        data = JSON.parse(raw);
-      } catch {
-        throw new Error("Worker returned an invalid response. Check your Worker code.");
-      }
-
-      if (!response.ok) {
-        throw new Error(data.error || data.message || ("Worker error: " + response.status));
-      }
-
-      const reply = extractReply(data);
-      if (!reply) {
-        throw new Error(data.error || "No text reply received from Worker.");
-      }
-
-      lastReply = reply;
-      addMessage("assistant", reply);
-      setStatus("● SYSTEM READY");
-      speak(reply);
-    } catch (error) {
-      const messageText = "Sorry Sir, connection issue: " + (error.message || "Please try again.");
-      addMessage("assistant", messageText);
-      setStatus("● CONNECTION ISSUE");
-    } finally {
-      busy = false;
-      $("sendBtn").disabled = false;
-      $("messageInput").focus();
+      tools.append(speak, copy);
+      item.append(tools);
     }
-  }
-
-  function extractReply(data) {
-    if (typeof data === "string") return data;
-    if (!data || typeof data !== "object") return "";
-    const value = data.reply ?? data.response ?? data.output_text ?? data.result;
-    if (typeof value === "string") return value;
-    if (value && typeof value === "object") {
-      return value.text ?? value.response ?? value.output_text ?? "";
-    }
-    return "";
-  }
-
-  $("sendBtn").addEventListener("click", sendMessage);
-
-  $("messageInput").addEventListener("keydown", event => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      sendMessage();
-    }
+    box.append(item);
   });
+  box.scrollTop = box.scrollHeight;
+}
 
-  function loadVoices() {
-    if (!("speechSynthesis" in window)) return;
-    voices = window.speechSynthesis.getVoices();
-    const select = $("voiceSelect");
-    const savedVoice = localStorage.getItem(KEYS.voice) || "";
-    select.replaceChildren(new Option("Default device voice", ""));
+function showPage(page) {
+  document.querySelectorAll(".workspace").forEach(el => el.classList.remove("active"));
+  const target = $("page-" + page);
+  if (target) target.classList.add("active");
+  document.querySelectorAll("[data-page]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.page === page);
+  });
+  if (page === "memory") renderMemories();
+  closeMobileMenu();
+}
+function closeMobileMenu() {
+  $("sidebar").classList.remove("open");
+}
 
-    voices.forEach((voice, index) => {
-      const option = new Option(
-        `${voice.name} (${voice.lang})`,
-        String(index)
-      );
-      select.appendChild(option);
-    });
-
-    if (savedVoice !== "" && Number(savedVoice) < voices.length) {
-      select.value = savedVoice;
-    }
-  }
-
-  function speak(text) {
-    if (!("speechSynthesis" in window) || !text) {
-      $("voiceStatus").textContent = "Speech synthesis is not supported in this browser.";
-      return;
-    }
-
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(
-      text.replace(/[*#_`]/g, "").slice(0, 4000)
-    );
-
-    const voiceIndex = $("voiceSelect").value;
-    if (voiceIndex !== "" && voices[Number(voiceIndex)]) {
-      utterance.voice = voices[Number(voiceIndex)];
-    } else {
-      const preferred = voices.find(v => /^en-IN$/i.test(v.lang))
-        || voices.find(v => /^hi-IN$/i.test(v.lang))
-        })();
-</script>
-</body>
-</html>
-   
+function relevantContext(userText, chat) {
+  const queryWords = new Set(userText.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2));
+  
