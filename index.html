@@ -5,111 +5,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050a14">
-<title>JARVIS V15 Advanced</title>
-
+<title>JARVIS V16 | Intelligence System</title>
 <style>
-:root {
-  --bg:#050a14;
-  --panel:#0b1424;
-  --panel2:#101e31;
-  --cyan:#54eaff;
-  --blue:#168dff;
-  --gold:#ffc96b;
-  --text:#e7f5ff;
-  --muted:#8ca6bd;
-  --border:#223c53;
-  --red:#ff3b59;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;background:
-  radial-gradient(ellipse at 50% 0%,#123352 0%,#08101e 38%,var(--bg) 78%);
-  color:var(--text);font-family:Arial,sans-serif;min-height:100vh;
-}
-button,input,textarea,select {font:inherit}
-button {
-  color:var(--text);background:var(--panel2);
-  border:1px solid var(--border);border-radius:13px;
-  padding:12px 15px;cursor:pointer;
-}
-button:active {transform:scale(.98)}
-button:disabled {opacity:.5;cursor:wait}
-header {padding:20px 16px 12px;text-align:center}
-.logo {
-  width:124px;height:124px;margin:0 auto 12px;border-radius:50%;
-  display:grid;place-items:center;position:relative;
-  border:3px solid var(--cyan);
-  box-shadow:0 0 20px #1edcff88,inset 0 0 24px #168dff55;
-  animation:pulse 3s ease-in-out infinite;
-}
-.logo:before,.logo:after {
-  content:"";position:absolute;border:1px dashed var(--cyan);
-  border-radius:50%;inset:-12px;animation:spin 12s linear infinite;
-}
-.logo:after {inset:-22px;border-color:#168dff;animation-direction:reverse}
-.logo span {font-size:18px;font-weight:bold;letter-spacing:2px}
-@keyframes spin {to{transform:rotate(360deg)}}
-@keyframes pulse {50%{box-shadow:0 0 36px #1edcffbb,inset 0 0 28px #168dff88}}
-h1 {font-size:25px;letter-spacing:5px;margin:8px 0}
-.sub {color:var(--muted);font-size:12px;letter-spacing:2px}
-.status {
-  display:inline-flex;align-items:center;gap:8px;
-  margin-top:12px;padding:8px 13px;border:1px solid var(--border);
-  border-radius:30px;color:var(--cyan);font-size:12px;
-}
-.dot {width:8px;height:8px;background:#44ffb1;border-radius:50%;box-shadow:0 0 10px #44ffb1}
-.toolbar {
-  display:flex;flex-wrap:wrap;justify-content:center;
-  gap:8px;padding:10px 12px;
-}
-select {background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:11px;max-width:100%}
-main {max-width:850px;margin:auto;padding:8px 12px 18px}
-.stats {display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 14px}
-.stat {background:#0b1424bb;border:1px solid var(--border);border-radius:13px;padding:12px 6px;text-align:center}
-.stat strong {display:block;color:var(--cyan);font-size:15px}
-.stat small {display:block;color:var(--muted);font-size:10px;margin-top:5px}
-.chat {
-  height:min(47vh,510px);min-height:260px;overflow:auto;
-  border:1px solid var(--border);border-radius:22px;
-  padding:15px;background:#080e19dd;scroll-behavior:smooth;
-}
-.msg {margin:0 0 18px}
-.who {font-size:12px;letter-spacing:2px;color:var(--cyan);margin-bottom:7px}
-.msg.user .who {color:var(--gold)}
-.bubble {
-  background:#101b2b;border:1px solid #1c3044;
-  padding:14px;border-radius:7px 18px 18px 18px;
-  line-height:1.55;overflow-wrap:anywhere;white-space:pre-wrap;
-}
-.msg.user .bubble {background:#132439;border-radius:18px 7px 18px 18px}
-.bubble img {display:block;max-width:100%;height:auto;max-height:440px;object-fit:contain;border-radius:12px;margin-top:10px}
-.bubble a {color:var(--cyan)}
-.image-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.composer {margin-top:12px;background:#0b1424;border:1px solid var(--border);border-radius:20px;padding:12px}
-textarea {
-  width:100%;min-height:76px;max-height:180px;resize:vertical;
-  background:transparent;border:0;outline:none;color:var(--text);
-  padding:10px;font-size:16px;
-}
-.controls {display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.primary {background:var(--red);border-color:var(--red);font-weight:bold}
-.accent {border-color:#237f9b;color:var(--cyan)}
-footer {text-align:center;color:var(--muted);font-size:11px;padding:22px 10px 30px}
-#fileInput {display:none}
-#preview {display:none;max-width:110px;max-height:100px;border-radius:10px;margin:5px}
-.notice {font-size:12px;color:var(--muted);padding:9px}
-@media(min-width:650px) {
-  header {padding-top:28px}
-  .chat {height:490px}
-}
+:root{--bg:#050a14;--panel:#0b1424;--panel2:#101e31;--cyan:#54eaff;--blue:#168dff;--gold:#ffc96b;--text:#e7f5ff;--muted:#8ca6bd;--border:#223c53;--red:#ff3b59}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% 0%,#123352 0%,#08101e 38%,var(--bg) 78%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{color:var(--text);background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;cursor:pointer}
+button:active{transform:scale(.98)}
+button:disabled{opacity:.5}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+header{text-align:center;padding:22px 14px 12px}
+.logo{width:100px;height:100px;margin:0 auto 12px;border:2px solid var(--cyan);border-radius:50%;display:grid;place-items:center;position:relative;box-shadow:0 0 25px #1edcff66,inset 0 0 22px #168dff55;animation:pulse 3s infinite}
+.logo:before,.logo:after{content:"";position:absolute;inset:-10px;border:1px dashed var(--cyan);border-radius:50%;animation:spin 12s linear infinite}
+.logo:after{inset:-17px;border-color:var(--blue);animation-direction:reverse}
+.logo span{font-weight:bold;letter-spacing:1px;font-size:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 0 36px #1edcff99,inset 0 0 28px #168dff88}}
+h1{font-size:25px;letter-spacing:5px;margin:8px 0}
+.sub{font-size:11px;letter-spacing:2px;color:var(--muted)}
+.status{display:inline-flex;gap:8px;align-items:center;margin-top:12px;padding:8px 12px;border:1px solid var(--border);border-radius:30px;font-size:12px;color:var(--cyan)}
+.dot{width:8px;height:8px;border-radius:50%;background:#44ffb1;box-shadow:0 0 10px #44ffb1}
+.toolbar,.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:10px 12px}
+select{background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:11px;padding:10px;max-width:100%}
+main{max-width:900px;margin:auto;padding:8px 12px 20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 14px}
+.stat{background:#0b1424cc;border:1px solid var(--border);border-radius:12px;padding:12px 5px;text-align:center}
+.stat strong{display:block;color:var(--cyan);font-size:14px;overflow-wrap:anywhere}
+.stat small{display:block;color:var(--muted);font-size:9px;margin-top:5px}
+.chat{height:min(48vh,520px);min-height:270px;overflow:auto;border:1px solid var(--border);border-radius:20px;padding:14px;background:#080e19eF;scroll-behavior:smooth}
+.msg{margin-bottom:17px}
+.who{font-size:11px;letter-spacing:2px;color:var(--cyan);margin-bottom:6px}
+.msg.user .who{color:var(--gold)}
+.bubble{background:#101b2b;border:1px solid #1c3044;padding:13px;border-radius:7px 16px 16px 16px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user .bubble{background:#132439;border-radius:16px 7px 16px 16px}
+.bubble img{display:block;max-width:100%;height:auto;max-height:420px;object-fit:contain;border-radius:10px;margin-top:10px}
+.image-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.composer{margin-top:12px;background:#0b1424;border:1px solid var(--border);border-radius:18px;padding:12px}
+textarea{width:100%;min-height:75px;max-height:190px;resize:vertical;background:transparent;border:0;outline:none;color:var(--text);padding:10px;font-size:16px}
+.controls{justify-content:flex-start;padding:5px 0 0}
+.primary{background:var(--red);border-color:var(--red);font-weight:bold}
+.accent{border-color:#237f9b;color:var(--cyan)}
+.active{background:#123c50;border-color:var(--cyan);box-shadow:0 0 12px #54eaff44}
+.notice{font-size:12px;color:var(--muted);padding:10px 2px;overflow-wrap:anywhere}
+#fileInput{display:none}
+#preview{display:none;max-width:115px;max-height:100px;object-fit:contain;border-radius:9px;margin:5px}
+footer{text-align:center;color:var(--muted);font-size:10px;padding:20px 12px 28px}
+.history-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:55vh;overflow:auto}
+.history-item{text-align:left;width:100%;overflow-wrap:anywhere}
+.history-item small{display:block;color:var(--muted);margin-top:5px}
+.overlay{position:fixed;inset:0;background:#000b;z-index:5;display:none;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:17px;width:min(500px,100%);max-height:85vh;overflow:auto}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+@media(min-width:650px){header{padding-top:28px}.chat{height:490px}}
 </style>
 </head>
-
 <body>
 <header>
   <div class="logo"><span>J.A.R.V.I.S</span></div>
   <h1>JARVIS</h1>
-  <div class="sub">PERSONAL ARTIFICIAL INTELLIGENCE</div>
+  <div class="sub">V16 · ADVANCED PERSONAL AI</div>
   <div class="status"><span class="dot"></span><span id="status">SYSTEM ONLINE</span></div>
   <div class="sub" id="clock" style="margin-top:12px"></div>
 </header>
@@ -122,14 +77,14 @@ footer {text-align:center;color:var(--muted);font-size:11px;padding:22px 10px 30
     <option value="english">English</option>
   </select>
   <button id="voiceToggle">🔊 Voice: OFF</button>
-  <button id="speakBtn">🎙 Speak</button>
+  <button id="speakBtn">🔈 Speak Reply</button>
 </div>
 
 <main>
   <div class="stats">
     <div class="stat"><strong id="msgCount">0</strong><small>MESSAGES</small></div>
     <div class="stat"><strong id="mode">CHAT</strong><small>ACTIVE MODE</small></div>
-    <div class="stat"><strong id="timeStat">READY</strong><small>SYSTEM STATUS</small></div>
+    <div class="stat"><strong id="systemStat">READY</strong><small>SYSTEM STATUS</small></div>
   </div>
 
   <section class="chat" id="chat" aria-live="polite"></section>
@@ -140,26 +95,33 @@ footer {text-align:center;color:var(--muted);font-size:11px;padding:22px 10px 30
     <div class="controls">
       <button id="uploadBtn">＋ Image</button>
       <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp">
+      <button id="micBtn">🎙 Listen</button>
       <button id="generateBtn" class="accent">▧ Generate Image</button>
       <button id="stopVoice">■ Stop Voice</button>
       <button id="sendBtn" class="primary" style="margin-left:auto">Send ➤</button>
     </div>
-    <div class="notice" id="notice">Ready, Sir. Select an image or type a message.</div>
+    <div class="notice" id="notice">Ready, Sir. Type a message, upload an image or use the microphone.</div>
   </div>
 </main>
 
-<footer>
-  JARVIS V15 · ADVANCED HUD · CHAT · VISION · IMAGE GENERATION · VOICE<br>
-  AI features require an active Cloudflare Worker connection.
-</footer>
+<div class="overlay" id="historyOverlay" role="dialog" aria-modal="true" aria-label="Chat history">
+  <div class="modal">
+    <div class="modal-head"><strong>JARVIS MEMORY · CHAT HISTORY</strong><button id="closeHistory">✕</button></div>
+    <div class="notice">Saved locally in this browser on this device.</div>
+    <div class="history-list" id="historyList"></div>
+    <button id="clearHistory" style="margin-top:12px">Clear All History</button>
+  </div>
+</div>
+
+<footer>JARVIS V16 · CHAT · VISION · IMAGE GENERATION · VOICE<br>AI features require an active Cloudflare Worker connection.</footer>
 
 <script>
 "use strict";
 
-const WORKER_URL =
-  "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
-
+const WORKER_URL = "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
+const STORAGE_KEY = "jarvis_v16_chats";
 const $ = id => document.getElementById(id);
+
 const chat = $("chat");
 const promptBox = $("prompt");
 const fileInput = $("fileInput");
@@ -171,81 +133,81 @@ let voiceOn = false;
 let busy = false;
 let recognition = null;
 let lastReply = "";
-let chatId = String(Date.now());
+let chatId = makeId();
 
-const STORAGE_KEY = "jarvis_v15_chats";
+function makeId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+}
 
 function setStatus(text) {
   $("status").textContent = text;
-  $("timeStat").textContent = busy ? "WORKING" : "READY";
+  $("systemStat").textContent = busy ? "WORKING" : text === "SYSTEM ONLINE" ? "READY" : text;
 }
 
 function setBusy(value) {
   busy = value;
   $("sendBtn").disabled = value;
   $("generateBtn").disabled = value;
+  $("micBtn").disabled = value;
   $("sendBtn").textContent = value ? "Working…" : "Send ➤";
-  setStatus(value ? "PROCESSING REQUEST" : "SYSTEM ONLINE");
+  setStatus(value ? "PROCESSING" : "SYSTEM ONLINE");
 }
 
 function updateClock() {
-  $("clock").textContent =
-    new Intl.DateTimeFormat("en-IN", {
-      timeZone: "Asia/Kolkata",
-      dateStyle: "medium",
-      timeStyle: "medium"
-    }).format(new Date());
+  $("clock").textContent = new Intl.DateTimeFormat("en-IN", {
+    timeZone:"Asia/Kolkata", dateStyle:"medium", timeStyle:"medium"
+  }).format(new Date());
 }
-setInterval(updateClock, 1000);
 updateClock();
+setInterval(updateClock,1000);
+
+function loadChats() {
+  try {
+    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch { return []; }
+}
 
 function saveChats() {
   try {
-    const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    const index = all.findIndex(c => c.id === chatId);
+    const all = loadChats();
+    const firstUser = messages.find(m => m.role === "user");
     const entry = {
-      id: chatId,
-      title: (messages.find(m => m.role === "user")?.content || "New Chat").slice(0,70),
-      messages: messages.slice(-80)
+      id:chatId,
+      title:(firstUser?.content || "New Chat").slice(0,90),
+      updated:Date.now(),
+      messages:messages.slice(-60)
     };
-    if (index >= 0) all[index] = entry;
-    else all.unshift(entry);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(all.slice(0,25)));
-  } catch (e) {
-    $("notice").textContent = "Browser storage full. Some history may not save.";
+    const filtered = all.filter(c => c.id !== chatId);
+    filtered.unshift(entry);
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(filtered.slice(0,30)));
+  } catch {
+    $("notice").textContent = "Storage full. Some chat history could not be saved.";
   }
 }
 
-function updateCounts() {
-  $("msgCount").textContent = messages.length;
-}
-
-function addMessage(role, content, imageUrl = "") {
-  const item = { role, content: String(content || ""), imageUrl };
-  messages.push(item);
-
+function renderMessage(item) {
   const wrap = document.createElement("div");
-  wrap.className = "msg " + (role === "user" ? "user" : "assistant");
+  wrap.className = "msg " + (item.role === "user" ? "user" : "assistant");
 
   const who = document.createElement("div");
   who.className = "who";
-  who.textContent = role === "user" ? "SIR" : "JARVIS";
+  who.textContent = item.role === "user" ? "SIR" : "JARVIS";
 
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-  bubble.textContent = item.content;
+  bubble.textContent = item.content || "";
 
-  if (imageUrl && /^(https?:\/\/|data:image\/)/i.test(imageUrl)) {
+  if (item.imageUrl && /^(https?:\/\/|data:image\/)/i.test(item.imageUrl)) {
     const img = document.createElement("img");
-    img.alt = "Generated image";
+    img.alt = "JARVIS image";
     img.loading = "lazy";
-    img.src = imageUrl;
+    img.src = item.imageUrl;
     img.onerror = () => {
-      img.alt = "Image could not be displayed. Please try again.";
       img.style.display = "none";
-      const err = document.createElement("div");
-      err.textContent = "Image display failed. Try generating again.";
-      bubble.appendChild(err);
+      const note = document.createElement("div");
+      note.textContent = "Image could not be displayed.";
+      bubble.appendChild(note);
     };
     bubble.appendChild(img);
 
@@ -254,28 +216,31 @@ function addMessage(role, content, imageUrl = "") {
     const open = document.createElement("button");
     open.textContent = "Open Image";
     open.onclick = () => {
-      if (imageUrl.startsWith("https://") || imageUrl.startsWith("http://")) {
-        window.open(imageUrl, "_blank", "noopener");
-      } else {
-        const win = window.open();
-        if (win) {
-          const im = win.document.createElement("img");
-          im.src = imageUrl;
-          im.style.maxWidth = "100%";
-          win.document.body.appendChild(im);
-        }
+      const win = window.open();
+      if (!win) {
+        $("notice").textContent = "Allow pop-ups to open the image.";
+        return;
       }
+      const newImg = win.document.createElement("img");
+      newImg.src = item.imageUrl;
+      newImg.style.cssText = "max-width:100%;height:auto";
+      win.document.body.appendChild(newImg);
     };
     actions.appendChild(open);
     bubble.appendChild(actions);
   }
 
-  wrap.append(who, bubble);
+  wrap.append(who,bubble);
   chat.appendChild(wrap);
-  chat.scrollTop = chat.scrollHeight;
+}
 
-  updateCounts();
-  saveChats();
+function addMessage(role, content, imageUrl = "", options = {}) {
+  const item = {role,content:String(content || ""),imageUrl:imageUrl || ""};
+  messages.push(item);
+  renderMessage(item);
+  chat.scrollTop = chat.scrollHeight;
+  $("msgCount").textContent = String(messages.length);
+  if (options.save !== false) saveChats();
 
   if (role === "assistant" && item.content) {
     lastReply = item.content;
@@ -283,183 +248,162 @@ function addMessage(role, content, imageUrl = "") {
   }
 }
 
+function resetImageMode() {
+  imageMode = false;
+  $("generateBtn").classList.remove("active");
+  $("generateBtn").textContent = "▧ Generate Image";
+  $("mode").textContent = "CHAT";
+  promptBox.placeholder = "Hello, Sir! Ask me anything...";
+}
+
 function greet() {
   chat.innerHTML = "";
   messages = [];
-  addMessage("assistant", "Hello, Sir! 🤖\nHow can I help you today?");
+  addMessage("assistant","Hello, Sir! 🤖\nJARVIS V16 online. How can I help you today?");
 }
 
 async function callWorker(payload) {
-  const response = await fetch(WORKER_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  let response;
+  try {
+    response = await fetch(WORKER_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+  } catch {
+    throw new Error("Network connection failed. Check your internet and Worker URL.");
+  }
 
   const raw = await response.text();
   let data;
-
   try { data = JSON.parse(raw); }
-  catch { throw new Error("Worker returned an invalid response. Check deployment."); }
+  catch { throw new Error("Worker returned invalid data. Check that the latest Worker is deployed."); }
 
-  if (!response.ok || data.error || data.success === false) {
+  if (!response.ok || data.ok === false || data.success === false || data.error) {
     throw new Error(data.error || "Worker request failed (" + response.status + ").");
   }
-
   return data;
 }
 
 function extractText(data) {
-  const result = data?.result;
-  if (typeof result === "string") return result;
-
-  return data?.reply ||
-    data?.response ||
-    data?.answer ||
-    data?.description ||
-    data?.text ||
-    result?.response ||
-    result?.answer ||
-    result?.caption ||
-    "";
+  if (typeof data?.result === "string") return data.result;
+  return data?.reply || data?.response || data?.answer ||
+    data?.description || data?.text || data?.result?.response ||
+    data?.result?.answer || data?.result?.caption || "";
 }
 
 function extractImage(data) {
-  const candidates = [
-    data?.image_url,
-    data?.imageUrl,
-    data?.image,
-    data?.url,
-    data?.result?.image_url,
-    data?.result?.imageUrl,
-    data?.result?.image,
-    data?.result?.url
+  const list = [
+    data?.image_url,data?.imageUrl,data?.dataURI,data?.image,data?.url,
+    data?.result?.image_url,data?.result?.imageUrl,data?.result?.dataURI,
+    data?.result?.image,data?.result?.url
   ];
-
-  for (const value of candidates) {
-    if (typeof value === "string" &&
-        (/^https?:\/\//i.test(value) || /^data:image\//i.test(value))) {
-      return value;
-    }
-  }
-  return "";
+  return list.find(v => typeof v === "string" &&
+    (/^https?:\/\//i.test(v) || /^data:image\//i.test(v))) || "";
 }
 
-function cleanPrompt() {
-  return promptBox.value.trim();
-}
+function cleanPrompt() { return promptBox.value.trim(); }
 
 async function sendMessage(forceImage = false) {
   if (busy) return;
-
   const question = cleanPrompt();
-  if (!question && !selectedImage) return;
+  if (!question && !selectedImage) {
+    $("notice").textContent = "Type a message first, Sir.";
+    promptBox.focus();
+    return;
+  }
 
   const image = selectedImage;
   const generate = forceImage || imageMode;
+  const userText = image ? (question || "Describe this image in detail.") : question;
 
   promptBox.value = "";
   selectedImage = "";
-  imageMode = false;
-  $("preview").style.display = "none";
+  fileInput.value = "";
   $("preview").removeAttribute("src");
-  $("mode").textContent = "CHAT";
+  $("preview").style.display = "none";
+  resetImageMode();
 
-  const userText = image
-    ? (question || "Describe this image.")
-    : question;
-
-  addMessage("user", generate ? "Generate image: " + userText : userText);
+  addMessage("user",generate ? "Generate image: " + userText : userText);
   setBusy(true);
 
   try {
+    const history = messages.slice(0,-1).slice(-16).map(m => ({
+      role:m.role,content:m.content
+    }));
     let data;
 
     if (generate) {
       $("mode").textContent = "IMAGE";
       data = await callWorker({
-        type: "image",
-        action: "generateImage",
-        prompt: userText,
-        language: $("language").value
+        type:"image",action:"generateImage",prompt:userText,
+        language:$("language").value
       });
-
       const imageUrl = extractImage(data);
-
-      if (imageUrl) {
-        addMessage("assistant", extractText(data) || "Image generated, Sir!", imageUrl);
-      } else {
-        addMessage(
-          "assistant",
-          "Worker ne image data return nahi kiya. Cloudflare image response format check karna hoga."
-        );
-      }
+      if (!imageUrl) throw new Error("No image returned. Check the image model response in Cloudflare.");
+      addMessage("assistant",extractText(data) || "Image generated, Sir!",imageUrl);
+      $("notice").textContent = "Image generated successfully.";
     } else if (image) {
       $("mode").textContent = "VISION";
       data = await callWorker({
-        action: "analyzeImage",
-        image,
-        question: question || "Describe this image in detail.",
-        language: $("language").value,
-        history: messages.slice(-12).map(m => ({
-          role: m.role,
-          content: m.content
-        }))
+        action:"analyzeImage",image,
+        question:question || "Describe this image in detail.",
+        language:$("language").value,history
       });
-
-      const answer = extractText(data);
-      addMessage("assistant", answer || "Image model ne text response nahi diya.");
+      addMessage("assistant",extractText(data) || "The image model returned no text.");
+      $("notice").textContent = "Image analysis complete.";
     } else {
+      $("mode").textContent = "CHAT";
       data = await callWorker({
-        action: "chat",
-        message: question,
-        language: $("language").value,
-        history: messages.slice(-20).map(m => ({
-          role: m.role,
-          content: m.content
-        }))
+        action:"chat",message:question,
+        language:$("language").value,history
       });
-
-      addMessage("assistant", extractText(data) || "Empty response from AI.");
+      addMessage("assistant",extractText(data) || "The AI returned an empty answer.");
+      $("notice").textContent = "Ready, Sir.";
     }
-  } catch (error) {
-    addMessage("assistant", "Sorry, Sir. " + error.message);
-    setStatus("REQUEST ERROR");
+  } catch(error) {
+    addMessage("assistant","Sorry, Sir. " + error.message);
+    $("notice").textContent = "Request failed. Check your connection and Worker deployment.";
   } finally {
+    resetImageMode();
     setBusy(false);
     promptBox.focus();
   }
 }
 
-$("sendBtn").addEventListener("click", () => sendMessage(false));
+$("sendBtn").addEventListener("click",() => sendMessage());
 
-promptBox.addEventListener("keydown", event => {
+promptBox.addEventListener("keydown",event => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
-    sendMessage(false);
+    sendMessage();
   }
 });
 
-$("generateBtn").addEventListener("click", () => {
-  imageMode = true;
-  $("mode").textContent = "IMAGE";
-  promptBox.placeholder = "Describe the image you want, Sir...";
+$("generateBtn").addEventListener("click",() => {
+  if (busy) return;
+  imageMode = !imageMode;
+  $("generateBtn").classList.toggle("active",imageMode);
+  $("generateBtn").textContent = imageMode ? "▧ Image Mode: ON" : "▧ Generate Image";
+  $("mode").textContent = imageMode ? "IMAGE" : "CHAT";
+  promptBox.placeholder = imageMode ? "Describe the image you want, Sir..." : "Hello, Sir! Ask me anything...";
+  $("notice").textContent = imageMode
+    ? "Image mode is ready for one request. Type a prompt and press Send."
+    : "Image mode cancelled. Normal chat restored.";
   promptBox.focus();
-  $("notice").textContent = "Image mode ready. Enter a prompt and press Send.";
 });
 
-$("uploadBtn").addEventListener("click", () => fileInput.click());
+$("uploadBtn").addEventListener("click",() => fileInput.click());
 
-fileInput.addEventListener("change", () => {
+fileInput.addEventListener("change",() => {
   const file = fileInput.files?.[0];
   if (!file) return;
 
-  if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
+  if (!["image/png","image/jpeg","image/webp"].includes(file.type)) {
     $("notice").textContent = "Choose a PNG, JPG or WebP image.";
     fileInput.value = "";
     return;
   }
-
   if (file.size > 4 * 1024 * 1024) {
     $("notice").textContent = "Image must be smaller than 4 MB.";
     fileInput.value = "";
@@ -468,66 +412,84 @@ fileInput.addEventListener("change", () => {
 
   const reader = new FileReader();
   reader.onload = () => {
-    selectedImage = String(reader.result);
+    selectedImage = String(reader.result || "");
     $("preview").src = selectedImage;
     $("preview").style.display = "block";
     $("notice").textContent = "Image ready. Ask a question and press Send.";
   };
-  reader.onerror = () => {
-    $("notice").textContent = "Could not read that image. Try again.";
-  };
+  reader.onerror = () => $("notice").textContent = "Could not read that image.";
   reader.readAsDataURL(file);
 });
 
-$("newChat").addEventListener("click", () => {
+$("newChat").addEventListener("click",() => {
   if (busy) return;
-  chatId = String(Date.now());
+  chatId = makeId();
   selectedImage = "";
-  imageMode = false;
+  fileInput.value = "";
+  $("preview").style.display = "none";
   promptBox.value = "";
+  resetImageMode();
   greet();
 });
 
-$("historyBtn").addEventListener("click", () => {
-  try {
-    const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    if (!all.length) {
-      alert("No saved chats yet, Sir.");
-      return;
-    }
+function openHistory() {
+  const list = $("historyList");
+  list.innerHTML = "";
+  const all = loadChats();
 
-    const menu = all.map((c,i) =>
-      (i + 1) + ". " + (c.title || "Chat")
-    ).join("\n");
-
-    const choice = prompt("Enter chat number to open:\n\n" + menu);
-    if (choice === null) return;
-
-    const entry = all[Number(choice) - 1];
-    if (!entry) {
-      alert("Invalid chat number.");
-      return;
-    }
-
-    chatId = entry.id;
-    messages = [];
-    chat.innerHTML = "";
-
-    for (const m of entry.messages || []) {
-      addMessage(m.role, m.content, m.imageUrl || "");
-    }
-    $("notice").textContent = "Previous chat loaded.";
-  } catch {
-    alert("Could not load saved history.");
+  if (!all.length) {
+    const empty = document.createElement("div");
+    empty.className = "notice";
+    empty.textContent = "No saved chats yet, Sir.";
+    list.appendChild(empty);
   }
+
+  all.forEach(entry => {
+    const button = document.createElement("button");
+    button.className = "history-item";
+    button.textContent = entry.title || "Saved chat";
+    const detail = document.createElement("small");
+    detail.textContent = new Date(entry.updated || Number(entry.id) || Date.now()).toLocaleString();
+    button.appendChild(detail);
+    button.onclick = () => {
+      if (busy) return;
+      chatId = entry.id;
+      messages = Array.isArray(entry.messages) ? entry.messages.slice() : [];
+      chat.innerHTML = "";
+      messages.forEach(renderMessage);
+      $("msgCount").textContent = String(messages.length);
+      lastReply = [...messages].reverse().find(m => m.role === "assistant")?.content || "";
+      $("historyOverlay").style.display = "none";
+      resetImageMode();
+      $("notice").textContent = "Previous chat loaded.";
+      chat.scrollTop = chat.scrollHeight;
+    };
+    list.appendChild(button);
+  });
+
+  $("historyOverlay").style.display = "flex";
+}
+
+$("historyBtn").addEventListener("click",openHistory);
+$("closeHistory").addEventListener("click",() => $("historyOverlay").style.display = "none");
+$("historyOverlay").addEventListener("click",event => {
+  if (event.target === $("historyOverlay")) $("historyOverlay").style.display = "none";
 });
 
-$("voiceToggle").addEventListener("click", () => {
+$("clearHistory").addEventListener("click",() => {
+  if (!confirm("Delete all saved chats on this browser?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  $("historyList").innerHTML = "";
+  const note = document.createElement("div");
+  note.className = "notice";
+  note.textContent = "Saved history cleared.";
+  $("historyList").appendChild(note);
+});
+
+$("voiceToggle").addEventListener("click",() => {
   voiceOn = !voiceOn;
   $("voiceToggle").textContent = voiceOn ? "🔊 Voice: ON" : "🔊 Voice: OFF";
-  $("notice").textContent = voiceOn
-    ? "Voice replies enabled, Sir."
-    : "Voice replies disabled.";
+  $("notice").textContent = voiceOn ? "Voice replies enabled." : "Voice replies disabled.";
 });
 
 function speak(text) {
@@ -535,20 +497,20 @@ function speak(text) {
     $("notice").textContent = "Speech output is not supported in this browser.";
     return;
   }
-
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = $("language").value === "english" ? "en-IN" : "hi-IN";
   utterance.rate = 1;
+  utterance.onerror = () => $("notice").textContent = "Speech playback failed.";
   window.speechSynthesis.speak(utterance);
 }
 
-$("speakBtn").addEventListener("click", () => {
+$("speakBtn").addEventListener("click",() => {
   if (lastReply) speak(lastReply);
   else $("notice").textContent = "JARVIS has not replied yet.";
 });
 
-$("stopVoice").addEventListener("click", () => {
+$("stopVoice").addEventListener("click",() => {
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
   if (recognition) {
     try { recognition.stop(); } catch {}
@@ -556,21 +518,12 @@ $("stopVoice").addEventListener("click", () => {
   $("notice").textContent = "Voice stopped.";
 });
 
-$("speakBtn").addEventListener("contextmenu", event => {
-  event.preventDefault();
-  startListening();
-});
-
 function startListening() {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    $("notice").textContent =
-      "Voice input is not supported in this browser. Type your message instead.";
+    $("notice").textContent = "Voice input is not supported here. Try Chrome or type your message.";
     return;
   }
-
   if (recognition) {
     try { recognition.stop(); } catch {}
   }
@@ -581,27 +534,27 @@ function startListening() {
   recognition.maxAlternatives = 1;
 
   recognition.onstart = () => {
-    $("notice").textContent = "Listening, Sir…";
+    $("micBtn").classList.add("active");
     setStatus("LISTENING");
+    $("notice").textContent = "Listening, Sir…";
   };
-
   recognition.onresult = event => {
     promptBox.value = event.results[0][0].transcript;
     promptBox.focus();
     $("notice").textContent = "Voice captured. Press Send.";
   };
-
   recognition.onerror = event => {
     $("notice").textContent = "Voice input error: " + event.error;
   };
-
-  recognition.onend = () => setStatus("SYSTEM ONLINE");
-
+  recognition.onend = () => {
+    $("micBtn").classList.remove("active");
+    if (!busy) setStatus("SYSTEM ONLINE");
+  };
   try { recognition.start(); }
-  catch { $("notice").textContent = "Could not start voice input."; }
+  catch { $("notice").textContent = "Could not start microphone. Check browser permission."; }
 }
 
-$("speakBtn").addEventListener("dblclick", startListening);
+$("micBtn").addEventListener("click",startListening);
 
 greet();
 setStatus("SYSTEM ONLINE");
