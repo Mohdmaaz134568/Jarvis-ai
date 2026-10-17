@@ -3,180 +3,155 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#080b12">
-<title>JARVIS V14 | Ultimate AI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050a14">
+<title>JARVIS V15 Advanced</title>
 
 <style>
 :root {
-  --bg:#080b12;
-  --panel:#101722;
-  --line:#26384b;
-  --red:#ff454f;
-  --cyan:#63eaff;
-  --gold:#ffc76b;
-  --text:#e9f4ff;
-  --muted:#91a3b7;
+  --bg:#050a14;
+  --panel:#0b1424;
+  --panel2:#101e31;
+  --cyan:#54eaff;
+  --blue:#168dff;
+  --gold:#ffc96b;
+  --text:#e7f5ff;
+  --muted:#8ca6bd;
+  --border:#223c53;
+  --red:#ff3b59;
 }
-* { box-sizing:border-box; }
+* {box-sizing:border-box}
 body {
-  margin:0; background:
-  radial-gradient(ellipse at 50% -20%,#183047 0,transparent 55%),var(--bg);
-  color:var(--text);font-family:Arial,sans-serif;
-  min-height:100vh;
+  margin:0;background:
+  radial-gradient(ellipse at 50% 0%,#123352 0%,#08101e 38%,var(--bg) 78%);
+  color:var(--text);font-family:Arial,sans-serif;min-height:100vh;
 }
-button,input,select,textarea { font:inherit; }
-button { cursor:pointer; }
-.app { max-width:1000px;margin:auto;padding:14px; }
-header {
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;border-bottom:1px solid var(--line);padding:10px 0 16px;
+button,input,textarea,select {font:inherit}
+button {
+  color:var(--text);background:var(--panel2);
+  border:1px solid var(--border);border-radius:13px;
+  padding:12px 15px;cursor:pointer;
 }
-.brand { display:flex;align-items:center;gap:12px; }
+button:active {transform:scale(.98)}
+button:disabled {opacity:.5;cursor:wait}
+header {padding:20px 16px 12px;text-align:center}
 .logo {
-  width:48px;height:48px;border:2px solid var(--cyan);border-radius:50%;
-  display:grid;place-items:center;color:var(--cyan);font-size:24px;
-  box-shadow:0 0 20px #63eaff35;
+  width:124px;height:124px;margin:0 auto 12px;border-radius:50%;
+  display:grid;place-items:center;position:relative;
+  border:3px solid var(--cyan);
+  box-shadow:0 0 20px #1edcff88,inset 0 0 24px #168dff55;
+  animation:pulse 3s ease-in-out infinite;
 }
-h1 { font-size:22px;letter-spacing:3px;margin:0; }
-.subtitle { color:var(--muted);font-size:11px;margin-top:5px; }
-.status { color:#76ffc0;font-size:11px;margin-top:6px; }
-select,.btn {
-  background:var(--panel);color:var(--text);
-  border:1px solid var(--line);border-radius:10px;padding:10px;
+.logo:before,.logo:after {
+  content:"";position:absolute;border:1px dashed var(--cyan);
+  border-radius:50%;inset:-12px;animation:spin 12s linear infinite;
 }
-.hud {
-  margin:18px auto;max-width:260px;text-align:center;
+.logo:after {inset:-22px;border-color:#168dff;animation-direction:reverse}
+.logo span {font-size:18px;font-weight:bold;letter-spacing:2px}
+@keyframes spin {to{transform:rotate(360deg)}}
+@keyframes pulse {50%{box-shadow:0 0 36px #1edcffbb,inset 0 0 28px #168dff88}}
+h1 {font-size:25px;letter-spacing:5px;margin:8px 0}
+.sub {color:var(--muted);font-size:12px;letter-spacing:2px}
+.status {
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:12px;padding:8px 13px;border:1px solid var(--border);
+  border-radius:30px;color:var(--cyan);font-size:12px;
 }
-.reactor {
-  width:145px;height:145px;margin:auto;border-radius:50%;
-  border:2px solid #36556b;display:grid;place-items:center;
-  position:relative;
-  background:radial-gradient(circle,#183044 0,#0b111a 65%);
-  box-shadow:0 0 35px #63eaff17,inset 0 0 20px #63eaff12;
+.dot {width:8px;height:8px;background:#44ffb1;border-radius:50%;box-shadow:0 0 10px #44ffb1}
+.toolbar {
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:8px;padding:10px 12px;
 }
-.reactor:before,.reactor:after {
-  content:"";position:absolute;inset:9px;border-radius:50%;
-  border:2px dashed var(--cyan);animation:spin 18s linear infinite;
-}
-.reactor:after {
-  inset:20px;border-style:solid;border-color:var(--red);
-  border-left-color:transparent;border-right-color:transparent;
-  animation-direction:reverse;animation-duration:7s;
-}
-.core { font-size:38px;color:var(--cyan);z-index:1;text-shadow:0 0 20px var(--cyan); }
-@keyframes spin { to { transform:rotate(360deg); } }
-.hud-label { color:var(--cyan);font-size:11px;letter-spacing:3px;margin-top:12px; }
-.clock { color:var(--gold);font-size:14px;margin-top:7px; }
-.toolbar { display:flex;flex-wrap:wrap;gap:8px;margin:15px 0; }
-.btn:hover { border-color:var(--cyan); }
-.btn.primary { background:#123142;border-color:var(--cyan); }
-.btn.danger { border-color:#77333c; }
+select {background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:11px;max-width:100%}
+main {max-width:850px;margin:auto;padding:8px 12px 18px}
+.stats {display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 14px}
+.stat {background:#0b1424bb;border:1px solid var(--border);border-radius:13px;padding:12px 6px;text-align:center}
+.stat strong {display:block;color:var(--cyan);font-size:15px}
+.stat small {display:block;color:var(--muted);font-size:10px;margin-top:5px}
 .chat {
-  min-height:250px;max-height:48vh;overflow:auto;
-  border:1px solid var(--line);border-radius:15px;
-  background:#0b111adf;padding:14px;
+  height:min(47vh,510px);min-height:260px;overflow:auto;
+  border:1px solid var(--border);border-radius:22px;
+  padding:15px;background:#080e19dd;scroll-behavior:smooth;
 }
-.msg { margin:0 0 15px;display:flex;flex-direction:column;gap:5px; }
-.msg .who { color:var(--cyan);font-size:11px;letter-spacing:1px; }
-.msg.user .who { color:var(--gold); }
+.msg {margin:0 0 18px}
+.who {font-size:12px;letter-spacing:2px;color:var(--cyan);margin-bottom:7px}
+.msg.user .who {color:var(--gold)}
 .bubble {
-  white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;
-  background:var(--panel);border:1px solid #203043;
-  border-radius:4px 13px 13px 13px;padding:12px;
+  background:#101b2b;border:1px solid #1c3044;
+  padding:14px;border-radius:7px 18px 18px 18px;
+  line-height:1.55;overflow-wrap:anywhere;white-space:pre-wrap;
 }
-.msg.user .bubble { background:#172334;border-color:#34465c; }
-.bubble img { max-width:100%;border-radius:10px;display:block;margin-top:8px; }
-.preview {
-  display:none;margin:10px 0;padding:10px;border:1px solid var(--line);
-  border-radius:12px;background:var(--panel);
-}
-.preview img { max-width:100%;max-height:200px;border-radius:8px; }
-.preview button { margin-left:10px; }
-.composer {
-  margin-top:12px;border:1px solid var(--line);
-  border-radius:15px;background:#0d141f;padding:10px;
-}
+.msg.user .bubble {background:#132439;border-radius:18px 7px 18px 18px}
+.bubble img {display:block;max-width:100%;height:auto;max-height:440px;object-fit:contain;border-radius:12px;margin-top:10px}
+.bubble a {color:var(--cyan)}
+.image-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.composer {margin-top:12px;background:#0b1424;border:1px solid var(--border);border-radius:20px;padding:12px}
 textarea {
-  width:100%;min-height:55px;max-height:150px;resize:vertical;
-  border:0;outline:0;background:transparent;color:var(--text);
-  padding:9px;font-size:16px;
+  width:100%;min-height:76px;max-height:180px;resize:vertical;
+  background:transparent;border:0;outline:none;color:var(--text);
+  padding:10px;font-size:16px;
 }
-.sendrow { display:flex;flex-wrap:wrap;gap:8px;align-items:center; }
-.sendrow .send { margin-left:auto;background:var(--red);color:white;border:0; }
-.small { font-size:11px;color:var(--muted);line-height:1.6;margin-top:12px; }
-#busy { color:var(--gold);font-size:12px;padding:8px 2px; }
-footer { text-align:center;color:#657b90;font-size:10px;padding:20px 0; }
-button:disabled { opacity:.5;cursor:wait; }
-@media(max-width:480px) {
-  .app { padding:10px; }
-  h1 { font-size:18px; }
-  .logo { width:42px;height:42px; }
-  .reactor { width:125px;height:125px; }
-  .chat { max-height:45vh; }
-}
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after { animation:none!important; }
+.controls {display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.primary {background:var(--red);border-color:var(--red);font-weight:bold}
+.accent {border-color:#237f9b;color:var(--cyan)}
+footer {text-align:center;color:var(--muted);font-size:11px;padding:22px 10px 30px}
+#fileInput {display:none}
+#preview {display:none;max-width:110px;max-height:100px;border-radius:10px;margin:5px}
+.notice {font-size:12px;color:var(--muted);padding:9px}
+@media(min-width:650px) {
+  header {padding-top:28px}
+  .chat {height:490px}
 }
 </style>
 </head>
 
 <body>
-<div class="app">
 <header>
-  <div class="brand">
-    <div class="logo">J</div>
-    <div>
-      <h1>J.A.R.V.I.S</h1>
-      <div class="subtitle">PERSONAL AI SYSTEM · V14</div>
-      <div class="status" id="status">● SYSTEM READY</div>
-    </div>
-  </div>
-  <select id="language" aria-label="Response language">
-    <option value="Hinglish">Hinglish</option>
-    <option value="English">English</option>
-  </select>
+  <div class="logo"><span>J.A.R.V.I.S</span></div>
+  <h1>JARVIS</h1>
+  <div class="sub">PERSONAL ARTIFICIAL INTELLIGENCE</div>
+  <div class="status"><span class="dot"></span><span id="status">SYSTEM ONLINE</span></div>
+  <div class="sub" id="clock" style="margin-top:12px"></div>
 </header>
 
-<section class="hud">
-  <div class="reactor"><div class="core">J</div></div>
-  <div class="hud-label">ARTIFICIAL INTELLIGENCE</div>
-  <div class="clock" id="clock">--:--:--</div>
-</section>
-
 <div class="toolbar">
-  <button class="btn" id="newChat">＋ New Chat</button>
-  <button class="btn" id="historyBtn">◷ Chat History</button>
-  <button class="btn" id="imageBtn">▧ Generate Image</button>
-  <button class="btn" id="voiceBtn">🔊 Voice: OFF</button>
-  <button class="btn" id="micBtn">🎙 Speak</button>
+  <button id="newChat">＋ New Chat</button>
+  <button id="historyBtn">▤ History</button>
+  <select id="language" aria-label="Reply language">
+    <option value="hinglish">Hinglish</option>
+    <option value="english">English</option>
+  </select>
+  <button id="voiceToggle">🔊 Voice: OFF</button>
+  <button id="speakBtn">🎙 Speak</button>
 </div>
 
-<div class="chat" id="chat" aria-live="polite"></div>
-<div id="busy" hidden>JARVIS is thinking...</div>
-
-<div class="preview" id="preview">
-  <img id="previewImg" alt="Selected image preview">
-  <span id="fileName"></span>
-  <button class="btn danger" id="removeImage">Remove</button>
-</div>
-
-<div class="composer">
-  <textarea id="prompt" placeholder="Hello, Sir! Ask me anything..." aria-label="Message"></textarea>
-  <div class="sendrow">
-    <button class="btn" id="uploadBtn">＋ Image</button>
-    <button class="btn" id="stopVoice">■ Stop Voice</button>
-    <button class="btn send" id="sendBtn">Send ➤</button>
+<main>
+  <div class="stats">
+    <div class="stat"><strong id="msgCount">0</strong><small>MESSAGES</small></div>
+    <div class="stat"><strong id="mode">CHAT</strong><small>ACTIVE MODE</small></div>
+    <div class="stat"><strong id="timeStat">READY</strong><small>SYSTEM STATUS</small></div>
   </div>
-  <input type="file" id="imageFile" accept="image/*" hidden>
-</div>
 
-<div class="small">
-  V14 · Smart Chat · Vision · Voice · Memory · Image Generation<br>
-  AI features require a working Cloudflare Worker connection.
-</div>
-<footer>JARVIS V14 · PERSONAL AI INTERFACE</footer>
-</div>
+  <section class="chat" id="chat" aria-live="polite"></section>
+
+  <div class="composer">
+    <img id="preview" alt="Selected image preview">
+    <textarea id="prompt" placeholder="Hello, Sir! Ask me anything..." aria-label="Message"></textarea>
+    <div class="controls">
+      <button id="uploadBtn">＋ Image</button>
+      <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp">
+      <button id="generateBtn" class="accent">▧ Generate Image</button>
+      <button id="stopVoice">■ Stop Voice</button>
+      <button id="sendBtn" class="primary" style="margin-left:auto">Send ➤</button>
+    </div>
+    <div class="notice" id="notice">Ready, Sir. Select an image or type a message.</div>
+  </div>
+</main>
+
+<footer>
+  JARVIS V15 · ADVANCED HUD · CHAT · VISION · IMAGE GENERATION · VOICE<br>
+  AI features require an active Cloudflare Worker connection.
+</footer>
 
 <script>
 "use strict";
@@ -185,514 +160,451 @@ const WORKER_URL =
   "https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev";
 
 const $ = id => document.getElementById(id);
-const chatEl = $("chat");
-const promptEl = $("prompt");
-const sendBtn = $("sendBtn");
+const chat = $("chat");
+const promptBox = $("prompt");
+const fileInput = $("fileInput");
 
-let selectedImage = null;
-let voiceEnabled = false;
-let listening = false;
+let messages = [];
+let selectedImage = "";
+let imageMode = false;
+let voiceOn = false;
 let busy = false;
-let pendingImageQuestion = "";
 let recognition = null;
+let lastReply = "";
+let chatId = String(Date.now());
 
-let conversations = [];
-let currentId = newId();
-let history = [];
+const STORAGE_KEY = "jarvis_v15_chats";
 
-function newId() {
-  return Date.now().toString(36) +
-    Math.random().toString(36).slice(2,8);
-}
-
-function currentLanguage() {
-  return $("language").value;
-}
-
-function saveData() {
-  try {
-    localStorage.setItem("jarvis_v14_chats",
-      JSON.stringify(conversations.slice(-30)));
-    localStorage.setItem("jarvis_v14_current", currentId);
-  } catch(e) {
-    console.warn("Chat storage unavailable", e);
-  }
-}
-
-function saveCurrent() {
-  let c = conversations.find(x => x.id === currentId);
-  if (!c) {
-    c = {id:currentId,title:"New Chat",messages:[]};
-    conversations.unshift(c);
-  }
-  c.messages = history.slice(-100);
-  const first = history.find(m => m.role === "user");
-  if (first) c.title = first.content.slice(0,45) || "Image chat";
-  saveData();
-}
-
-function loadData() {
-  try {
-    const saved = JSON.parse(
-      localStorage.getItem("jarvis_v14_chats") || "[]");
-    if (Array.isArray(saved)) conversations = saved;
-    const id = localStorage.getItem("jarvis_v14_current");
-    const c = conversations.find(x => x.id === id);
-    if (c && Array.isArray(c.messages)) {
-      currentId = c.id;
-      history = c.messages;
-    }
-  } catch(e) {
-    conversations = [];
-    history = [];
-  }
-}
-
-function renderHistory() {
-  chatEl.replaceChildren();
-  history.forEach(m => addMessage(
-    m.role === "assistant" ? "JARVIS" : "Sir",
-    m.content,
-    m.role === "user"
-  ));
-}
-
-function addMessage(who, content, isUser=false, imageUrl=null) {
-  const wrap = document.createElement("div");
-  wrap.className = "msg" + (isUser ? " user" : "");
-
-  const label = document.createElement("div");
-  label.className = "who";
-  label.textContent = who.toUpperCase();
-
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.textContent = content || "";
-
-  if (imageUrl && /^https?:\/\//i.test(imageUrl)) {
-    const img = document.createElement("img");
-    img.src = imageUrl;
-    img.alt = "Generated image";
-    img.referrerPolicy = "no-referrer";
-    bubble.appendChild(img);
-  }
-
-  wrap.append(label,bubble);
-  chatEl.appendChild(wrap);
-  chatEl.scrollTop = chatEl.scrollHeight;
-  return wrap;
-}
-
-function systemGreeting() {
-  if (history.length) {
-    renderHistory();
-    return;
-  }
-  addMessage("JARVIS","Hello, Sir! 🤖\nHow can I help you today?");
-}
-
-function setStatus(message, isError=false) {
-  $("status").textContent = (isError ? "● " : "● ") + message;
-  $("status").style.color = isError ? "#ff737b" : "#76ffc0";
+function setStatus(text) {
+  $("status").textContent = text;
+  $("timeStat").textContent = busy ? "WORKING" : "READY";
 }
 
 function setBusy(value) {
   busy = value;
-  $("busy").hidden = !value;
-  sendBtn.disabled = value;
-  $("imageBtn").disabled = value;
-  setStatus(value ? "PROCESSING REQUEST..." : "SYSTEM READY");
+  $("sendBtn").disabled = value;
+  $("generateBtn").disabled = value;
+  $("sendBtn").textContent = value ? "Working…" : "Send ➤";
+  setStatus(value ? "PROCESSING REQUEST" : "SYSTEM ONLINE");
 }
 
-function speak(text) {
-  if (!voiceEnabled || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = currentLanguage() === "English" ? "en-IN" : "en-IN";
-  utterance.rate = 1;
-  window.speechSynthesis.speak(utterance);
+function updateClock() {
+  $("clock").textContent =
+    new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata",
+      dateStyle: "medium",
+      timeStyle: "medium"
+    }).format(new Date());
 }
+setInterval(updateClock, 1000);
+updateClock();
 
-function addHistory(role, content) {
-  history.push({role,content});
-  history = history.slice(-100);
-  saveCurrent();
-}
-
-function calculate(text) {
-  const s = text.trim()
-    .replace(/,/g,"")
-    .replace(/[×x]/g,"*")
-    .replace(/÷/g,"/")
-    .replace(/[−–]/g,"-")
-    .replace(/\^/g,"**");
-
-  if (!s || !/^[\d\s.+\-*/()%*]+$/.test(s)) return null;
-  if (!/\d/.test(s) || !/[+\-*/%]/.test(s)) return null;
-  if (s.length > 150 || /\/\s*0(?:\.0*)?(?!\d)/.test(s)) return null;
-
+function saveChats() {
   try {
-    const result = Function('"use strict";return (' + s + ')')();
-    if (typeof result !== "number" || !Number.isFinite(result)) return null;
-    return Number.isInteger(result) ? String(result) : String(Number(result.toPrecision(12)));
-  } catch(e) {
-    return null;
+    const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    const index = all.findIndex(c => c.id === chatId);
+    const entry = {
+      id: chatId,
+      title: (messages.find(m => m.role === "user")?.content || "New Chat").slice(0,70),
+      messages: messages.slice(-80)
+    };
+    if (index >= 0) all[index] = entry;
+    else all.unshift(entry);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all.slice(0,25)));
+  } catch (e) {
+    $("notice").textContent = "Browser storage full. Some history may not save.";
   }
 }
 
-async function callWorker(body) {
+function updateCounts() {
+  $("msgCount").textContent = messages.length;
+}
+
+function addMessage(role, content, imageUrl = "") {
+  const item = { role, content: String(content || ""), imageUrl };
+  messages.push(item);
+
+  const wrap = document.createElement("div");
+  wrap.className = "msg " + (role === "user" ? "user" : "assistant");
+
+  const who = document.createElement("div");
+  who.className = "who";
+  who.textContent = role === "user" ? "SIR" : "JARVIS";
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = item.content;
+
+  if (imageUrl && /^(https?:\/\/|data:image\/)/i.test(imageUrl)) {
+    const img = document.createElement("img");
+    img.alt = "Generated image";
+    img.loading = "lazy";
+    img.src = imageUrl;
+    img.onerror = () => {
+      img.alt = "Image could not be displayed. Please try again.";
+      img.style.display = "none";
+      const err = document.createElement("div");
+      err.textContent = "Image display failed. Try generating again.";
+      bubble.appendChild(err);
+    };
+    bubble.appendChild(img);
+
+    const actions = document.createElement("div");
+    actions.className = "image-actions";
+    const open = document.createElement("button");
+    open.textContent = "Open Image";
+    open.onclick = () => {
+      if (imageUrl.startsWith("https://") || imageUrl.startsWith("http://")) {
+        window.open(imageUrl, "_blank", "noopener");
+      } else {
+        const win = window.open();
+        if (win) {
+          const im = win.document.createElement("img");
+          im.src = imageUrl;
+          im.style.maxWidth = "100%";
+          win.document.body.appendChild(im);
+        }
+      }
+    };
+    actions.appendChild(open);
+    bubble.appendChild(actions);
+  }
+
+  wrap.append(who, bubble);
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+
+  updateCounts();
+  saveChats();
+
+  if (role === "assistant" && item.content) {
+    lastReply = item.content;
+    if (voiceOn) speak(item.content);
+  }
+}
+
+function greet() {
+  chat.innerHTML = "";
+  messages = [];
+  addMessage("assistant", "Hello, Sir! 🤖\nHow can I help you today?");
+}
+
+async function callWorker(payload) {
   const response = await fetch(WORKER_URL, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(body)
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
   });
 
   const raw = await response.text();
   let data;
+
   try { data = JSON.parse(raw); }
-  catch(e) {
-    throw new Error("Worker returned an invalid response. Check Worker code.");
+  catch { throw new Error("Worker returned an invalid response. Check deployment."); }
+
+  if (!response.ok || data.error || data.success === false) {
+    throw new Error(data.error || "Worker request failed (" + response.status + ").");
   }
 
-  if (!response.ok || data.error) {
-    throw new Error(data.error || "Request failed: HTTP " + response.status);
-  }
   return data;
 }
 
 function extractText(data) {
-  const value = data.reply ?? data.response ?? data.answer ??
-    data.message ?? data.description ?? data.text;
-  if (typeof value === "string") return value;
-  if (value && typeof value === "object") {
-    if (typeof value.response === "string") return value.response;
-    if (typeof value.description === "string") return value.description;
+  const result = data?.result;
+  if (typeof result === "string") return result;
+
+  return data?.reply ||
+    data?.response ||
+    data?.answer ||
+    data?.description ||
+    data?.text ||
+    result?.response ||
+    result?.answer ||
+    result?.caption ||
+    "";
+}
+
+function extractImage(data) {
+  const candidates = [
+    data?.image_url,
+    data?.imageUrl,
+    data?.image,
+    data?.url,
+    data?.result?.image_url,
+    data?.result?.imageUrl,
+    data?.result?.image,
+    data?.result?.url
+  ];
+
+  for (const value of candidates) {
+    if (typeof value === "string" &&
+        (/^https?:\/\//i.test(value) || /^data:image\//i.test(value))) {
+      return value;
+    }
   }
   return "";
 }
 
-function extractImage(data) {
-  const value = data.image_url ?? data.imageUrl ??
-    data.image ?? data.url ?? data.result?.image_url;
-
-  if (typeof value === "string") {
-    if (/^https?:\/\//i.test(value) || /^data:image\//i.test(value))
-      return value;
-  }
-
-  if (Array.isArray(value) && value[0] &&
-      typeof value[0].url === "string") return value[0].url;
-
-  return null;
+function cleanPrompt() {
+  return promptBox.value.trim();
 }
 
-async function sendMessage() {
+async function sendMessage(forceImage = false) {
   if (busy) return;
 
-  const question = promptEl.value.trim();
+  const question = cleanPrompt();
   if (!question && !selectedImage) return;
 
-  if (selectedImage) {
-    await analyzeImage(question || "Describe this image and its important details.");
-    return;
-  }
-
-  const math = calculate(question);
-  if (math !== null) {
-    addMessage("Sir",question,true);
-    addHistory("user",question);
-    const answer = math + " ✅";
-    addMessage("JARVIS",answer);
-    addHistory("assistant",answer);
-    promptEl.value = "";
-    speak(answer);
-    return;
-  }
-
-  addMessage("Sir",question,true);
-  addHistory("user",question);
-  promptEl.value = "";
-  setBusy(true);
-
-  try {
-    const data = await callWorker({
-      message:question,
-      language:currentLanguage(),
-      history:history.slice(-20),
-      action:"chat"
-    });
-
-    const answer = extractText(data);
-    if (!answer) throw new Error("Empty AI reply. Worker response format check karo.");
-
-    addMessage("JARVIS",answer);
-    addHistory("assistant",answer);
-    speak(answer);
-  } catch(e) {
-    addMessage("JARVIS","Sorry, Sir. Connection mein problem hai.\n" + e.message);
-    setStatus("CONNECTION ERROR",true);
-  } finally {
-    setBusy(false);
-  }
-}
-
-function clearSelectedImage() {
-  selectedImage = null;
-  $("imageFile").value = "";
-  $("preview").style.display = "none";
-  $("previewImg").removeAttribute("src");
-}
-
-function readFile(file) {
-  return new Promise((resolve,reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error("Image read nahi ho saki."));
-    reader.readAsDataURL(file);
-  });
-}
-
-$("uploadBtn").onclick = () => $("imageFile").click();
-$("imageBtn").onclick = () => {
-  if (selectedImage) {
-    analyzeImage(promptEl.value.trim() ||
-      "Describe this image and its important details.");
-  } else {
-    promptEl.placeholder = "Describe the image you want to generate...";
-    promptEl.focus();
-    pendingImageQuestion = "generate";
-  }
-};
-
-$("imageFile").onchange = async event => {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    alert("Sir, please select an image file.");
-    return;
-  }
-  if (file.size > 4 * 1024 * 1024) {
-    alert("Image 4 MB se chhoti honi chahiye.");
-    $("imageFile").value = "";
-    return;
-  }
-
-  try {
-    selectedImage = await readFile(file);
-    $("previewImg").src = selectedImage;
-    $("fileName").textContent = file.name;
-    $("preview").style.display = "block";
-    promptEl.placeholder = "Sir, image ke baare mein kya poochna hai?";
-  } catch(e) {
-    alert(e.message);
-  }
-};
-
-$("removeImage").onclick = clearSelectedImage;
-
-async function analyzeImage(question) {
-  if (!selectedImage || busy) return;
   const image = selectedImage;
-  const dataUrl = image;
-  const actualQuestion = question || "Describe this image.";
+  const generate = forceImage || imageMode;
 
-  addMessage("Sir",actualQuestion || "Image uploaded.",true);
-  addHistory("user",
-    "[Image uploaded] " + actualQuestion);
-  clearSelectedImage();
-  promptEl.value = "";
+  promptBox.value = "";
+  selectedImage = "";
+  imageMode = false;
+  $("preview").style.display = "none";
+  $("preview").removeAttribute("src");
+  $("mode").textContent = "CHAT";
+
+  const userText = image
+    ? (question || "Describe this image.")
+    : question;
+
+  addMessage("user", generate ? "Generate image: " + userText : userText);
   setBusy(true);
 
   try {
-    const data = await callWorker({
-      action:"analyzeImage",
-      image:dataUrl,
-      question:actualQuestion,
-      language:currentLanguage(),
-      history:history.slice(-20)
-    });
+    let data;
 
-    const answer = extractText(data);
-    if (!answer) throw new Error("Vision model ne readable answer nahi diya.");
+    if (generate) {
+      $("mode").textContent = "IMAGE";
+      data = await callWorker({
+        type: "image",
+        action: "generateImage",
+        prompt: userText,
+        language: $("language").value
+      });
 
-    addMessage("JARVIS",answer);
-    addHistory("assistant",answer);
-    speak(answer);
-  } catch(e) {
-    addMessage("JARVIS","Image analyze nahi ho saki, Sir.\n" + e.message);
-    setStatus("IMAGE ERROR",true);
+      const imageUrl = extractImage(data);
+
+      if (imageUrl) {
+        addMessage("assistant", extractText(data) || "Image generated, Sir!", imageUrl);
+      } else {
+        addMessage(
+          "assistant",
+          "Worker ne image data return nahi kiya. Cloudflare image response format check karna hoga."
+        );
+      }
+    } else if (image) {
+      $("mode").textContent = "VISION";
+      data = await callWorker({
+        action: "analyzeImage",
+        image,
+        question: question || "Describe this image in detail.",
+        language: $("language").value,
+        history: messages.slice(-12).map(m => ({
+          role: m.role,
+          content: m.content
+        }))
+      });
+
+      const answer = extractText(data);
+      addMessage("assistant", answer || "Image model ne text response nahi diya.");
+    } else {
+      data = await callWorker({
+        action: "chat",
+        message: question,
+        language: $("language").value,
+        history: messages.slice(-20).map(m => ({
+          role: m.role,
+          content: m.content
+        }))
+      });
+
+      addMessage("assistant", extractText(data) || "Empty response from AI.");
+    }
+  } catch (error) {
+    addMessage("assistant", "Sorry, Sir. " + error.message);
+    setStatus("REQUEST ERROR");
   } finally {
     setBusy(false);
+    promptBox.focus();
   }
 }
 
-async function generateImage() {
-  if (busy) return;
-  const question = promptEl.value.trim();
-  if (!question) {
-    alert("Sir, image ka description likho.");
-    return;
-  }
+$("sendBtn").addEventListener("click", () => sendMessage(false));
 
-  promptEl.value = "";
-  addMessage("Sir","Generate image: " + question,true);
-  addHistory("user","Generate image: " + question);
-  setBusy(true);
-
-  try {
-    const data = await callWorker({
-      type:"image",
-      action:"generateImage",
-      prompt:question,
-      language:currentLanguage()
-    });
-
-    const imageUrl = extractImage(data);
-    const answer = extractText(data) ||
-      (imageUrl ? "Image generated, Sir! 🎨" :
-        "Worker se image URL nahi mila.");
-
-    addMessage("JARVIS",answer,false,imageUrl);
-    addHistory("assistant",answer);
-    if (imageUrl) addHistory("assistant","[Generated image: " + imageUrl + "]");
-    if (!imageUrl) setStatus("IMAGE RESPONSE CHECK",true);
-  } catch(e) {
-    addMessage("JARVIS","Image generate nahi hui, Sir.\n" + e.message);
-    setStatus("IMAGE ERROR",true);
-  } finally {
-    setBusy(false);
-  }
-}
-
-$("sendBtn").onclick = () => {
-  if (pendingImageQuestion === "generate" && !selectedImage) {
-    pendingImageQuestion = "";
-    promptEl.placeholder = "Hello, Sir! Ask me anything...";
-    generateImage();
-  } else {
-    sendMessage();
-  }
-};
-
-promptEl.addEventListener("keydown",e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendBtn.click();
+promptBox.addEventListener("keydown", event => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    sendMessage(false);
   }
 });
 
-$("newChat").onclick = () => {
-  if (busy) return;
-  saveCurrent();
-  currentId = newId();
-  history = [];
-  clearSelectedImage();
-  promptEl.value = "";
-  pendingImageQuestion = "";
-  chatEl.replaceChildren();
-  addMessage("JARVIS","Hello, Sir! 🤖\nHow can I help you today?");
-  saveCurrent();
-};
+$("generateBtn").addEventListener("click", () => {
+  imageMode = true;
+  $("mode").textContent = "IMAGE";
+  promptBox.placeholder = "Describe the image you want, Sir...";
+  promptBox.focus();
+  $("notice").textContent = "Image mode ready. Enter a prompt and press Send.";
+});
 
-$("historyBtn").onclick = () => {
-  if (busy) return;
-  saveCurrent();
-  if (!conversations.length) {
-    alert("Sir, abhi koi saved chat nahi hai.");
+$("uploadBtn").addEventListener("click", () => fileInput.click());
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files?.[0];
+  if (!file) return;
+
+  if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
+    $("notice").textContent = "Choose a PNG, JPG or WebP image.";
+    fileInput.value = "";
     return;
   }
-  const choices = conversations.slice(0,20)
-    .map((c,i) => (i+1) + ". " + (c.title || "Chat").slice(0,50))
-    .join("\n");
-  const input = prompt("Saved chats:\n" + choices +
-    "\n\nChat number enter karo:");
-  if (input === null) return;
-  const index = Number(input)-1;
-  const c = conversations[index];
-  if (!c) {
-    alert("Invalid chat number.");
+
+  if (file.size > 4 * 1024 * 1024) {
+    $("notice").textContent = "Image must be smaller than 4 MB.";
+    fileInput.value = "";
     return;
   }
-  currentId = c.id;
-  history = Array.isArray(c.messages) ? c.messages : [];
-  renderHistory();
-};
 
-$("voiceBtn").onclick = () => {
-  voiceEnabled = !voiceEnabled;
-  $("voiceBtn").textContent =
-    voiceEnabled ? "🔊 Voice: ON" : "🔊 Voice: OFF";
-  if (!voiceEnabled && "speechSynthesis" in window)
-    window.speechSynthesis.cancel();
-};
+  const reader = new FileReader();
+  reader.onload = () => {
+    selectedImage = String(reader.result);
+    $("preview").src = selectedImage;
+    $("preview").style.display = "block";
+    $("notice").textContent = "Image ready. Ask a question and press Send.";
+  };
+  reader.onerror = () => {
+    $("notice").textContent = "Could not read that image. Try again.";
+  };
+  reader.readAsDataURL(file);
+});
 
-$("stopVoice").onclick = () => {
+$("newChat").addEventListener("click", () => {
+  if (busy) return;
+  chatId = String(Date.now());
+  selectedImage = "";
+  imageMode = false;
+  promptBox.value = "";
+  greet();
+});
+
+$("historyBtn").addEventListener("click", () => {
+  try {
+    const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    if (!all.length) {
+      alert("No saved chats yet, Sir.");
+      return;
+    }
+
+    const menu = all.map((c,i) =>
+      (i + 1) + ". " + (c.title || "Chat")
+    ).join("\n");
+
+    const choice = prompt("Enter chat number to open:\n\n" + menu);
+    if (choice === null) return;
+
+    const entry = all[Number(choice) - 1];
+    if (!entry) {
+      alert("Invalid chat number.");
+      return;
+    }
+
+    chatId = entry.id;
+    messages = [];
+    chat.innerHTML = "";
+
+    for (const m of entry.messages || []) {
+      addMessage(m.role, m.content, m.imageUrl || "");
+    }
+    $("notice").textContent = "Previous chat loaded.";
+  } catch {
+    alert("Could not load saved history.");
+  }
+});
+
+$("voiceToggle").addEventListener("click", () => {
+  voiceOn = !voiceOn;
+  $("voiceToggle").textContent = voiceOn ? "🔊 Voice: ON" : "🔊 Voice: OFF";
+  $("notice").textContent = voiceOn
+    ? "Voice replies enabled, Sir."
+    : "Voice replies disabled.";
+});
+
+function speak(text) {
+  if (!("speechSynthesis" in window)) {
+    $("notice").textContent = "Speech output is not supported in this browser.";
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = $("language").value === "english" ? "en-IN" : "hi-IN";
+  utterance.rate = 1;
+  window.speechSynthesis.speak(utterance);
+}
+
+$("speakBtn").addEventListener("click", () => {
+  if (lastReply) speak(lastReply);
+  else $("notice").textContent = "JARVIS has not replied yet.";
+});
+
+$("stopVoice").addEventListener("click", () => {
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-  if (recognition && listening) recognition.stop();
-};
+  if (recognition) {
+    try { recognition.stop(); } catch {}
+  }
+  $("notice").textContent = "Voice stopped.";
+});
 
-$("micBtn").onclick = () => {
+$("speakBtn").addEventListener("contextmenu", event => {
+  event.preventDefault();
+  startListening();
+});
+
+function startListening() {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    alert("Sir, voice input is not supported in this browser. Chrome mein try karo.");
-    return;
-  }
-  if (listening && recognition) {
-    recognition.stop();
+    $("notice").textContent =
+      "Voice input is not supported in this browser. Type your message instead.";
     return;
   }
 
+  if (recognition) {
+    try { recognition.stop(); } catch {}
+  }
+
   recognition = new SpeechRecognition();
-  recognition.lang = currentLanguage() === "English" ? "en-IN" : "hi-IN";
+  recognition.lang = $("language").value === "english" ? "en-IN" : "hi-IN";
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
   recognition.onstart = () => {
-    listening = true;
-    $("micBtn").textContent = "🎙 Listening...";
-    setStatus("LISTENING...");
+    $("notice").textContent = "Listening, Sir…";
+    setStatus("LISTENING");
   };
+
   recognition.onresult = event => {
-    promptEl.value = event.results[0][0].transcript;
+    promptBox.value = event.results[0][0].transcript;
+    promptBox.focus();
+    $("notice").textContent = "Voice captured. Press Send.";
   };
-  recognition.onerror = () => {
-    setStatus("VOICE INPUT ERROR",true);
+
+  recognition.onerror = event => {
+    $("notice").textContent = "Voice input error: " + event.error;
   };
-  recognition.onend = () => {
-    listening = false;
-    $("micBtn").textContent = "🎙 Speak";
-    setStatus("SYSTEM READY");
-  };
+
+  recognition.onend = () => setStatus("SYSTEM ONLINE");
 
   try { recognition.start(); }
-  catch(e) { alert("Mic start nahi hua. Dobara try karo."); }
-};
-
-$("language").onchange = () => {
-  localStorage.setItem("jarvis_v14_language",currentLanguage());
-};
-
-function updateClock() {
-  $("clock").textContent = new Intl.DateTimeFormat("en-IN",{
-    timeZone:"Asia/Kolkata",
-    hour:"2-digit",minute:"2-digit",second:"2-digit",
-    hour12:true
-  }).format(new Date()) + " IST";
+  catch { $("notice").textContent = "Could not start voice input."; }
 }
 
-loadData();
+$("speakBtn").addEventListener("dblclick", startListening);
 
-const savedLanguage = localStorage.getItem("jarvis_v14_language");
-if (savedLanguage === "English" || savedLanguage === "Hinglish") {
-  $("language").value = savedLanguage;
-}
-
-systemGreeting();
-updateClock();
-setInterval(updateClock,1000);
+greet();
+setStatus("SYSTEM ONLINE");
 </script>
 </body>
 </html>
