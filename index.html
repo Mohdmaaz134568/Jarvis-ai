@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10090b">
-<title>JARVIS V16</title>
+<title>JARVIS V17</title>
 <style>
 :root{--bg:#09070a;--panel:#151015;--panel2:#1d1417;--red:#ff334d;--gold:#ffc45c;--muted:#b7a6aa;--line:#43222b;--text:#fff5f4;--good:#70e1a1}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -15%,#4b101b 0,#160b10 32%,var(--bg) 72%);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
@@ -20,7 +20,7 @@ main{max-width:980px;margin:0 auto;padding:18px 12px 28px}.hero{border:1px solid
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="reactor">J</div><div><strong>JARVIS <span style="color:var(--gold)">V16</span></strong><small>PERSONAL AI SYSTEM</small></div></div><div class="status" id="status">● SYSTEM READY</div></header>
+<header><div class="brand"><div class="reactor">J</div><div><strong>JARVIS <span style="color:var(--gold)">V17</span></strong><small>PERSONAL AI SYSTEM</small></div></div><div class="status" id="status">● SYSTEM READY</div></header>
 <main>
 <section class="hero" id="home">
 <div class="ring"><span>J</span></div><h1>J.A.R.V.I.S.</h1><p>Just A Rather Very Intelligent System</p><p id="clockline">ONLINE • READY FOR COMMAND</p>
@@ -53,19 +53,19 @@ main{max-width:980px;margin:0 auto;padding:18px 12px 28px}.hero{border:1px solid
 <div style="margin-top:12px"><label class="label" for="userMemory">Personal memory (stored only in this browser)</label><textarea id="userMemory" placeholder="Add preferences or facts JARVIS should include as context"></textarea></div>
 <div class="row" style="margin-top:12px"><button class="primary" id="saveSettings">Save settings</button><button id="testConnection">Test connection</button></div><p class="hint">Do not save passwords, bank details, or other secrets in memory. Local browser data may disappear if site data is cleared.</p><div id="testResult" class="hint"></div>
 </section>
-<div class="foot">JARVIS V16 • Red-Gold Interface • Built for mobile</div>
+<div class="foot">JARVIS V17 • All-Round Intelligence • Red-Gold Interface • Mobile</div>
 </main>
 <script>
 (() => {
 "use strict";
 const $ = id => document.getElementById(id);
-const STORE = "jarvis_v16_chats";
-const PREFS = "jarvis_v16_settings";
+const STORE = "jarvis_v17_chats";
+const PREFS = "jarvis_v17_settings";
 let chats = safeParse(localStorage.getItem(STORE), []);
 let current = {id: uid(), title:"New conversation", messages:[], updated:Date.now()};
 let attachment = null, attachmentType = null, speakReplies = true, imageMode = false, busy = false;
 let historyForApi = [];
-const initialHello = "Yes, Sir. JARVIS V16 online. How may I assist you?";
+const initialHello = "Yes, Sir. JARVIS V17 online. I can help with knowledge, research, history, science, coding, analysis, and forecasts. What do you need? ⚡";
 function safeParse(s, fallback){try{return JSON.parse(s)||fallback}catch{return fallback}}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function settings(){return safeParse(localStorage.getItem(PREFS), {language:"hinglish",rate:"0.9",workerUrl:"https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev",memory:""})}
@@ -75,7 +75,7 @@ function setStatus(s, good=false){$("status").textContent=(good?"● ":"◉ ")+s
 function showView(id){document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===id));["chatView","toolsView","historyView","settingsView"].forEach(x=>$(x).classList.toggle("hidden",x!==id));if(id==="historyView")renderHistory()}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function safeTextWithLinks(text){let s=escapeHtml(text);s=s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');s=s.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');return s}
-function renderChat(){const el=$("chat");el.innerHTML="";current.messages.forEach((m,i)=>{const div=document.createElement("div");div.className="msg "+(m.role==="user"?"user":"ai");div.innerHTML='<div class="who">'+(m.role==="user"?"SIR":"JARVIS")+'</div><div>'+safeTextWithLinks(m.content||"")+'</div>'+(m.image?'<img src="'+m.image+'" alt="Generated image">':"")+(m.role==="assistant"?'<div class="tools"><button class="small copyMsg" data-i="'+i+'">Copy</button><button class="small speakMsg" data-i="'+i+'">Speak</button></div>':"");el.appendChild(div)});el.scrollTop=el.scrollHeight;el.querySelectorAll(".copyMsg").forEach(b=>b.onclick=()=>navigator.clipboard?.writeText(current.messages[+b.dataset.i].content||""));el.querySelectorAll(".speakMsg").forEach(b=>b.onclick=()=>speak(current.messages[+b.dataset.i].content||""));saveCurrent()}
+function renderChat(){const el=$("chat");el.innerHTML="";current.messages.forEach((m,i)=>{const div=document.createElement("div");div.className="msg "+(m.role==="user"?"user":"ai");div.innerHTML='<div class="who">'+(m.role==="user"?"SIR":"JARVIS")+'</div><div>'+safeTextWithLinks(m.content||"")+'</div>'+(m.image?'<img src="'+m.image+'" alt="Generated image">':"")+(m.role==="assistant"?'<div class="tools"><button class="small copyMsg" data-i="'+i+'">Copy</button><button class="small speakMsg" data-i="'+i+'">Speak</button>'+(m.image?'<a class="small" href="'+m.image+'" download="jarvis-v17-image.jpg" style="color:var(--gold);padding:6px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none">Save image</a>':'')+'</div>':"");el.appendChild(div)});el.scrollTop=el.scrollHeight;el.querySelectorAll(".copyMsg").forEach(b=>b.onclick=()=>navigator.clipboard?.writeText(current.messages[+b.dataset.i].content||""));el.querySelectorAll(".speakMsg").forEach(b=>b.onclick=()=>speak(current.messages[+b.dataset.i].content||""));saveCurrent()}
 function addMessage(role,content,extra={}){current.messages.push({role,content,...extra,at:Date.now()});renderChat()}
 function speak(text){if(!speakReplies||!("speechSynthesis"in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text.replace(/https?:\/\/\S+/g,"link"));u.rate=Number(settings().rate)||.9;u.pitch=.82;u.lang=settings().language==="english"?"en-US":"en-IN";const voices=window.speechSynthesis.getVoices();const v=voices.find(v=>/en-IN/i.test(v.lang))||voices.find(v=>/en-US|en-GB/i.test(v.lang)&&/male|david|mark|daniel/i.test(v.name))||voices.find(v=>/en/i.test(v.lang));if(v)u.voice=v;window.speechSynthesis.speak(u)}
 function addAssistant(text, image){addMessage("assistant",text,image?{image}:{});speak(text)}
@@ -90,8 +90,8 @@ async function sendText(text, opts={}) {
  addTyping();
  try{
   let data;
-  if(opts.generateImage||imageMode){data=await api({type:"image",action:"generateImage",prompt:text,language:settings().language});imageMode=false;$("makeImage").textContent="🎨 Generate image";if(data.image){const src=data.image.startsWith("data:")?data.image:"data:image/png;base64,"+data.image;addAssistant(data.message||"Image generated, Sir.",src)}else if(data.imageUrl){addAssistant(data.message||"Image generated, Sir.",data.imageUrl)}else addAssistant(data.message||"Image generated, Sir.",null)}
-  else if(att && attType==="image"){const dataUri=await fileToDataUri(att);data=await api({type:"vision",action:"analyzeImage",image:dataUri,message:text||"Describe this image and answer accurately.",language:settings().language});addAssistant(data.reply||data.response||data.description||"I couldn't analyze the image clearly, Sir.")}
+  if(opts.generateImage||imageMode){data=await api({type:"image",action:"generateImage",prompt:text,language:settings().language});imageMode=false;$("makeImage").textContent="🎨 Generate image";if(data.image){const src=data.image.startsWith("data:")?data.image:"data:"+(data.mimeType||"image/jpeg")+";base64,"+data.image;addAssistant(data.message||"Image generated, Sir.",src)}else if(data.imageUrl){addAssistant(data.message||"Image generated, Sir.",data.imageUrl)}else addAssistant(data.message||"Image generated, Sir.",null)}
+  else if(att && attType==="image"){const dataUri=await fileToDataUri(att);data=await api({type:"vision",action:"analyzeImage",image:dataUri,message:text||"Describe this image and answer accurately.",language:settings().language});addAssistant(typeof data.reply==="string"?data.reply:(typeof data.response==="string"?data.response:JSON.stringify(data.response||data)))}
   else if(att && attType==="pdf"){addAssistant("Sir, this frontend can select a PDF, but the current Worker does not include PDF text extraction. Please copy the relevant text from the PDF into chat, or connect a PDF extraction service before enabling this feature.");}
   else {const s=settings();const memory=s.memory?("\n\nUser-provided memory/context (may be outdated; use only if relevant): "+s.memory):"";const hist=current.messages.filter(m=>m.role==="user"||m.role==="assistant").slice(-12).map(m=>({role:m.role,content:m.content}));data=await api({type:"chat",action:"chat",message:text+memory,language:s.language,history:hist});addAssistant(data.reply||data.response||data.result||"No reply received, Sir.")}
  }catch(e){addAssistant("Sorry, Sir. "+(e.message||"Request failed")+"\n\nCheck your internet connection, Worker URL, and Cloudflare deployment.");}
@@ -110,7 +110,7 @@ $("newChat").onclick=startNew;
 $("pickImage").onclick=()=>$("imageFile").click();$("imageFile").onchange=e=>selectFile(e.target.files[0],"image");
 $("pickPdf").onclick=()=>$("pdfFile").click();$("openPdf").onclick=()=>$("pdfFile").click();$("pdfFile").onchange=e=>selectFile(e.target.files[0],"pdf");
 $("makeImage").onclick=()=>{imageMode=!imageMode;$("makeImage").textContent=imageMode?"🎨 Image mode: ON":"🎨 Generate image";$("message").placeholder=imageMode?"Describe the image to generate, Sir...":"Ask JARVIS anything, Sir...";$("message").focus()};
-$("searchWeb").onclick=()=>{const q=$("message").value.trim();if(!q){addAssistant("Sir, enter a search query first.");return}const url="https://www.google.com/search?q="+encodeURIComponent(q);addAssistant("Opening web search for: "+q+"\n"+url);window.open(url,"_blank","noopener")};
+$("searchWeb").onclick=async()=>{const q=$("message").value.trim();if(!q){addAssistant("Sir, enter a search query first.");return}addMessage("user","Search: "+q);addTyping();try{const d=await api({type:"search",action:"search",query:q});removeTyping();if(!d.results||!d.results.length){addAssistant("Sir, free search provider did not return a direct answer for this query. Try a more specific query or open a regular search engine.");return}const lines=d.results.map((x,i)=>(i+1)+". "+x.title+"\n"+(x.snippet||"")+"\n"+(x.url||""));addAssistant("🔎 Search results for: "+q+"\n\n"+lines.join("\n\n")+"\n\nProvider: "+d.provider+". This free instant-answer search may be incomplete.")}catch(e){removeTyping();addAssistant("Search unavailable, Sir: "+e.message)}};
 $("mic").onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){addAssistant("Sir, speech recognition is not supported by this browser. Try Chrome and allow microphone access.");return}const rec=new SR();rec.lang=settings().language==="english"?"en-US":"en-IN";rec.interimResults=false;rec.maxAlternatives=1;rec.onstart=()=>setStatus("LISTENING");rec.onresult=e=>{$("message").value=e.results[0][0].transcript;$("message").focus()};rec.onerror=e=>addAssistant("Microphone issue, Sir: "+e.error+". Check browser microphone permission.");rec.onend=()=>setStatus("SYSTEM READY",true);rec.start()};
 $("speakToggle").onclick=()=>{speakReplies=!speakReplies;$("speakToggle").textContent="🔊 Voice replies: "+(speakReplies?"ON":"OFF");if(!speakReplies&&window.speechSynthesis)window.speechSynthesis.cancel()};
 $("toolExplain").onclick=()=>runTool("explain");$("toolCode").onclick=()=>runTool("code");$("toolCalc").onclick=()=>runTool("calc");$("toolStock").onclick=()=>runTool("stock");$("runTool").onclick=()=>runTool("explain");
