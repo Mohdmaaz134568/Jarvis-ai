@@ -1,145 +1,444 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#09070a"><title>JARVIS V18</title>
+<meta name="theme-color" content="#09070a">
+<title>JARVIS V19</title>
 <style>
 :root{--bg:#09070a;--red:#ff334d;--gold:#ffc45c;--mut:#b7a6aa;--line:#43222b;--tx:#fff5f4;--ok:#70e1a1}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -15%,#4b101b,#160b10 32%,var(--bg) 72%);color:var(--tx);font:15px/1.45 system-ui,Roboto,sans-serif;min-height:100vh;padding-bottom:70px}
-button,input,textarea,select{font:inherit}button{cursor:pointer;color:var(--tx);border:1px solid #6d303b;background:#241319;border-radius:12px;padding:9px 11px}button:disabled{opacity:.45}button.p{background:linear-gradient(135deg,#a5122b,#61200f);border-color:var(--gold)}button.s{padding:5px 8px;font-size:12px}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -15%,#4b101b,#160b10 32%,var(--bg) 72%);color:var(--tx);font:15px/1.45 system-ui,Roboto,sans-serif;min-height:100vh;padding-bottom:75px}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;color:var(--tx);border:1px solid #6d303b;background:#241319;border-radius:12px;padding:9px 11px}
+button:disabled{opacity:.45}
+button.p{background:linear-gradient(135deg,#a5122b,#61200f);border-color:var(--gold)}
+button.s{padding:5px 8px;font-size:12px}
 input,textarea,select{background:#0b080a;color:var(--tx);border:1px solid #4b2a32;border-radius:10px;padding:10px;width:100%}
 header{position:sticky;top:0;z-index:5;background:#0b080bee;border-bottom:1px solid var(--line);padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px}.mini-r{width:34px;height:34px}b.g{color:var(--gold)}#status{font-size:11px;color:var(--ok)}
-main{max-width:900px;margin:0 auto;padding:14px 12px}.panel{background:#100c10;border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:12px}.hidden{display:none!important}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1;min-width:120px}.hint{font-size:11px;color:var(--mut)}
+.brand{display:flex;align-items:center;gap:10px}
+.mini-r{width:34px;height:34px}
+b.g{color:var(--gold)}
+#status{font-size:11px;color:var(--ok)}
+main{max-width:900px;margin:0 auto;padding:14px 12px}
+.panel{background:#100c10;border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:12px}
+.hidden{display:none!important}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grow{flex:1;min-width:120px}
+.hint{font-size:11px;color:var(--mut)}
 .reactor{width:130px;height:130px;margin:6px auto;position:relative;border-radius:50%;border:2px solid var(--gold);box-shadow:0 0 30px #ff334d66,inset 0 0 22px #ff334d66}
-.reactor i{position:absolute;border-radius:50%;inset:14px;border:3px dashed var(--red);animation:sp 14s linear infinite}.reactor i+i{inset:32px;border:2px solid var(--gold);animation-direction:reverse;animation-duration:9s}.reactor u{position:absolute;inset:50px;border-radius:50%;background:radial-gradient(#fff,#ffc45c 40%,#ff334d);animation:pu 2.4s ease-in-out infinite}
-@keyframes sp{to{transform:rotate(360deg)}}@keyframes pu{50%{opacity:.55;transform:scale(.88)}}
-.hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}.hud div{border:1px solid var(--line);border-radius:12px;padding:10px;background:#160f13;font-size:12px;color:var(--mut)}.hud b{display:block;color:var(--gold)}
-#chat{height:52vh;min-height:240px;overflow:auto;display:flex;flex-direction:column;gap:9px}.msg{max-width:94%;padding:10px 12px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}.msg.user{align-self:flex-end;background:#40131d;border:1px solid #78303e}.msg.ai{align-self:flex-start;background:#191317;border:1px solid #43242c}.msg .w{font-size:10px;color:var(--gold);margin-bottom:3px}.msg img{max-width:100%;border-radius:10px;margin-top:8px}.msg a{color:#ffd17e}.msg .t{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;align-items:center}
-.dots span{animation:bl 1.2s infinite;display:inline-block}.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}@keyframes bl{50%{opacity:.2}}
-.comp{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px;align-items:end}.tb{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#0b080bf5;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}nav button{flex:1;border:0;border-radius:0;background:none;font-size:11px;padding:10px 2px;color:var(--mut)}nav button.on{color:var(--gold);box-shadow:inset 0 2px var(--gold)}
-table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-bottom:1px solid #321d23;padding:6px;text-align:left}.item{display:flex;gap:8px;align-items:center;border-bottom:1px solid #321d23;padding:8px 0}.item .grow{overflow:hidden;text-overflow:ellipsis}
+.reactor i{position:absolute;border-radius:50%;inset:14px;border:3px dashed var(--red);animation:sp 14s linear infinite}
+.reactor i+i{inset:32px;border:2px solid var(--gold);animation-direction:reverse;animation-duration:9s}
+.reactor u{position:absolute;inset:50px;border-radius:50%;background:radial-gradient(#fff,#ffc45c 40%,#ff334d);animation:pu 2.4s ease-in-out infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes pu{50%{opacity:.55;transform:scale(.88)}}
+.hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}
+.hud div{border:1px solid var(--line);border-radius:12px;padding:10px;background:#160f13;font-size:12px;color:var(--mut)}
+.hud b{display:block;color:var(--gold)}
+#chat{height:52vh;min-height:240px;overflow:auto;display:flex;flex-direction:column;gap:9px}
+.msg{max-width:94%;padding:10px 12px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:#40131d;border:1px solid #78303e}
+.msg.ai{align-self:flex-start;background:#191317;border:1px solid #43242c}
+.msg .w{font-size:10px;color:var(--gold);margin-bottom:3px}
+.msg img{max-width:100%;border-radius:10px;margin-top:8px}
+.msg a{color:#ffd17e}
+.msg .t{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;align-items:center}
+.comp{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px;align-items:end}
+.tb{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#0b080bf5;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;border-radius:0;background:none;font-size:11px;padding:10px 2px;color:var(--mut)}
+nav button.on{color:var(--gold);box-shadow:inset 0 2px var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{border-bottom:1px solid #321d23;padding:6px;text-align:left}
+.item{display:flex;gap:8px;align-items:center;border-bottom:1px solid #321d23;padding:8px 0}
+.item .grow{overflow:hidden;text-overflow:ellipsis}
 .note{border-left:3px solid var(--gold);padding:8px 10px;background:#21171a;font-size:12px;border-radius:0 8px 8px 0;margin-top:8px}
-</style></head><body>
-<header><div class="brand"><div class="reactor mini-r" style="margin:0;box-shadow:0 0 10px #ff334d66"><i style="inset:5px"></i><u style="inset:12px"></u></div><div><b>JARVIS <b class="g">V18</b></b><div class="hint">PERSONAL AI SYSTEM</div></div></div><div id="status">◉ CHECKING</div></header>
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">
+  <div class="reactor mini-r" style="margin:0;box-shadow:0 0 10px #ff334d66"><i style="inset:5px"></i><u style="inset:12px"></u></div>
+  <div><b>JARVIS <b class="g">V19</b></b><div class="hint">PERSONAL AI SYSTEM</div></div>
+ </div>
+ <div id="status">◉ CHECKING</div>
+</header>
+
 <main>
 <section id="v-home" class="panel" style="text-align:center">
-<div class="reactor"><i></i><i></i><u></u></div><h2 style="color:var(--gold);letter-spacing:4px;margin:6px">J.A.R.V.I.S.</h2><div id="clock" class="hint"></div>
-<div class="hud"><div><b>AI CORE</b><span id="hCore">Checking…</span></div><div><b>MEMORY</b><span id="hMem"></span></div><div><b>VOICE</b><span id="hVoice"></span></div><div><b>WORKER</b><span id="hWork">—</span></div></div>
-<div class="row" style="justify-content:center;margin-top:14px"><button class="p" data-go="chat">Open Chat</button><button id="hVoiceMode">🎙 Voice mode</button><button data-go="market">Market</button><button data-go="tools">Tools</button></div>
-<p class="hint">Status shows what is actually reachable. Wake-word / background listening is not supported in a web page.</p></section>
+ <div class="reactor"><i></i><i></i><u></u></div>
+ <h2 style="color:var(--gold);letter-spacing:4px;margin:6px">J.A.R.V.I.S.</h2>
+ <div id="clock" class="hint"></div>
+ <div class="hud">
+  <div><b>AI CORE</b><span id="hCore">Checking…</span></div>
+  <div><b>MEMORY</b><span id="hMem">0 saved chats</span></div>
+  <div><b>VOICE</b><span id="hVoice"></span></div>
+  <div><b>WORKER</b><span id="hWork">—</span></div>
+ </div>
+ <div class="row" style="justify-content:center;margin-top:14px">
+  <button class="p" data-go="chat">Open Chat</button>
+  <button id="hVoiceMode">🎙 Voice mode</button>
+  <button data-go="market">Market</button>
+  <button data-go="tools">Tools</button>
+ </div>
+ <p class="hint">Wake-word and background listening are not supported in a normal web page.</p>
+</section>
 
 <section id="v-chat" class="panel hidden">
-<div class="row" style="justify-content:space-between"><b id="chatTitle">Conversation</b><span><button class="s" id="newChat">New</button> <button class="s" id="clearChat">Clear</button> <button class="s" id="exportChat">Export</button> <button class="s" id="summarize">Summarize</button></span></div>
-<div id="chat"></div><div id="attach"></div>
-<div class="comp"><textarea id="msg" rows="1" placeholder="Ask JARVIS, Sir…"></textarea><button class="p" id="send">Send ➤</button></div>
-<div class="tb"><button id="mic">🎙 Speak</button><button id="stopSpeak">⏹ Stop voice</button><button id="vmode">🗣 Voice mode: OFF</button><button id="gallery">🖼 Image</button><button id="camera">📷 Camera</button><button id="docBtn">📄 Document</button><button id="genMode">🎨 Generate: OFF</button><button id="searchBtn">🌐 Search</button>
-<input type="file" id="fImg" accept="image/*" class="hidden"><input type="file" id="fCam" accept="image/*" capture="environment" class="hidden"><input type="file" id="fDoc" accept=".pdf,.txt,.csv,.md,.json,text/*,application/pdf" class="hidden"></div>
-<div class="hint">Enter to send. Responses can be wrong; verify important facts.</div></section>
+ <div class="row" style="justify-content:space-between">
+  <b id="chatTitle">Conversation</b>
+  <span><button class="s" id="newChat">New</button> <button class="s" id="clearChat">Clear</button> <button class="s" id="exportChat">Export</button> <button class="s" id="summarize">Summarize</button></span>
+ </div>
+ <div id="chat"></div>
+ <div id="attach"></div>
+ <div class="comp">
+  <textarea id="msg" rows="1" placeholder="Ask JARVIS, Sir…"></textarea>
+  <button class="p" id="send">Send ➤</button>
+ </div>
+ <div class="tb">
+  <button id="mic">🎙 Speak</button><button id="stopSpeak">⏹ Stop voice</button>
+  <button id="vmode">🗣 Voice mode: OFF</button>
+  <button id="gallery">🖼 Image</button><button id="camera">📷 Camera</button>
+  <button id="docBtn">📄 Document</button><button id="genMode">🎨 Generate: OFF</button>
+  <button id="searchBtn">🌐 Search</button>
+  <input type="file" id="fImg" accept="image/*" class="hidden">
+  <input type="file" id="fCam" accept="image/*" capture="environment" class="hidden">
+  <input type="file" id="fDoc" accept=".pdf,.txt,.csv,.md,.json,text/*,application/pdf" class="hidden">
+ </div>
+ <div class="hint">Enter to send. Verify important information independently.</div>
+</section>
 
-<section id="v-market" class="panel hidden"><b>Indian stocks (NSE/BSE via IndianAPI)</b>
-<div class="row" style="margin-top:8px"><input class="grow" id="stk" placeholder="Reliance, TCS, INFY…"><button class="p" id="stkGo">Lookup</button><button id="stkWatch">★ Watch</button></div>
-<div class="row" style="margin-top:8px"><input class="grow" id="cmpA" placeholder="Compare A"><input class="grow" id="cmpB" placeholder="Compare B"><button id="cmpGo">Compare</button></div>
-<div id="stkOut" style="margin-top:10px"></div><h4 style="color:var(--gold)">Watchlist</h4><div id="watch"></div><button class="s" id="watchRefresh">Refresh all</button>
-<div class="note">Prices may be delayed; timestamp = when JARVIS fetched them. Educational only, not advice. Historical charts are not implemented.</div></section>
+<section id="v-market" class="panel hidden">
+ <b>Indian stocks (NSE/BSE via IndianAPI)</b>
+ <div class="row" style="margin-top:8px"><input class="grow" id="stk" placeholder="Reliance, TCS, INFY…"><button class="p" id="stkGo">Lookup</button><button id="stkWatch">★ Watch</button></div>
+ <div class="row" style="margin-top:8px"><input class="grow" id="cmpA" placeholder="Compare A"><input class="grow" id="cmpB" placeholder="Compare B"><button id="cmpGo">Compare</button></div>
+ <div id="stkOut" style="margin-top:10px"></div>
+ <h4 style="color:var(--gold)">Watchlist</h4><div id="watch"></div>
+ <button class="s" id="watchRefresh">Refresh all</button>
+ <div class="note">Prices may be delayed. Fetch time is not exchange time. Educational only, not financial advice.</div>
+</section>
 
 <section id="v-tools" class="panel hidden">
-<b>Weather (Open-Meteo, live)</b><div class="row" style="margin:8px 0"><input class="grow" id="wPlace" placeholder="City"><button id="wGo">Get</button></div><div id="wOut"></div>
-<h4 style="color:var(--gold)">Tasks &amp; reminders</h4><div class="row"><input class="grow" id="tTxt" placeholder="Task"><input id="tWhen" type="datetime-local" style="width:auto"><button id="tAdd">Add</button></div><div id="tasks"></div><div class="hint">Reminders alert only while this page is open (browser notification if you allow it).</div>
-<h4 style="color:var(--gold)">Notes</h4><textarea id="nTxt" placeholder="New note"></textarea><button class="s" id="nAdd" style="margin-top:6px">Save note</button><div id="notes"></div></section>
+ <b>Weather (Open-Meteo)</b>
+ <div class="row" style="margin:8px 0"><input class="grow" id="wPlace" placeholder="City"><button id="wGo">Get</button></div>
+ <div id="wOut"></div>
+ <h4 style="color:var(--gold)">Tasks &amp; reminders</h4>
+ <div class="row"><input class="grow" id="tTxt" placeholder="Task"><input id="tWhen" type="datetime-local" style="width:auto"><button id="tAdd">Add</button></div>
+ <div id="tasks"></div>
+ <div class="hint">Reminders alert only while this page is open.</div>
+ <h4 style="color:var(--gold)">Notes</h4>
+ <textarea id="nTxt" placeholder="New note"></textarea><button class="s" id="nAdd" style="margin-top:6px">Save note</button><div id="notes"></div>
+</section>
 
-<section id="v-hist" class="panel hidden"><div class="row" style="justify-content:space-between"><b>Saved chats</b><button class="s" id="delAll">Delete all</button></div><input id="hq" placeholder="Search chats…" style="margin:10px 0"><div id="hl"></div></section>
+<section id="v-hist" class="panel hidden">
+ <div class="row" style="justify-content:space-between"><b>Saved chats</b><button class="s" id="delAll">Delete all</button></div>
+ <input id="hq" placeholder="Search chats…" style="margin:10px 0"><div id="hl"></div>
+</section>
 
-<section id="v-set" class="panel hidden"><b>Settings</b>
-<div class="row" style="margin-top:8px"><div class="grow"><label class="hint">Language</label><select id="lang"><option value="hinglish">Hinglish</option><option value="english">English</option></select></div><div class="grow"><label class="hint">Voice</label><select id="voice"></select></div></div>
-<label class="hint">Speech speed: <span id="rv"></span></label><input type="range" id="rate" min="0.6" max="1.4" step="0.05">
-<div class="row"><label><input type="checkbox" id="speakOn" style="width:auto"> Speak replies</label></div>
-<label class="hint">Worker URL</label><input id="wurl"><label class="hint" style="margin-top:8px">Memory you control (stored only in this browser; no passwords or keys)</label><textarea id="mem"></textarea>
-<div class="row" style="margin-top:8px"><button class="p" id="save">Save</button><button id="test">Test connection</button><button id="wipe">Erase all local data</button></div><div id="tres" class="hint"></div></section>
+<section id="v-set" class="panel hidden">
+ <b>Settings</b>
+ <div class="row" style="margin-top:8px">
+  <div class="grow"><label class="hint">Language</label><select id="lang"><option value="hinglish">Hinglish</option><option value="english">English</option></select></div>
+  <div class="grow"><label class="hint">Voice</label><select id="voice"></select></div>
+ </div>
+ <label class="hint">Speech speed: <span id="rv"></span></label><input type="range" id="rate" min="0.6" max="1.4" step="0.05">
+ <div class="row"><label><input type="checkbox" id="speakOn" style="width:auto"> Speak replies</label></div>
+ <label class="hint">Worker URL</label><input id="wurl">
+ <label class="hint" style="margin-top:8px">Memory (stored only in this browser; never add passwords or API keys)</label>
+ <textarea id="mem"></textarea>
+ <div class="row" style="margin-top:8px"><button class="p" id="save">Save</button><button id="test">Test connection</button><button id="wipe">Erase all local data</button></div>
+ <div id="tres" class="hint"></div>
+</section>
 </main>
-<nav><button data-go="home" class="on">Home</button><button data-go="chat">Chat</button><button data-go="market">Market</button><button data-go="tools">Tools</button><button data-go="hist">History</button><button data-go="set">Settings</button></nav>
+
+<nav>
+ <button data-go="home" class="on">Home</button><button data-go="chat">Chat</button><button data-go="market">Market</button><button data-go="tools">Tools</button><button data-go="hist">History</button><button data-go="set">Settings</button>
+</nav>
+
 <script>
 (()=>{"use strict";
-const $=i=>document.getElementById(i),K={c:"j18_chats",s:"j18_set",w:"j18_watch",t:"j18_tasks",n:"j18_notes"};
+const $=id=>document.getElementById(id);
+const K={c:"j19_chats",s:"j19_set",w:"j19_watch",t:"j19_tasks",n:"j19_notes"};
 const DEF={language:"hinglish",rate:.95,voice:"",speak:true,url:"https://jarvis-ai-maaz.mohammadmaaz78690.workers.dev",memory:""};
-const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{alert("Browser storage is full.")}};
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{alert("Browser storage is full. Export or delete old chats.")}};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const fmt=s=>esc(s).replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/(https?:\/\/[^\s<)]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
-let S={...DEF,...ld(K.s,{})},chats=ld(K.c,[]),cur=newChat(),att=null,doc=null,gen=false,busy=false,vm=false,rec=null;
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=s=>esc(s).replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/(https?:\/\/[^\s<)]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+let S={...DEF,...ld(K.s,{})},chats=ld(K.c,[]),cur=newChat(),att=null,doc=null,gen=false,busy=false,vm=false,rec=null,voices=[];
 function newChat(){return{id:uid(),title:"New conversation",messages:[],updated:Date.now()}}
-function persist(){if(!cur.messages.length)return;cur.updated=Date.now();if(cur.title==="New conversation")cur.title=(cur.messages.find(m=>m.role==="user")||{content:"Chat"}).content.slice(0,50);const copy=JSON.parse(JSON.stringify(cur,(k,v)=>k==="image"?undefined:v));chats=[copy,...chats.filter(c=>c.id!==cur.id)].slice(0,60);sv(K.c,chats);$("hMem").textContent=chats.length+" saved chats"}
-function go(v){["home","chat","market","tools","hist","set"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===v));if(v==="hist")rHist();if(v==="market")rWatch();if(v==="tools"){rTasks();rNotes()}}
+function persist(){
+ if(!cur.messages.length)return;
+ cur.updated=Date.now();
+ if(cur.title==="New conversation")cur.title=(cur.messages.find(m=>m.role==="user")||{content:"Chat"}).content.slice(0,50);
+ const copy=JSON.parse(JSON.stringify(cur));
+ chats=[copy,...chats.filter(c=>c.id!==cur.id)].slice(0,60);
+ sv(K.c,chats);$("hMem").textContent=chats.length+" saved chats";
+}
+function go(v){
+ ["home","chat","market","tools","hist","set"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===v));
+ if(v==="hist")rHist();if(v==="market")rWatch();if(v==="tools"){rTasks();rNotes()}
+}
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
-async function api(p){const u=(S.url||"").trim().replace(/\/+$/,"");if(!u)throw new Error("Set Worker URL in Settings.");let r,d;try{r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language:S.language,...p})})}catch{throw new Error("Cannot reach Worker. Check internet and URL.")}try{d=await r.json()}catch{throw new Error("Worker sent non-JSON response.")}if(!r.ok||d.error)throw new Error(d.error||"HTTP "+r.status);return d}
+async function api(p){
+ const u=(S.url||"").trim().replace(/\/+$/,"");
+ if(!u)throw Error("Set Worker URL in Settings.");
+ let r,d;
+ try{r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language:S.language,...p})})}
+ catch{throw Error("Cannot reach Worker. Check internet and Worker URL.")}
+ try{d=await r.json()}catch{throw Error("Worker sent a non-JSON response.")}
+ if(!r.ok||d.error)throw Error(d.error||"HTTP "+r.status);
+ return d;
+}
 function status(t,ok){$("status").textContent=(ok?"● ":"◉ ")+t;$("status").style.color=ok?"var(--ok)":"var(--gold)"}
-// ---- chat
-function render(){const el=$("chat");el.innerHTML="";cur.messages.forEach((m,i)=>{const d=document.createElement("div");d.className="msg "+(m.role==="user"?"user":"ai");d.innerHTML='<div class="w">'+(m.role==="user"?"SIR":"JARVIS")+" • "+new Date(m.at).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})+"</div><div>"+fmt(m.content||"")+"</div>"+(m.image?'<img src="'+m.image+'" alt="generated">':"");if(m.role==="assistant"){const t=document.createElement("div");t.className="t";[["Copy",()=>navigator.clipboard&&navigator.clipboard.writeText(m.content)],["Speak",()=>speak(m.content,true)],["Share",()=>navigator.share?navigator.share({text:m.content}).catch(()=>{}):alert("Share not supported here.")]].forEach(([n,f])=>{const b=document.createElement("button");b.className="s";b.textContent=n;b.onclick=f;t.appendChild(b)});if(m.image){const a=document.createElement("a");a.href=m.image;a.download="jarvis-image.jpg";a.className="s";a.textContent="⬇ Download";t.appendChild(a)}d.appendChild(t)}el.appendChild(d)});el.scrollTop=el.scrollHeight}
-function add(role,content,extra){cur.messages.push({role,content,at:Date.now(),...extra});render();persist()}
-function typing(on){const o=$("typing");if(o)o.remove();if(on){const d=document.createElement("div");d.id="typing";d.className="msg ai dots";d.innerHTML="JARVIS is thinking <span>●</span><span>●</span><span>●</span>";$("chat").appendChild(d);$("chat").scrollTop=1e9}}
+function render(){
+ const el=$("chat");el.innerHTML="";
+ cur.messages.forEach(m=>{
+  const d=document.createElement("div");d.className="msg "+(m.role==="user"?"user":"ai");
+  d.innerHTML='<div class="w">'+(m.role==="user"?"SIR":"JARVIS")+" • "+new Date(m.at).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})+'</div><div>'+fmt(m.content||"")+'</div>';
+  if(m.image){const im=document.createElement("img");im.src=m.image;im.alt="Generated image";d.appendChild(im)}
+  if(m.role==="assistant"){
+   const t=document.createElement("div");t.className="t";
+   const copy=document.createElement("button");copy.className="s";copy.textContent="Copy";copy.onclick=()=>navigator.clipboard?.writeText(m.content||"");
+   const sp=document.createElement("button");sp.className="s";sp.textContent="Speak";sp.onclick=()=>speak(m.content,true);
+   t.append(copy,sp);
+   if(m.image){const a=document.createElement("a");a.href=m.image;a.download="jarvis-image.jpg";a.className="s";a.textContent="⬇ Download";t.appendChild(a)}
+   d.appendChild(t);
+  }
+  el.appendChild(d);
+ });
+ el.scrollTop=el.scrollHeight;
+}
+function add(role,content,extra={}){cur.messages.push({role,content,at:Date.now(),...extra});render();persist()}
+function typing(on){$("typing")?.remove();if(on){const d=document.createElement("div");d.id="typing";d.className="msg ai";d.textContent="JARVIS is thinking…";$("chat").appendChild(d);$("chat").scrollTop=1e9}}
 function reply(t,img){add("assistant",t,img?{image:img}:{});speak(t)}
-async function fileData(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}
-function shrink(f){return new Promise(res=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL("image/jpeg",.85))};im.onerror=()=>res(fileData(f));im.src=u})}
-function chip(){$("attach").innerHTML=(att?'<div class="note">Image: '+esc(att.name)+' <button class="s" id="rmA">✕</button><br><img src="'+att.uri+'" style="max-height:120px;border-radius:8px"></div>':"")+(doc?'<div class="note">Document: '+esc(doc.name)+" ("+doc.text.length+' chars) <button class="s" id="rmD">✕</button></div>':"");if($("rmA"))$("rmA").onclick=()=>{att=null;chip()};if($("rmD"))$("rmD").onclick=()=>{doc=null;chip()}}
-async function pickImg(f){if(!f)return;if(f.size>12e6)return alert("Image too large (max 12 MB).");att={name:f.name||"photo",uri:await shrink(f)};chip();go("chat")}
-async function pickDoc(f){if(!f)return;if(f.size>15e6)return alert("File too large (max 15 MB).");let text="";try{if(/pdf$/i.test(f.type)||/\.pdf$/i.test(f.name)){await loadPdf();const p=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;for(let i=1;i<=Math.min(p.numPages,40);i++){const c=await(await p.getPage(i)).getTextContent();text+="\n[Page "+i+"]\n"+c.items.map(x=>x.str).join(" ")}}else text=await f.text()}catch(e){return alert("Could not read file: "+e.message)}text=text.trim();if(!text)return alert("No extractable text (scanned PDF? try the image button instead).");doc={name:f.name,text:text.slice(0,16000)};chip();go("chat");add("assistant","Document loaded: "+f.name+(text.length>16000?" (first 16,000 characters used)":"")+". Ask me anything about it, Sir.")}
-let pdfP;function loadPdf(){if(window.pdfjsLib)return Promise.resolve();return pdfP||(pdfP=new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";ok()};s.onerror=()=>no(new Error("PDF library failed to load"));document.head.appendChild(s)}))}
-async function send(text){text=(text||"").trim();if(busy||(!text&&!att))return;busy=true;$("send").disabled=true;stopSpeak();status("PROCESSING");const a=att;att=null;chip();add("user",text||"(image)");typing(true);
-try{let d;if(gen){gen=false;$("genMode").textContent="🎨 Generate: OFF";d=await api({action:"generateImage",prompt:text});typing(false);reply("Image generated, Sir.","data:"+(d.mimeType||"image/jpeg")+";base64,"+d.image)}
-else if(a){d=await api({action:"analyzeImage",image:a.uri,message:text||"Describe this image and transcribe visible text."});typing(false);reply(d.reply)}
-else{const h=cur.messages.slice(0,-1).filter(m=>m.content).slice(-12).map(m=>({role:m.role,content:m.content}));d=await api({action:"chat",message:text,history:h,memory:S.memory,docText:doc?doc.text:""});typing(false);let r=d.reply;if(d.sources&&d.sources.length)r+="\n\nSources (live search, may be incomplete):\n"+d.sources.slice(0,4).map(x=>"• "+x.title+(x.url?" "+x.url:"")).join("\n");reply(r)}}
-catch(e){typing(false);add("assistant","Sorry, Sir. "+e.message)}finally{busy=false;$("send").disabled=false;status("ONLINE",true)}}
-$("send").onclick=()=>{const t=$("msg").value;$("msg").value="";send(t)};$("msg").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("send").click()}};
-$("newChat").onclick=()=>{persist();cur=newChat();doc=null;chip();render();add("assistant","New session, Sir.")};
-$("clearChat").onclick=()=>{if(confirm("Clear this conversation?")){chats=chats.filter(c=>c.id!==cur.id);sv(K.c,chats);cur=newChat();render()}};
-$("exportChat").onclick=()=>{const t=cur.messages.map(m=>"["+new Date(m.at).toLocaleString()+"] "+(m.role==="user"?"SIR":"JARVIS")+": "+m.content).join("\n\n");dl(cur.title+".txt",t||"Empty")};
-$("summarize").onclick=()=>send("Summarize our conversation so far in 5 bullet points.");
-function dl(n,t){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/plain"}));a.download=n.replace(/[^\w.-]+/g,"_");a.click()}
-$("gallery").onclick=()=>$("fImg").click();$("camera").onclick=()=>$("fCam").click();$("docBtn").onclick=()=>$("fDoc").click();
-$("fImg").onchange=e=>pickImg(e.target.files[0]);$("fCam").onchange=e=>pickImg(e.target.files[0]);$("fDoc").onchange=e=>pickDoc(e.target.files[0]);
-$("genMode").onclick=()=>{gen=!gen;$("genMode").textContent="🎨 Generate: "+(gen?"ON":"OFF");$("msg").placeholder=gen?"Describe the image…":"Ask JARVIS, Sir…"};
-$("searchBtn").onclick=async()=>{const q=$("msg").value.trim();if(!q)return alert("Type a search query first.");add("user","Search: "+q);typing(true);try{const d=await api({action:"search",query:q});typing(false);reply(d.results.length?d.results.map((x,i)=>(i+1)+". "+x.title+"\n"+x.snippet+"\n"+x.url).join("\n\n")+"\n\nProvider: "+d.provider:"No results from the free providers. Try different words.")}catch(e){typing(false);add("assistant","Search failed: "+e.message)}};
-// ---- voice
-let voices=[];function loadVoices(){voices=speechSynthesis.getVoices();$("voice").innerHTML='<option value="">Auto</option>'+voices.map(v=>'<option value="'+esc(v.name)+'">'+esc(v.name+" ("+v.lang+")")+"</option>").join("");$("voice").value=S.voice}
-if("speechSynthesis"in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
-function speak(t,force){if(!("speechSynthesis"in window)||(!S.speak&&!force))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/https?:\/\/\S+/g,"link").replace(/[*•]/g,"").slice(0,1500));u.rate=+S.rate||1;u.lang=S.language==="english"?"en-US":"en-IN";const v=voices.find(x=>x.name===S.voice)||voices.find(x=>x.lang===u.lang)||voices.find(x=>/^en/i.test(x.lang));if(v)u.voice=v;u.onend=()=>{if(vm)listen()};speechSynthesis.speak(u)}
 function stopSpeak(){if("speechSynthesis"in window)speechSynthesis.cancel()}
-function listen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){vm=false;$("vmode").textContent="🗣 Voice mode: OFF";return alert("Speech recognition not supported. Use Chrome and allow the microphone.")}if(rec)try{rec.abort()}catch{}rec=new SR();rec.lang=S.language==="english"?"en-US":"en-IN";rec.onstart=()=>status("LISTENING");rec.onresult=e=>{const t=e.results[0][0].transcript;if(vm)send(t);else $("msg").value=t};rec.onerror=e=>{vm=false;$("vmode").textContent="🗣 Voice mode: OFF";status("MIC ERROR: "+e.error)};rec.onend=()=>{if(!busy)status("ONLINE",true)};rec.start()}
-$("mic").onclick=()=>{stopSpeak();listen()};$("stopSpeak").onclick=()=>{stopSpeak();vm=false;$("vmode").textContent="🗣 Voice mode: OFF";if(rec)try{rec.abort()}catch{}};
-function setVm(){vm=!vm;S.speak=S.speak||vm;$("vmode").textContent="🗣 Voice mode: "+(vm?"ON":"OFF");if(vm){go("chat");stopSpeak();listen()}else if(rec)try{rec.abort()}catch{}}
+async function fileData(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}
+function shrink(f){return new Promise(res=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL("image/jpeg",.82))};im.onerror=()=>{URL.revokeObjectURL(u);fileData(f).then(res).catch(()=>res(null))};im.src=u})}
+function chip(){
+ $("attach").innerHTML=(att?'<div class="note">Image: '+esc(att.name)+' <button class="s" id="rmA">✕</button><br><img src="'+att.uri+'" style="max-height:120px;border-radius:8px"></div>':"")+(doc?'<div class="note">Document: '+esc(doc.name)+" ("+doc.text.length+' chars) <button class="s" id="rmD">✕</button></div>':"");
+ if($("rmA"))$("rmA").onclick=()=>{att=null;chip()};
+ if($("rmD"))$("rmD").onclick=()=>{doc=null;chip()};
+}
+async function pickImg(f){if(!f)return;if(f.size>12e6)return alert("Image too large (max 12 MB).");const uri=await shrink(f);if(!uri)return alert("Could not read image.");att={name:f.name||"photo",uri};chip();go("chat")}
+async function pickDoc(f){
+ if(!f)return;if(f.size>15e6)return alert("File too large (max 15 MB).");
+ let text="";
+ try{
+  if(/pdf$/i.test(f.type)||/\.pdf$/i.test(f.name)){
+   await loadPdf();const p=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+   for(let i=1;i<=Math.min(p.numPages,40);i++){const c=await(await p.getPage(i)).getTextContent();text+="\n[Page "+i+"]\n"+c.items.map(x=>x.str).join(" ")}
+  }else text=await f.text();
+ }catch(e){return alert("Could not read file: "+e.message)}
+ text=text.trim();if(!text)return alert("No extractable text. Scanned PDFs may need image analysis.");
+ doc={name:f.name,text:text.slice(0,16000)};chip();go("chat");
+ add("assistant","Document loaded: "+f.name+". Ask me anything about it, Sir.");
+}
+let pdfP;
+function loadPdf(){
+ if(window.pdfjsLib)return Promise.resolve();
+ return pdfP||(pdfP=new Promise((ok,no)=>{
+  const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";ok()};
+  s.onerror=()=>no(Error("PDF library failed to load"));document.head.appendChild(s);
+ }));
+}
+async function send(text){
+ text=(text||"").trim();if(busy||(!text&&!att))return;
+ busy=true;$("send").disabled=true;stopSpeak();status("PROCESSING");
+ const a=att;att=null;chip();add("user",text||"(image)");typing(true);
+ try{
+  let d;
+  if(gen){
+   gen=false;$("genMode").textContent="🎨 Generate: OFF";$("msg").placeholder="Ask JARVIS, Sir…";
+   d=await api({action:"generateImage",prompt:text});
+   typing(false);reply("Image generated, Sir.","data:"+(d.mimeType||"image/jpeg")+";base64,"+d.image);
+  }else if(a){
+   d=await api({action:"analyzeImage",image:a.uri,message:text||"Describe this image and transcribe visible text."});
+   typing(false);reply(d.reply||"The vision model returned no description.");
+  }else{
+   const h=cur.messages.slice(0,-1).filter(m=>m.content).slice(-12).map(m=>({role:m.role,content:m.content}));
+   d=await api({action:"chat",message:text,history:h,memory:S.memory,docText:doc?doc.text:""});
+   typing(false);
+   let r=d.reply||"No response received.";
+   if(d.sources?.length)r+="\n\nSources (may be incomplete):\n"+d.sources.slice(0,5).map(x=>"• "+x.title+(x.url?" — "+x.url:"")).join("\n");
+   reply(r);
+  }
+ }catch(e){typing(false);add("assistant","Sorry, Sir. "+e.message)}
+ finally{busy=false;$("send").disabled=false;status("ONLINE",true)}
+}
+$("send").onclick=()=>{const t=$("msg").value;$("msg").value="";send(t)};
+$("msg").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("send").click()}};
+$("newChat").onclick=()=>{persist();cur=newChat();doc=null;att=null;chip();render();add("assistant","New session, Sir.")};
+$("clearChat").onclick=()=>{if(confirm("Clear this conversation?")){chats=chats.filter(c=>c.id!==cur.id);sv(K.c,chats);cur=newChat();render()}};
+$("exportChat").onclick=()=>{const t=cur.messages.map(m=>"["+new Date(m.at).toLocaleString()+"] "+(m.role==="user"?"SIR":"JARVIS")+": "+m.content).join("\n\n");dl("JARVIS-chat.txt",t||"Empty")};
+$("summarize").onclick=()=>send("Summarize our conversation so far in 5 bullet points.");
+function dl(n,t){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/plain"}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$("gallery").onclick=()=>$("fImg").click();$("camera").onclick=()=>$("fCam").click();$("docBtn").onclick=()=>$("fDoc").click();
+$("fImg").onchange=e=>{pickImg(e.target.files[0]);e.target.value=""};
+$("fCam").onchange=e=>{pickImg(e.target.files[0]);e.target.value=""};
+$("fDoc").onchange=e=>{pickDoc(e.target.files[0]);e.target.value=""};
+$("genMode").onclick=()=>{gen=!gen;$("genMode").textContent="🎨 Generate: "+(gen?"ON":"OFF");$("msg").placeholder=gen?"Describe the image…":"Ask JARVIS, Sir…"};
+$("searchBtn").onclick=async()=>{
+ const q=$("msg").value.trim();if(!q)return alert("Type a search query first.");
+ add("user","Search: "+q);typing(true);
+ try{const d=await api({action:"search",query:q});typing(false);reply(d.results?.length?d.results.map((x,i)=>(i+1)+". "+x.title+"\n"+x.snippet+"\n"+x.url).join("\n\n")+"\n\nProvider: "+d.provider:"No results found.");}
+ catch(e){typing(false);add("assistant","Search failed: "+e.message)}
+};
+// Voice
+function loadVoices(){
+ if(!("speechSynthesis"in window))return;
+ voices=speechSynthesis.getVoices();$("voice").innerHTML='<option value="">Auto</option>'+voices.map(v=>'<option value="'+esc(v.name)+'">'+esc(v.name+" ("+v.lang+")")+"</option>").join("");$("voice").value=S.voice;
+}
+if("speechSynthesis"in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function speak(t,force){
+ if(!("speechSynthesis"in window)||(!S.speak&&!force))return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(String(t).replace(/https?:\/\/\S+/g,"link").replace(/[*•]/g,"").slice(0,1500));
+ u.rate=+S.rate||1;u.lang=S.language==="english"?"en-US":"en-IN";
+ const v=voices.find(x=>x.name===S.voice)||voices.find(x=>x.lang===u.lang)||voices.find(x=>/^en/i.test(x.lang));
+ if(v)u.voice=v;u.onend=()=>{if(vm)listen()};speechSynthesis.speak(u);
+}
+function listen(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){vm=false;$("vmode").textContent="🗣 Voice mode: OFF";return alert("Speech recognition not supported. Use Chrome and allow microphone access.")}
+ if(rec)try{rec.abort()}catch{}
+ rec=new SR();rec.lang=S.language==="english"?"en-US":"en-IN";rec.continuous=false;rec.interimResults=false;
+ rec.onstart=()=>status("LISTENING");
+ rec.onresult=e=>{const t=e.results[0][0].transcript;if(vm)send(t);else $("msg").value=t};
+ rec.onerror=e=>{if(e.error!=="no-speech"){vm=false;$("vmode").textContent="🗣 Voice mode: OFF";status("MIC ERROR: "+e.error)}};
+ rec.onend=()=>{if(vm&&!busy){setTimeout(()=>{if(vm)listen()},500)}else status("ONLINE",true)};
+ try{rec.start()}catch{vm=false;$("vmode").textContent="🗣 Voice mode: OFF"}
+}
+$("mic").onclick=()=>{stopSpeak();vm=false;listen()};
+$("stopSpeak").onclick=()=>{stopSpeak();vm=false;$("vmode").textContent="🗣 Voice mode: OFF";if(rec)try{rec.abort()}catch{}};
+function setVm(){vm=!vm;S.speak=S.speak||vm;$("vmode").textContent="🗣 Voice mode: "+(vm?"ON":"OFF");if(vm){go("chat");stopSpeak();listen()}else{stopSpeak();if(rec)try{rec.abort()}catch{}}}
 $("vmode").onclick=setVm;$("hVoiceMode").onclick=setVm;
-// ---- market
+// Market
 const inr=n=>n==null?"n/a":"₹"+Number(n).toLocaleString("en-IN",{maximumFractionDigits:2});
 const qRow=q=>"<tr><td><b>"+esc(q.name)+"</b></td><td>NSE "+inr(q.nse)+"<br>BSE "+inr(q.bse)+"</td><td>"+(q.percentChange==null?"n/a":(q.percentChange>0?"+":"")+q.percentChange.toFixed(2)+"%")+"</td><td>"+inr(q.yearLow)+" – "+inr(q.yearHigh)+"</td></tr>";
-const qTable=(qs)=>"<table><tr><th>Stock</th><th>Price</th><th>Day %</th><th>52w low–high</th></tr>"+qs.map(qRow).join("")+"</table><div class='hint'>Fetched "+new Date(qs[0].fetchedAt).toLocaleString()+" • "+esc(qs[0].source)+" • "+esc(qs[0].delayed)+"</div>";
+const qTable=qs=>"<table><tr><th>Stock</th><th>Price</th><th>Day %</th><th>52w low–high</th></tr>"+qs.map(qRow).join("")+"</table><div class='hint'>Fetched "+new Date(qs[0].fetchedAt).toLocaleString()+" • "+esc(qs[0].source)+" • "+esc(qs[0].delayed)+"</div>";
 async function quote(n){return(await api({action:"stock",name:n})).quote}
 $("stkGo").onclick=async()=>{const n=$("stk").value.trim();if(!n)return;$("stkOut").textContent="Loading…";try{$("stkOut").innerHTML=qTable([await quote(n)])}catch(e){$("stkOut").textContent=e.message}};
-$("cmpGo").onclick=async()=>{const a=$("cmpA").value.trim(),b=$("cmpB").value.trim();if(!a||!b)return;$("stkOut").textContent="Loading…";try{$("stkOut").innerHTML=qTable(await Promise.all([quote(a),quote(b)]))}catch(e){$("stkOut").textContent=e.message}};
+$("cmpGo").onclick=async()=>{
+ const a=$("cmpA").value.trim(),b=$("cmpB").value.trim();if(!a||!b)return;
+ $("stkOut").textContent="Loading…";
+ try{const first=await quote(a);await new Promise(r=>setTimeout(r,1100));const second=await quote(b);$("stkOut").innerHTML=qTable([first,second])}
+ catch(e){$("stkOut").textContent=e.message}
+};
 $("stkWatch").onclick=()=>{const n=$("stk").value.trim();if(!n)return;const w=ld(K.w,[]);if(!w.includes(n))w.push(n);sv(K.w,w);rWatch()};
-function rWatch(){const w=ld(K.w,[]);$("watch").innerHTML=w.length?"":'<div class="hint">Empty.</div>';w.forEach(n=>{const d=document.createElement("div");d.className="item";d.innerHTML='<span class="grow">'+esc(n)+'</span><button class="s">View</button><button class="s">✕</button>';const b=d.querySelectorAll("button");b[0].onclick=()=>{$("stk").value=n;$("stkGo").click()};b[1].onclick=()=>{sv(K.w,ld(K.w,[]).filter(x=>x!==n));rWatch()};$("watch").appendChild(d)})}
-$("watchRefresh").onclick=async()=>{const w=ld(K.w,[]).slice(0,8);if(!w.length)return;$("stkOut").textContent="Loading…";const r=await Promise.allSettled(w.map(quote)),ok=r.filter(x=>x.status==="fulfilled").map(x=>x.value);$("stkOut").innerHTML=ok.length?qTable(ok):"Could not load: "+(r[0].reason&&r[0].reason.message)};
-// ---- tools
-const WC={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",51:"Drizzle",61:"Rain",63:"Rain",65:"Heavy rain",71:"Snow",80:"Showers",95:"Thunderstorm"};
-$("wGo").onclick=async()=>{const p=$("wPlace").value.trim();if(!p)return;$("wOut").textContent="Loading…";try{const d=await api({action:"weather",place:p}),c=d.current,u=d.units;$("wOut").innerHTML="<b>"+esc(d.place)+"</b><br>"+c.temperature_2m+u.temperature_2m+" (feels "+c.apparent_temperature+u.apparent_temperature+"), "+(WC[c.weather_code]||"code "+c.weather_code)+", humidity "+c.relative_humidity_2m+"%, wind "+c.wind_speed_10m+" "+u.wind_speed_10m+"<br>"+d.daily.time.map((t,i)=>t+": "+d.daily.temperature_2m_min[i]+"–"+d.daily.temperature_2m_max[i]+"°, rain "+d.daily.precipitation_probability_max[i]+"%").join("<br>")+'<div class="hint">'+esc(d.source)+" • "+new Date(d.fetchedAt).toLocaleString()+"</div>"}catch(e){$("wOut").textContent=e.message}};
-function rTasks(){const t=ld(K.t,[]);$("tasks").innerHTML="";t.forEach(x=>{const d=document.createElement("div");d.className="item";d.innerHTML='<input type="checkbox" style="width:auto"'+(x.done?" checked":"")+'><span class="grow">'+esc(x.text)+(x.when?'<div class="hint">⏰ '+new Date(x.when).toLocaleString()+"</div>":"")+'</span><button class="s">✕</button>';d.querySelector("input").onchange=e=>{x.done=e.target.checked;sv(K.t,t)};d.querySelector("button").onclick=()=>{sv(K.t,t.filter(y=>y.id!==x.id));rTasks()};$("tasks").appendChild(d)})}
-$("tAdd").onclick=()=>{const s=$("tTxt").value.trim();if(!s)return;const w=$("tWhen").value;if(w&&"Notification"in window&&Notification.permission==="default")Notification.requestPermission();const t=ld(K.t,[]);t.push({id:uid(),text:s,when:w?new Date(w).getTime():0,done:false,fired:false});sv(K.t,t);$("tTxt").value="";rTasks()};
-setInterval(()=>{const t=ld(K.t,[]);let ch=false;t.forEach(x=>{if(x.when&&!x.done&&!x.fired&&x.when<=Date.now()){x.fired=true;ch=true;if("Notification"in window&&Notification.permission==="granted")new Notification("JARVIS reminder",{body:x.text});alert("⏰ Reminder: "+x.text)}});if(ch){sv(K.t,t);rTasks()}},15000);
-function rNotes(){const n=ld(K.n,[]);$("notes").innerHTML="";n.forEach(x=>{const d=document.createElement("div");d.className="item";d.innerHTML='<span class="grow" style="white-space:pre-wrap">'+esc(x.text)+'</span><button class="s">✕</button>';d.querySelector("button").onclick=()=>{sv(K.n,n.filter(y=>y.id!==x.id));rNotes()};$("notes").appendChild(d)})}
+function rWatch(){
+ const w=ld(K.w,[]);$("watch").innerHTML="";
+ if(!w.length)$("watch").innerHTML='<div class="hint">Empty.</div>';
+ w.forEach(n=>{
+  const d=document.createElement("div");d.className="item";
+  d.innerHTML='<span class="grow">'+esc(n)+'</span><button class="s">View</button><button class="s">✕</button>';
+  const b=d.querySelectorAll("button");
+  b[0].onclick=()=>{$("stk").value=n;$("stkGo").click()};
+  b[1].onclick=()=>{sv(K.w,ld(K.w,[]).filter(x=>x!==n));rWatch()};
+  $("watch").appendChild(d);
+ });
+}
+$("watchRefresh").onclick=async()=>{
+ const w=ld(K.w,[]).slice(0,8);if(!w.length)return;
+ $("stkOut").textContent="Loading watchlist…";const ok=[];
+ for(const n of w){try{ok.push(await quote(n))}catch(e){ok.push({name:n,error:e.message})}await new Promise(r=>setTimeout(r,1100))}
+ const good=ok.filter(x=>!x.error);
+ $("stkOut").innerHTML=good.length?qTable(good):"Could not load watchlist.";
+};
+// Weather
+const WC={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",61:"Rain",63:"Rain",65:"Heavy rain",71:"Snow",80:"Showers",95:"Thunderstorm"};
+$("wGo").onclick=async()=>{
+ const p=$("wPlace").value.trim();if(!p)return;$("wOut").textContent="Loading…";
+ try{
+  const d=await api({action:"weather",place:p}),c=d.current,u=d.units;
+  $("wOut").innerHTML="<b>"+esc(d.place)+"</b><br>"+c.temperature_2m+u.temperature_2m+" (feels "+c.apparent_temperature+u.apparent_temperature+"), "+(WC[c.weather_code]||"code "+c.weather_code)+", humidity "+c.relative_humidity_2m+"%, wind "+c.wind_speed_10m+" "+u.wind_speed_10m+"<br>"+d.daily.time.map((t,i)=>t+": "+d.daily.temperature_2m_min[i]+"–"+d.daily.temperature_2m_max[i]+"°, rain "+d.daily.precipitation_probability_max[i]+"%").join("<br>")+'<div class="hint">'+esc(d.source)+" • "+new Date(d.fetchedAt).toLocaleString()+"</div>";
+ }catch(e){$("wOut").textContent=e.message}
+};
+// Tasks
+function rTasks(){
+ const t=ld(K.t,[]);$("tasks").innerHTML="";
+ t.forEach(x=>{
+  const d=document.createElement("div");d.className="item";
+  d.innerHTML='<input type="checkbox" style="width:auto"'+(x.done?" checked":"")+'><span class="grow">'+esc(x.text)+(x.when?'<div class="hint">⏰ '+new Date(x.when).toLocaleString()+"</div>":"")+'</span><button class="s">✕</button>';
+  d.querySelector("input").onchange=e=>{x.done=e.target.checked;sv(K.t,t)};
+  d.querySelector("button").onclick=()=>{sv(K.t,t.filter(y=>y.id!==x.id));rTasks()};
+  $("tasks").appendChild(d);
+ });
+}
+$("tAdd").onclick=()=>{
+ const s=$("tTxt").value.trim();if(!s)return;const w=$("tWhen").value;
+ if(w&&"Notification"in window&&Notification.permission==="default")Notification.requestPermission();
+ const t=ld(K.t,[]);t.push({id:uid(),text:s,when:w?new Date(w).getTime():0,done:false,fired:false});
+ sv(K.t,t);$("tTxt").value="";rTasks();
+};
+setInterval(()=>{
+ const t=ld(K.t,[]);let ch=false;
+ t.forEach(x=>{if(x.when&&!x.done&&!x.fired&&x.when<=Date.now()){x.fired=true;ch=true;if("Notification"in window&&Notification.permission==="granted")new Notification("JARVIS reminder",{body:x.text});else alert("Reminder: "+x.text)}});
+ if(ch){sv(K.t,t);rTasks()}
+},15000);
+// Notes
+function rNotes(){
+ const n=ld(K.n,[]);$("notes").innerHTML="";
+ n.forEach(x=>{
+  const d=document.createElement("div");d.className="item";
+  d.innerHTML='<span class="grow" style="white-space:pre-wrap">'+esc(x.text)+'</span><button class="s">✕</button>';
+  d.querySelector("button").onclick=()=>{sv(K.n,n.filter(y=>y.id!==x.id));rNotes()};
+  $("notes").appendChild(d);
+ });
+}
 $("nAdd").onclick=()=>{const s=$("nTxt").value.trim();if(!s)return;const n=ld(K.n,[]);n.unshift({id:uid(),text:s});sv(K.n,n);$("nTxt").value="";rNotes()};
-// ---- history
-function rHist(){const q=$("hq").value.toLowerCase(),l=$("hl");l.innerHTML="";const f=chats.filter(c=>c.title.toLowerCase().includes(q)||c.messages.some(m=>(m.content||"").toLowerCase().includes(q)));if(!f.length)l.innerHTML='<div class="hint">No chats.</div>';f.forEach(c=>{const d=document.createElement("div");d.className="item";d.innerHTML='<span class="grow"><b>'+esc(c.title)+'</b><div class="hint">'+new Date(c.updated).toLocaleString()+" • "+c.messages.length+' msgs</div></span><button class="s">Open</button><button class="s">Rename</button><button class="s">✕</button>';const b=d.querySelectorAll("button");b[0].onclick=()=>{persist();cur=JSON.parse(JSON.stringify(c));render();go("chat")};b[1].onclick=()=>{const n=prompt("New title",c.title);if(n){c.title=n.slice(0,80);if(cur.id===c.id)cur.title=c.title;sv(K.c,chats);rHist()}};b[2].onclick=()=>{if(confirm("Delete this chat?")){chats=chats.filter(x=>x.id!==c.id);sv(K.c,chats);rHist()}};l.appendChild(d)})}
-$("hq").oninput=rHist;$("delAll").onclick=()=>{if(confirm("Delete ALL chats?")){chats=[];sv(K.c,chats);rHist()}};
-// ---- settings
-function fill(){$("lang").value=S.language;$("rate").value=S.rate;$("rv").textContent=S.rate;$("speakOn").checked=S.speak;$("wurl").value=S.url;$("mem").value=S.memory}
+// History
+function rHist(){
+ const q=$("hq").value.toLowerCase(),l=$("hl");l.innerHTML="";
+ const f=chats.filter(c=>(c.title||"").toLowerCase().includes(q)||(c.messages||[]).some(m=>(m.content||"").toLowerCase().includes(q)));
+ if(!f.length)l.innerHTML='<div class="hint">No chats.</div>';
+ f.forEach(c=>{
+  const d=document.createElement("div");d.className="item";
+  d.innerHTML='<span class="grow"><b>'+esc(c.title)+'</b><div class="hint">'+new Date(c.updated).toLocaleString()+" • "+c.messages.length+' msgs</div></span><button class="s">Open</button><button class="s">Rename</button><button class="s">✕</button>';
+  const b=d.querySelectorAll("button");
+  b[0].onclick=()=>{persist();cur=JSON.parse(JSON.stringify(c));render();go("chat")};
+  b[1].onclick=()=>{const n=prompt("New title",c.title);if(n){c.title=n.slice(0,80);if(cur.id===c.id)cur.title=c.title;sv(K.c,chats);rHist()}};
+  b[2].onclick=()=>{if(confirm("Delete this chat?")){chats=chats.filter(x=>x.id!==c.id);sv(K.c,chats);rHist()}};
+  l.appendChild(d);
+ });
+}
+$("hq").oninput=rHist;
+$("delAll").onclick=()=>{if(confirm("Delete ALL chats?")){chats=[];sv(K.c,chats);rHist()}};
+// Settings
+function fill(){
+ $("lang").value=S.language;$("rate").value=S.rate;$("rv").textContent=S.rate;
+ $("speakOn").checked=S.speak;$("wurl").value=S.url;$("mem").value=S.memory;
+}
 $("rate").oninput=()=>$("rv").textContent=$("rate").value;
-$("save").onclick=()=>{S={language:$("lang").value,rate:+$("rate").value,voice:$("voice").value,speak:$("speakOn").checked,url:$("wurl").value.trim(),memory:$("mem").value.trim()};sv(K.s,S);$("tres").textContent="Saved on this device."};
-$("test").onclick=async()=>{$("tres").textContent="Testing…";try{const r=await fetch(S.url.replace(/\/+$/,""));const d=await r.json();$("tres").textContent="Worker online: "+d.features.join(", ")}catch{$("tres").textContent="Worker unreachable."}};
+$("save").onclick=()=>{
+ S={language:$("lang").value,rate:+$("rate").value,voice:$("voice").value,speak:$("speakOn").checked,url:$("wurl").value.trim(),memory:$("mem").value.trim()};
+ sv(K.s,S);$("tres").textContent="Saved on this device.";
+};
+$("test").onclick=async()=>{
+ $("tres").textContent="Testing…";
+ try{const r=await fetch(S.url.replace(/\/+$/,""));const d=await r.json();if(!r.ok||!d.ok)throw Error("Worker health check failed.");$("tres").textContent="Worker online: "+(d.version||d.name||"Connected")}
+ catch(e){$("tres").textContent="Worker unreachable: "+e.message}
+};
 $("wipe").onclick=()=>{if(confirm("Erase chats, notes, tasks, watchlist and settings?")){Object.values(K).forEach(k=>localStorage.removeItem(k));location.reload()}};
-// ---- boot
+// Boot
 setInterval(()=>$("clock").textContent=new Date().toLocaleString(),1000);
-$("hVoice").textContent=("speechSynthesis"in window?"Speech out ✔":"No speech out")+" • "+((window.SpeechRecognition||window.webkitSpeechRecognition)?"Mic ✔":"No mic input");
+$("hVoice").textContent=("speechSynthesis"in window?"Speech output ✔":"No speech output")+" • "+((window.SpeechRecognition||window.webkitSpeechRecognition)?"Mic input ✔":"No mic input");
 $("hMem").textContent=chats.length+" saved chats";fill();render();
-add("assistant","JARVIS V18 online, Sir. How may I help?");
-fetch(S.url.replace(/\/+$/,"")).then(r=>r.json()).then(d=>{status("ONLINE",true);$("hCore").textContent="Workers AI ✔";$("hWork").textContent="Online"}).catch(()=>{status("WORKER OFFLINE");$("hCore").textContent="Unreachable";$("hWork").textContent="Offline"});
-})();
-</script></body></html>
+add("assistant","JARVIS V19 online, Sir. How may I help?");
+fetch(S.url.replace(/\/+$/,""))
+.then(r=>r.json())
+.then(d=>{
+  status("ONLINE",true);
+  $("hCore").textContent="Workers AI ✔";
+  $("hWork").textContent="Online";
+})
+.catch(()=>{
+  status("WORKER OFFLINE");
+  $("hCore").textContent="Unreachable";
+  $("hWork").textContent="Offline";
+});
+</script>
+</body>
+</html>
