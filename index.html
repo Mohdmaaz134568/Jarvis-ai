@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080607">
-<title>JARVIS V21</title>
+<title>JARVIS V23</title>
 <style>
 :root{--bg:#09070a;--red:#ff334d;--gold:#ffc45c;--mut:#b7a6aa;--line:#43222b;--tx:#fff5f4;--ok:#70e1a1}
 *{box-sizing:border-box}
@@ -46,7 +46,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-bottom:1px
 .item{display:flex;gap:8px;align-items:center;border-bottom:1px solid #321d23;padding:8px 0}
 .item .grow{overflow:hidden;text-overflow:ellipsis}.note{border-left:3px solid var(--gold);padding:8px 10px;background:#21171a;font-size:12px;border-radius:0 8px 8px 0;margin-top:8px}
 
-/* JARVIS V21: cinematic red-gold command deck */
+/* JARVIS V23: cinematic red-gold command deck */
 :root{--bg:#050406;--red:#ff263f;--gold:#ffc96b;--mut:#b9a9a4;--line:#54251f;--tx:#fff8ef;--ok:#65e6a0}
 body{background:radial-gradient(ellipse at 48% 44%,#24100d 0%,#0b0809 48%,#030305 100%);padding:0 0 12px 0;min-height:100vh}
 header{height:76px;padding:10px 22px;background:linear-gradient(90deg,#080607f5,#140908f0,#080607f5);border-bottom:1px solid #8b422b;box-shadow:0 4px 25px #ff5b2520}
@@ -77,6 +77,16 @@ nav button.on{color:#ffd078;border-color:#ff9e42;background:linear-gradient(90de
 #v-home.active .reactor i+i{animation-duration:3s}
 #v-home.active .reactor u{animation-duration:.7s;filter:brightness(1.5)}
 #v-home .row{margin-top:12px}
+#v-home .reactor:after{content:"";position:absolute;inset:-22px;border-radius:50%;border:1px solid #ffb44e55;box-shadow:0 0 25px #ff5b2c22;pointer-events:none}
+#v-home .reactor{background:radial-gradient(circle,#ffb84a12 0 24%,transparent 25% 100%),repeating-radial-gradient(circle,transparent 0 42px,#ff9d3a20 43px 44px,transparent 45px 64px)}
+#v-chat{position:relative}
+#v-chat:before{content:"LIVE CONVERSATION • ENCRYPTED LINK";display:block;color:#d5a878;font-size:10px;letter-spacing:2px;margin:-2px 0 10px}
+#chat{scrollbar-width:thin;scrollbar-color:#8e4b2e #100a09}
+.msg{animation:msgIn .22s ease-out}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media(min-width:851px){main{grid-template-columns:minmax(360px,1.08fr) minmax(360px,.92fr)}}
+
 #v-home .hint{color:#bda99c}
 @media(max-width:850px){header{height:64px;padding:8px 12px}main{padding:10px 10px 86px;display:flex;flex-direction:column;min-height:0}#v-home{min-height:420px;order:1}#v-home .reactor{width:min(78vw,340px);height:min(78vw,340px);min-width:230px;min-height:230px}#v-chat{min-height:70vh;order:2}#chat{max-height:48vh}nav{top:auto;left:0;right:0;bottom:0;width:auto;height:68px;flex-direction:row;gap:0;padding:4px 2px env(safe-area-inset-bottom);border-right:0;border-top:1px solid #844327;overflow-x:auto}nav button{flex:1;min-width:48px;text-align:center;padding:9px 2px;font-size:10px;border:0;border-radius:6px}nav button.on{box-shadow:inset 0 2px #ffb44e}#v-market,#v-tools,#v-hist,#v-set{min-height:70vh}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
@@ -96,7 +106,7 @@ nav button.on{color:#ffd078;border-color:#ff9e42;background:linear-gradient(90de
  <div class="row" style="justify-content:center;margin-top:14px"><button class="p" data-go="chat">Open Chat</button><button id="hVoiceMode">🎙 Voice mode</button><button data-go="market">Market</button><button data-go="tools">Tools</button></div>
  <p class="hint">Wake-word and background listening are not supported in a normal web page.</p>
 </section>
-<section id="v-chat" class="panel hidden">
+<section id="v-chat" class="panel">
  <div class="row" style="justify-content:space-between"><b id="chatTitle">Conversation</b><span><button class="s" id="newChat">New</button> <button class="s" id="clearChat">Clear</button> <button class="s" id="exportChat">Export</button> <button class="s" id="summarize">Summarize</button></span></div>
  <div id="chat"></div><div id="attach"></div>
  <div class="comp"><textarea id="msg" rows="1" placeholder="Ask JARVIS, Sir…"></textarea><button class="p" id="send">Send ➤</button></div>
@@ -153,8 +163,9 @@ function go(v){
 }
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 async function api(p){
- const u=(S.url||"").trim().replace(/\/+$/,"");if(!u)throw Error("Set Worker URL in Settings.");
- let r,d;try{r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language:S.language,...p})})}catch{throw Error("Cannot reach Worker. Check internet and Worker URL.")}
+ const u=(S.url||"").trim().replace(/\/+$/ ,"");if(!u)throw Error("Set Worker URL in Settings.");
+ const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),60000);
+ let r,d;try{r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({language:S.language,...p}),signal:controller.signal})}catch(e){if(e.name==="AbortError")throw Error("Worker request timed out. Try a smaller image or retry.");throw Error("Cannot reach Worker. Check internet and Worker URL.")}finally{clearTimeout(timer)}
  try{d=await r.json()}catch{throw Error("Worker sent a non-JSON response.")}if(!r.ok||d.error)throw Error(d.error||"HTTP "+r.status);return d;
 }
 function status(t,ok){$("status").textContent=(ok?"● ":"◉ ")+t;$("status").style.color=ok?"var(--ok)":"var(--gold)"}
@@ -203,7 +214,7 @@ $("send").onclick=()=>{const t=$("msg").value;$("msg").value="";send(t)};
 $("msg").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("send").click()}};
 $("newChat").onclick=()=>{persist();cur=newChat();doc=null;att=null;chip();render();add("assistant","New session, Sir.")};
 $("clearChat").onclick=()=>{if(confirm("Clear this conversation?")){chats=chats.filter(c=>c.id!==cur.id);sv(K.c,chats);cur=newChat();render()}};
-$("exportChat").onclick=()=>{const t=cur.messages.map(m=>"["+new Date(m.at).toLocaleString()+"] "+(m.role==="user"?"SIR":"JARVIS")+": "+m.content).join("\n\n");dl("JARVIS-V20-chat.txt",t||"Empty")};
+$("exportChat").onclick=()=>{const t=cur.messages.map(m=>"["+new Date(m.at).toLocaleString()+"] "+(m.role==="user"?"SIR":"JARVIS")+": "+m.content).join("\n\n");dl("JARVIS-V23-chat.txt",t||"Empty")};
 $("summarize").onclick=()=>send("Summarize our conversation so far in 5 bullet points.");
 function dl(n,t){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/plain"}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 $("gallery").onclick=()=>$("fImg").click();$("camera").onclick=()=>$("fCam").click();$("docBtn").onclick=()=>$("fDoc").click();
@@ -252,7 +263,7 @@ $("wipe").onclick=()=>{if(confirm("Erase chats, notes, tasks, watchlist and sett
 setInterval(()=>$("clock").textContent=new Date().toLocaleString(),1000);
 $("hVoice").textContent=("speechSynthesis"in window?"Speech output ✔":"No speech output")+" • "+((window.SpeechRecognition||window.webkitSpeechRecognition)?"Mic input ✔":"No mic input");
 $("hMem").textContent=chats.length+" saved chats";fill();loadVoices();render();go("home");
-add("assistant","Yes, Sir. JARVIS V21 is online and ready. How may I help you?");
+add("assistant","Yes, Sir. JARVIS V23 is online and ready. How may I help you?");
 fetch((S.url||"").trim().replace(/\/+$/,"")).then(r=>r.json()).then(d=>{if(!d.ok)throw Error("Health check failed");status("ONLINE",true);$("hCore").textContent="Workers AI ✔";$("hWork").textContent="Online"}).catch(()=>{status("WORKER OFFLINE");$("hCore").textContent="Unreachable";$("hWork").textContent="Offline"});
 })();
 </script>
